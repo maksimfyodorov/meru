@@ -1,0 +1,10 @@
+<div class="building-item">
+  {{ building?.name }}
+</div>
+<app-floor-in-filter
+  [selected]="isSelected(item.floorId)"
+  [item]="item"
+  [disableSelected]="selectedIds.length === 1"
+  (select)="onSelectFloor(item.floorId)"
+  *ngFor="let item of building.items"
+></app-floor-in-filter>

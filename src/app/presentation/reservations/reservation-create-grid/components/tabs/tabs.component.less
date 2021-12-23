@@ -1,0 +1,90 @@
+@import 'override';
+
+.info {
+  font-size: 14px;
+  color: @gray-7;
+  margin-top: -10px;
+  margin-bottom: 10px;
+}
+
+:host {
+  background: #fff;
+  overflow: hidden;
+  display: block;
+}
+.card-wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding-right: 30px;
+  padding-bottom: 10px;
+  img.toggle-icon {
+    margin-left: 20px;
+    width: 72px;
+    height: 23px;
+    cursor: pointer;
+  }
+}
+.card-container ::ng-deep p {
+  margin: 0;
+}
+.card-container ::ng-deep > .ant-tabs-card .ant-tabs-content > .ant-tabs-tabpane {
+  background: #fff;
+}
+.card-container ::ng-deep > .ant-tabs-card > .ant-tabs-nav::before {
+  display: none;
+}
+.card-container ::ng-deep > .ant-tabs-card .ant-tabs-tab {
+  border: 0 !important;
+  border-bottom: 2px solid #fff !important;
+  background: transparent;
+}
+.card-container ::ng-deep > .ant-tabs-card .ant-tabs-tab-active {
+  border: 0 !important;
+  border-bottom: 2px solid #1890ff !important;
+  background: #fff;
+}
+
+.filter-header {
+  &__filter {
+    display: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .card-wrap {
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding-right: 0px;
+    img.toggle-icon {
+      margin-left: 20px;
+      width: 72px;
+      height: 23px;
+      cursor: pointer;
+    }
+  }
+  .filter-header {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    &__filter {
+      display: block;
+      padding-left: 5px;
+      img.filter-icon {
+        padding-left: 5px;
+      }
+      button {
+        font-size: 14px;
+        line-height: 20px;
+        text-align: right;
+        color: #888888;
+        background: transparent;
+        border: none;
+        padding: 0px;
+        box-shadow: none;
+        height: auto;
+      }
+    }
+  }
+}

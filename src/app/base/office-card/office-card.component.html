@@ -1,0 +1,50 @@
+<div class="office-card ant-card-hoverable">
+  <div class="office-card__header border-bottom" [ngClass]="headerClass">
+    <div class="office-card__header-icon">
+      <i nz-icon nzType="icons:office-building"></i>
+    </div>
+    <div class="office-card__header-title">
+      <h4 class="office-card__title">{{ title }}</h4>
+      <span class="office-card__floor"
+        >{{ "Offices.Floor" | translate }} {{ floor }}</span
+      >
+    </div>
+    <div class="office-card__header-workload">
+      <p class="office-card__workload">
+        {{ "Offices.Workload" | translate }}:
+        <i>{{ workload | number: "1.0-0" }}%</i>
+      </p>
+    </div>
+  </div>
+  <div class="office-card__places">
+    <ng-container *ngFor="let place of places">
+      <div
+        class="office-card__place"
+        *ngIf="
+          place.availablePlaceAmount ||
+          place.freePlaceAmount ||
+          place.busyPlaceAmount
+        "
+      >
+        <div class="office-card__place-icon">
+          <i nz-icon [nzType]="PLACES_INFO[place.type].icon"></i>
+        </div>
+        <h5 class="office-card__place-title">
+          {{ PLACES_INFO[place.type].title | translate }}
+        </h5>
+        <span class="office-card__place-free"
+          >{{ "Offices.Free" | translate }}:
+          <i>{{ place.freePlaceAmount }}</i></span
+        >
+        <span class="office-card__place-busy"
+          >{{ "Offices.Available" | translate }}:
+          <i>{{ place.availablePlaceAmount }}</i></span
+        >
+        <span class="office-card__place-busy"
+          >{{ "Offices.Busy" | translate }}:
+          <i>{{ place.busyPlaceAmount }}</i></span
+        >
+      </div>
+    </ng-container>
+  </div>
+</div>

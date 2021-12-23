@@ -1,0 +1,197 @@
+{
+  "actions": [
+    {
+      "id": "create",
+      "label": "Create",
+      "prefixIcon": "plus",
+      "buttonType": "primary",
+      "params": {
+        "route": "/reservations/workplace/create",
+        "relativeRoute": true
+      },
+      "condition": {
+        "type": "disable",
+        "expression": "!managers.includes(currentUser)"
+      }
+    },
+    {
+      "id": "approve",
+      "label": "Approve",
+      "prefixIcon": "like",
+      "buttonType": "primary",
+      "params": {
+        "url": "/rest/approveWorkplaceReservations",
+        "method": "post",
+        "body": {
+          "id": "id",
+          "qr": "qr",
+          "recordCode": {
+            "field": "id",
+            "convertTo": "string"
+          }
+        }
+      },
+      "condition": {
+        "type": "disable",
+        "expression": "!items.length || items.some(item => item.status !== 'NEW') || !managers.includes(currentUser)"
+      }
+    },
+    {
+      "id": "deny",
+      "label": "Deny",
+      "prefixIcon": "stop",
+      "buttonType": "primary",
+      "isDanger": true,
+      "params": {
+        "url": "/rest/denyWorkplaceReservations",
+        "method": "post",
+        "body": {
+          "id": "id",
+          "qr": "qr",
+          "recordCode": {
+            "field": "id",
+            "convertTo": "string"
+          }
+        }
+      },
+      "condition": {
+        "type": "disable",
+        "expression": "!items.length || items.some(item => item.status !== 'NEW') || !managers.includes(currentUser)"
+      }
+    }
+  ],
+  "sort": {
+    "serverSide": false,
+    "sortBy": null,
+    "sortDirection": null
+  },
+  "paging": {
+    "pageIndex": 1,
+    "pageSize": 10,
+    "pageSizeOptions": [
+      10,
+      50,
+      100
+    ],
+    "serverSide": false
+  },
+  "columns": [
+    {
+      "id": "userName",
+      "type": "string",
+      "title": "Full name",
+      "sortable": true,
+      "renderer": {
+        "type": "link",
+        "options": {
+          "route": "/team/profile/:labelId",
+          "relativeRoute": false
+        }
+      },
+      "width": "20%"
+    },
+    {
+      "id": "dateTimeFrom",
+      "type": "datetime",
+      "title": "Date",
+      "sortable": true,
+      "renderer": {
+        "type": "datetime",
+        "options": {
+          "format": "dd.MM.yyyy"
+        }
+      },
+      "width": "10%"
+    },
+    {
+      "id": "office",
+      "type": "string",
+      "title": "Office",
+      "sortable": false,
+      "renderer": {
+        "type": "template",
+        "options": {
+          "pattern": "${building}, этаж ${floor}"
+        }
+      },
+      "width": "15%"
+    },
+    {
+      "id": "workplace",
+      "type": "string",
+      "title": "Workplace",
+      "sortable": true,
+      "width": "10%",
+      "renderer": {
+        "type": "link",
+        "options": {
+          "route": "/office/:floorMapId/:workplaceId"
+        }
+      }
+    },
+    {
+      "id": "status",
+      "type": "string",
+      "title": "Status",
+      "sortable": true,
+      "renderer": {
+        "type": "status"
+      },
+      "width": "15%"
+    }
+  ],
+  "dictionaries": [
+    {
+      "order": 0,
+      "name": "workplaces",
+      "fieldId": "workplaceId",
+      "maps": [
+        {
+          "fieldFrom": "uniqueCode",
+          "fieldTo": "workplace"
+        },
+        {
+          "fieldFrom": "floorMapId",
+          "fieldTo": "floorMapId"
+        }
+      ]
+    },
+    {
+      "order": 1,
+      "name": "floorMaps",
+      "fieldId": "floorMapId",
+      "maps": [
+        {
+          "fieldFrom": "floorNumber",
+          "fieldTo": "floor"
+        },
+        {
+          "fieldFrom": "buildingId",
+          "fieldTo": "buildingId"
+        }
+      ]
+    },
+    {
+      "order": 2,
+      "name": "buildings",
+      "fieldId": "buildingId",
+      "maps": [
+        {
+          "fieldFrom": "name",
+          "fieldTo": "building"
+        }
+      ]
+    },
+    {
+      "order": 3,
+      "name": "labels",
+      "fieldId": "labelId",
+      "maps": [
+        {
+          "fieldFrom": "name",
+          "fieldTo": "userName"
+        }
+      ]
+    }
+  ]
+}

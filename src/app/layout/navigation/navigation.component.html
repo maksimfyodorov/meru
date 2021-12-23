@@ -1,0 +1,27 @@
+<div [ngClass]="{ 'd-none': $loader.menuLoading$ | async }">
+  <ul nz-menu class="navigation" [nzMode]="mode" [nzInlineIndent]="26" [nzInlineCollapsed]="$navigation.collapse | async">
+    <ng-container *ngFor="let item of items">
+      <ng-template #itemTpl let-item="item">
+        <li nz-menu-item class="navigation__item" [title]="item.title" [routerLink]="item.url">
+          <i nz-icon [nzType]="item.icon" *ngIf="item.icon"></i>
+          <span>{{ item.title }}</span>
+        </li>
+      </ng-template>
+      <ng-template #subItemTpl let-item="item">
+        <li nz-submenu [nzTitle]="item.title" [nzIcon]="item.icon" class="navigation__sub-item" [title]="item.title">
+          <ul>
+            <li nz-menu-item *ngFor="let children of item.children" [routerLink]="children.url" [queryParams]="{}">
+              <i nz-icon [nzType]="children.icon" *ngIf="children.icon"></i> {{ children.title }}
+            </li>
+          </ul>
+        </li>
+      </ng-template>
+      <ng-container *ngTemplateOutlet="item.children?.length > 0 ? subItemTpl : itemTpl; context: { item: item }"></ng-container>
+    </ng-container>
+  </ul>
+</div>
+
+<div class="p-30" *ngIf="$loader.menuLoading$ | async">
+  <nz-spin nzSimple nzTip="Загрузка навигации..."></nz-spin>
+</div>
+

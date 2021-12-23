@@ -1,0 +1,76 @@
+y<div *nzModalTitle>Заказ услуг {{ title }}</div>
+<perfect-scrollbar class="modal-search-scroll">
+  <ng-container
+    *ngTemplateOutlet="(loading | async) == null ? loadingTempl : contentTempl"
+  ></ng-container>
+</perfect-scrollbar>
+
+<ng-template #contentTempl>
+  <div [ngSwitch]="stepType">
+    <div *ngSwitchCase="ServiceStepType.INITIAL">
+      <nz-radio-group
+        nzName="scenariosList"
+        *ngIf="scenarios && scenarios.length > 0; else noScenarios"
+        [(ngModel)]="selectedScenario"
+      >
+        <label
+          *ngFor="let scenario of scenarios"
+          nz-radio
+          [nzValue]="scenario"
+          >{{ scenario.description }}</label
+        >
+      </nz-radio-group>
+      <ng-template #noScenarios>
+        <span>Нет доступных услуг</span>
+      </ng-template>
+    </div>
+    <form
+      [formGroup]="stepForm"
+      class="step-form"
+      nz-form
+      *ngSwitchCase="ServiceStepType.PROCESS"
+    >
+      <custom-input
+        [stepForm]="stepForm"
+        *ngFor="let param of currentStepParams; let i = index"
+        [param]="param"
+        [index]="i"
+        [dateFormat]="dateTimeFormat | async"
+      ></custom-input>
+    </form>
+    <form *ngSwitchCase="ServiceStepType.COMPLETE" nz-form nzLayout="vertical">
+      <custom-output
+        *ngFor="let param of displayedStepParams"
+        [param]="param"
+        [dateFormat]="dateTimeFormat | async"
+      ></custom-output>
+    </form>
+  </div>
+</ng-template>
+
+<ng-template #loadingTempl>
+  <nz-spin class="loading-spinner" nzSimple></nz-spin>
+</ng-template>
+
+<div *nzModalFooter>
+  <button nz-button nzType="default" (click)="destroyModal()">Отмена</button>
+  <button
+    nz-button
+    nzType="primary"
+    (click)="nextAction()"
+    [disabled]="!selectedScenario || (stepNumber > 0 && stepForm.invalid)"
+    [nzLoading]="loading | async"
+    *ngIf="(loading | async) != null && stepType !== ServiceStepType.COMPLETE"
+  >
+    Далее
+  </button>
+  <button
+    nz-button
+    nzType="primary"
+    (click)="commitSession()"
+    [nzLoading]="loading | async"
+    *ngIf="stepType === ServiceStepType.COMPLETE"
+  >
+    Отправить заявку
+  </button>
+</div>

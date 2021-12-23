@@ -1,0 +1,57 @@
+<div class="profile-wrap">
+  <div class="profile-wrap__card">
+    <app-user-card class="mb-10" [userId]="id$ | async"></app-user-card>
+  </div>
+  <div class="profile-wrap__tabs">
+    <nz-tabset>
+      <nz-tab *ngFor="let tab of tabs; index as i" [nzTitle]="tab.title | translate">
+        <ng-container *ngIf="tab.events.length; else elseTemplate">
+          <app-calendar
+            [loading]="isLoading"
+            [modes]="['month', 'day']"
+            [mode]="'month'"
+            [events]="tab.events"
+            [allowSelectEmptyDay]="false"
+            [allowSelectDayEvent]="true"
+            [allowSelectMonthEvent]="true"
+            (periodChange)="monthSelectHandler($event)"
+            (eventSelect)="eventHandler($event)"
+            [minDate]="minDate"
+          ></app-calendar>
+        </ng-container>
+        <ng-template #elseTemplate>
+          <app-calendar
+            [loading]="isLoading"
+            [modes]="['month', 'day']"
+            [mode]="'month'"
+            [allowSelectEmptyDay]="false"
+            [allowSelectDayEvent]="true"
+            [allowSelectMonthEvent]="true"
+            (periodChange)="monthSelectHandler($event)"
+            (eventSelect)="eventHandler($event)"
+            [minDate]="minDate"
+          ></app-calendar>
+        </ng-template>
+      </nz-tab>
+    </nz-tabset>
+  </div>
+</div>
+<ng-template #modalTitleTpl>
+  <span class="modal-title">{{ currentReservation.title }}</span>
+</ng-template>
+<ng-template #modalFooterTpl>
+  <div class="modal-footer">
+    <button nz-button class="ant-btn" (click)="onLinkMap()">
+      <span> {{ 'Show on map' | translate }} </span>
+    </button>
+    <button nz-button class="ant-btn ant-btn-primary" (click)="onClose()">
+      <span> {{ 'Ok' | translate }} </span>
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #modalContentTpl>
+  <div class="modal-content">{{ 'From' | translate }}: {{ currentReservation.start | date: shortDateTimeFormat }}</div>
+  <div class="modal-content">{{ 'To' | translate }}: {{ currentReservation.end | date: shortDateTimeFormat }}</div>
+  <div class="modal-content">{{ 'Floor' | translate }}: {{ currentReservation.floor.name }}</div>
+</ng-template>

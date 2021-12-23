@@ -1,0 +1,24 @@
+<ul *ngIf="items && items.length; else emptyTpl" class="book-list">
+  <li *ngFor="let item of items; index as i">
+      <app-book-item
+        (click)="setActiveItem(i, item)"
+        [active]="i === activeIndex"
+        [id]="item.id"
+        [title]="item.name"
+        [label]="item.label"
+        [tags]="item.tags"
+        [actions]="item.actions || []"
+        [content]="item.content"
+        [contentContext]="item.contentContext"
+        [select]="item.select"
+      ></app-book-item>
+  </li>
+</ul>
+
+<ng-template #emptyTpl>
+  <nz-empty [style.width.%]="100" [nzNotFoundContent]="contentTpl">
+    <ng-template #contentTpl>
+      <span>{{ emptyText | translate }}</span>
+    </ng-template>
+  </nz-empty>
+</ng-template>

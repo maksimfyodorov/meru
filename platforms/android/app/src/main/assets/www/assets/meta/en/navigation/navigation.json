@@ -1,0 +1,95 @@
+[
+  {
+    "id": "1",
+    "title": "Home",
+    "icon": "icons:speedometer",
+    "url": "/",
+    "showOnlyOnMobile": false
+  },
+  {
+    "id": "2",
+    "title": "Offices",
+    "icon": "icons:office-building",
+    "url": "/office",
+    "roles": [],
+    "showOnlyOnMobile": false
+  },
+  {
+    "id": "3",
+    "title": "Reservations",
+    "icon": "icons:contacts",
+    "url": "/reservations",
+    "showOnlyOnMobile": false,
+    "shortTitle": "Bookings",
+    "children": [
+      {
+        "id": "3-1",
+        "title": "Workplace",
+        "url": "/reservations/workplace"
+      },
+      {
+        "id": "3-2",
+        "title": "Meeting room",
+        "url": "/reservations/appointment"
+      },
+      {
+        "id": "3-3",
+        "title": "Locker",
+        "url": "/reservations/locker"
+      },
+      {
+        "id": "3-4",
+        "title": "Parking",
+        "url": "/reservations/parking"
+      }
+    ]
+  },
+  {
+    "id": "4",
+    "title": "Office services",
+    "icon": "icons:printer",
+    "url": "/services",
+    "showOnlyOnMobile": false,
+    "shortTitle": "Services"
+  },
+  {
+    "id": "5",
+    "title": "Notebook",
+    "icon": "icons:agenda",
+    "url": "/notebook",
+    "showOnlyOnMobile": false
+  },
+  {
+    "id": "6",
+    "title": "My team",
+    "icon": "icons:teamwork",
+    "url": "/team",
+    "showOnlyOnMobile": false,
+    "shortTitle": "Team",
+    "children": [
+      {
+        "id": "6-1",
+        "title": "Reservations",
+        "url": "/team/reservations/"
+      },
+      {
+        "id": "6-2",
+        "title": "Profiles",
+        "url": "/team/profiles"
+      },
+      {
+        "id": "6-3",
+        "title": "Requests",
+        "url": "/team/requests"
+      }
+    ]
+  },
+  {
+    "id": "7",
+    "title": "QR",
+    "icon": "icons:qr",
+    "url": "/qrscan",
+    "showOnlyOnMobile": true,
+    "openModal": true
+  }
+]

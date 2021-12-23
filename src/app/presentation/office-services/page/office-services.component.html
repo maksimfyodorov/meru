@@ -1,0 +1,54 @@
+<nz-card
+  *ngIf="scenarios"
+  [nzTitle]="'ServiceOrderSelect' | dictionary | translate"
+  class="scenarios-card"
+  [nzActions]="[actions?.length > 0 ? undefined : actionTmpl]"
+>
+  <div nz-row [nzGutter]="[16, 24]">
+    <div nz-col [nzSpan]="6" *ngFor="let scenario of scenarios">
+      <button
+        class="scenario-button"
+        nz-button
+        [nzType]="getScenarioButtonType(scenario)"
+        (click)="selectScenario(scenario)"
+      >
+        {{ scenario.description }}
+      </button>
+    </div>
+  </div>
+</nz-card>
+
+<action-step-card
+  [title]="selectedScenario?.description"
+  [action]="action"
+  *ngFor="let action of actions; let i = index"
+  [isLoading]="loading | async"
+  [dateTimeFormat]="dateTimeFormat | async"
+  (nextAction)="nextAction()"
+  (commitSession)="commitSession()"
+  (cancelSession)="resetSession()"
+  [showActionTmpl]="actions?.length - 1 === i"
+></action-step-card>
+
+<ng-template #successUrlTpl>
+  <div><span>{{ 'Viewing ordered services is available in the K2 system' | translate }}</span></div>
+  <div class="url-link">
+    <a *ngIf="url" [href]="url" target="_blank"
+      >{{ 'Viewing an order in the K2 system' | translate }}</a
+    >
+  </div>
+</ng-template>
+
+<ng-template #actionTmpl>
+  <div class="action-tmpl">
+    <button
+      nz-button
+      nzType="primary"
+      [disabled]="!selectedScenario"
+      [nzLoading]="loading | async"
+      (click)="nextAction()"
+    >
+      {{ 'Next' | translate }}
+    </button>
+  </div>
+</ng-template>

@@ -1,0 +1,92 @@
+<form nz-form [nzLayout]="'vertical'" class="auth-otp">
+  <ng-container *ngIf="!codeSent; else sendCodeFormTpl">
+    <nz-alert *ngIf="error" [nzType]="'error'" [nzMessage]="'InvalidUser' | dictionary | translate"> </nz-alert>
+
+    <nz-form-item *ngIf="authKeyTypes.length > 1">
+      <nz-alert [nzType]="'info'" [nzCloseable]="false" [nzMessage]="'ChooseHowGetCode' | dictionary | translate"> </nz-alert>
+
+      <nz-radio-group [name]="'authKeyType'" [nzSize]="'large'" [ngModel]="authKeyType" [nzButtonStyle]="'solid'" (ngModelChange)="changeAuthOtpType($event)">
+        <label *ngFor="let authOtpType of authKeyTypes" nz-radio-button [nzValue]="authOtpType">
+          {{ authKeyTypeTabs[authOtpType].label | dictionary | translate }}
+        </label>
+      </nz-radio-group>
+    </nz-form-item>
+
+    <nz-form-item [ngSwitch]="authKeyType">
+      <nz-form-control *ngSwitchCase="'PHONE'" [nzErrorTip]="'InvalidPhone' | dictionary | translate">
+        <nz-input-group [nzSize]="'large'" [nzAddOnBefore]="phoneAddonBeforeTpl">
+          <input
+            #authKeyInput
+            nz-input
+            [mask]="countryPhone.mask"
+            [disabled]="codeSent"
+            [formControl]="authKeyControl"
+            [placeholder]="countryPhone?.placeholder"
+            type="text"
+            (keydown.enter)="requestCodeAction()"
+          />
+        </nz-input-group>
+      </nz-form-control>
+
+      <nz-form-control *ngSwitchCase="'EMAIL'" [nzErrorTip]="'InvalidEmail' | dictionary | translate">
+        <input
+          *ngSwitchCase="'EMAIL'"
+          #authKeyInput
+          [nzSize]="'large'"
+          nz-input
+          [formControl]="authKeyControl"
+          [placeholder]="'EnterYourEmail' | dictionary | translate"
+        />
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <button nz-button nzType="primary" [nzBlock]="true" [disabled]="!authKeyControl.value || authKeyControl.invalid || loading" (click)="requestCodeAction()">
+        {{ 'RequestCode' | dictionary | translate }}
+      </button>
+    </nz-form-item>
+  </ng-container>
+</form>
+
+<ng-template #phoneAddonBeforeTpl>
+  <nz-select [ngModel]="countryPhone" [nzCustomTemplate]="countryPhoneSelectedValueTpl" name="countryPhone" (ngModelChange)="changeCountryPhone(countryPhone)">
+    <nz-option *ngFor="let countryPhone of countriesPhones" nzCustomContent [nzValue]="countryPhone">
+      <i nz-icon [nzType]="countryPhone.icon"></i>
+      {{ countryPhone.code }}
+    </nz-option>
+  </nz-select>
+</ng-template>
+
+<ng-template #countryPhoneSelectedValueTpl>
+  <span [nz-tooltip]="countryPhone.title | dictionary | translate">
+    <i nz-icon [nzType]="countryPhone.icon"> </i>
+    {{ countryPhone.code }}
+  </span>
+</ng-template>
+
+<ng-template #sendCodeFormTpl>
+  <nz-alert *ngIf="error" [nzType]="'error'" [nzMessage]="'InvalidCode' | dictionary | translate"> </nz-alert>
+  <nz-form-item>
+    <input
+      #authCodeInput
+      nz-input
+      [nzSize]="'large'"
+      [formControl]="authCodeControl"
+      [placeholder]="'EnterAuthCode' | dictionary | translate"
+      (keydown.enter)="loginAction()"
+    />
+  </nz-form-item>
+
+  <nz-form-item>
+    <button nz-button nzType="primary" [nzBlock]="true" [disabled]="!authCodeControl.value || authCodeControl.invalid || loading" (click)="loginAction()">
+      {{ 'Login' | dictionary | translate }}
+    </button>
+
+    <a nz-button [nzType]="'link'" [nzBlock]="true" (click)="requestNewCodeAction()" class="auth-otp__request-new-code">
+      {{ 'RequestNewCode' | dictionary | translate }}
+    </a>
+  </nz-form-item>
+</ng-template>
+<ng-template #dpaContentTpl>
+  <div class="dpa-text" [innerHTML]="htmlBodyDpa"></div>
+</ng-template>

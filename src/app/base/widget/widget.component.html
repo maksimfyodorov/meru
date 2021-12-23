@@ -1,0 +1,25 @@
+<nz-card
+  class="widget"
+  [ngClass]="{ 'bg-gray-widget ': bgGray }"
+  cdkDrag
+  cdkDragLockAxis="y"
+  [nzBordered]="bordered"
+  [nzTitle]="hideTitle ? null : title"
+>
+  <ng-content></ng-content>
+  <ng-template #extraTpl>
+    <!-- <ng-container *ngTemplateOutlet="menuTpl"></ng-container>
+    <i class="drag-indicator" nz-icon nzType="icons:drag-indicator" cdkDragHandle></i> -->
+  </ng-template>
+</nz-card>
+
+<ng-template #menuTpl>
+  <button nz-button nz-dropdown nzType="text" [nzDropdownMenu]="menu" nzTrigger="click" nzPlacement="bottomRight">
+    <i nz-icon nzType="setting"></i>
+  </button>
+  <nz-dropdown-menu #menu="nzDropdownMenu">
+    <ul nz-menu>
+      <li nz-menu-item (click)="handleRemoveClick()">{{ 'Delete' | translate }}</li>
+    </ul>
+  </nz-dropdown-menu>
+</ng-template>

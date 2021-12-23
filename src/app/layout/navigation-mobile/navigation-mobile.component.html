@@ -1,0 +1,87 @@
+<nav class="navigation-mobile">
+  <ng-container *ngFor="let item of items">
+    <ng-container
+      *ngTemplateOutlet="
+        item.children?.length > 0 ? subItemTpl : itemTpl;
+        context: { item: item }
+      "
+    ></ng-container>
+  </ng-container>
+  <a class="navigation-mobile__item" nz-tooltip="Уведомления">
+    <app-header-notifications
+      indentClass="bottom-indent"
+    ></app-header-notifications>
+  </a>
+</nav>
+
+<ng-template #itemTpl let-item="item">
+  <a
+    *ngIf="!item.openModal"
+    [routerLink]="item.url"
+    class="navigation-mobile__item"
+    [nz-tooltip]="item.title"
+  >
+    <i nz-icon [nzType]="item.icon"></i>
+  </a>
+  <a
+    *ngIf="item.openModal"
+    class="navigation-mobile__item"
+    [nz-tooltip]="item.title"
+    (click)="showModal()"
+  >
+    <i nz-icon [nzType]="item.icon"></i>
+  </a>
+</ng-template>
+<ng-template #subItemTpl let-item="item">
+  <a
+    class="navigation-mobile__item"
+    [nz-tooltip]="item.title"
+    nz-dropdown
+    [nzDropdownMenu]="menu"
+    [nzPlacement]="'topCenter'"
+    nzTrigger="click"
+    [nzOverlayClassName]="'navigation-mobile-dropdown'"
+  >
+    <i nz-icon [nzType]="item.icon"></i>
+  </a>
+  <nz-dropdown-menu #menu="nzDropdownMenu">
+    <ul nz-menu>
+      <li
+        nz-menu-item
+        *ngFor="let child of item.children"
+        [routerLink]="child.url"
+      >
+        {{ child.title }}
+      </li>
+    </ul>
+  </nz-dropdown-menu>
+</ng-template>
+
+
+<nz-list nzBordered nzSize="small" class="bottom-menu">
+  <ng-container *ngFor="let item of items; let i = index">
+    <nz-list-item [ngClass]="item.isActive ? 'active-tab' : '' " *ngIf="item.showInMobileMenu">
+      <i class="user-card__avatar" [ngClass]="item.children ? 'bottom-menu-arrow' : '' "
+         nz-icon [nzType]="item.icon"></i>
+      <button nz-button nzType="primary" (click)="open(i, item)">{{item.mobileTitle}}</button>
+    </nz-list-item>
+  </ng-container>
+</nz-list>
+
+<app-container title="nzDrawerContent" class="bottom-menu-deta" *ngIf="subMenu">
+  <nz-drawer
+    [nzClosable]="false"
+    [nzVisible]="drawer"
+    [nzPlacement]="placement"
+    (nzOnClose)="close()"
+  >
+    <ng-container *nzDrawerContent>
+      <div class="bottom-menu-deta">
+        <span>{{subMenu.subMenuTitle}}</span>
+        <ng-container *ngFor="let child of subMenu.children">
+          <p [routerLink]="child.url" (click)="close()">{{child.mobileTitle}}</p>
+        </ng-container>
+      </div>
+    </ng-container>
+  </nz-drawer>
+</app-container>

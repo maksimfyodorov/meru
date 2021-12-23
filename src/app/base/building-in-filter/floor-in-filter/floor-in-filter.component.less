@@ -1,0 +1,40 @@
+@import '~src/theme/override';
+.pointer {
+  cursor: pointer;
+}
+.floor-item {
+  height: 48px;
+  margin: 2px 0px;
+  .green,
+  .red,
+  .yellow {
+    padding: 0px 8px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .green {
+    background: linear-gradient(to right, rgba(196, 196, 196, 0.17) 50%, @green-1);
+    span {
+      color: @green-7;
+    }
+  }
+  .red {
+    height: 100%;
+    background: linear-gradient(to right, rgba(196, 196, 196, 0.17) 50%, @red-1);
+    span {
+      color: @red-7;
+    }
+  }
+  .yellow {
+    height: 100%;
+    background: linear-gradient(to right, rgba(196, 196, 196, 0.17) 50%, @gold-1);
+    span {
+      color: @gold-5;
+    }
+  }
+}
+.check {
+  width: 20px;
+}

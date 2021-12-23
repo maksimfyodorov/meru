@@ -1,0 +1,19 @@
+.@{popover-prefix-cls} {
+  &._mark-popover {
+    transform: translate(0);
+    transition: transform .1s;
+
+    &.@{popover-prefix-cls}-placement-right {
+      transform: translateY(-3%);
+    }
+
+    &.@{popover-prefix-cls}-placement-top {
+      transform: translateX(-24%);
+    }
+  }
+
+  &.header-search-results {
+    padding-top: 0;
+    width: 600px;
+  }
+}

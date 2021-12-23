@@ -1,0 +1,27 @@
+.auth-otp {
+  &__request-new-code {
+    margin-top: 8px;
+  }
+
+  ::ng-deep {
+    & nz-alert {
+      margin-bottom: 12px;
+    }
+
+    & .ant-radio {
+      &-group {
+        display: flex;
+        width: 100%;
+      }
+
+      &-button-wrapper {
+        flex: 1 1 auto;
+        text-align: center;
+      }
+    }
+
+    & .ant-form-item-has-error .ant-select:not(.ant-select-disabled):not(.ant-select-customize-input) .ant-select-selector {
+      background: inherit;
+    }
+  }
+}

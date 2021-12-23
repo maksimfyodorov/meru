@@ -1,0 +1,25 @@
+<div nz-row [nzGutter]="12" class="team-reservations-filters__header">
+  <div nz-col [nzXs]="8" [nzLg]="0" class="team-reservations-filters__header-action">
+    <button nz-button [nzType]="'link'">
+      {{ 'Close' | dictionary | translate }}
+    </button>
+  </div>
+
+  <h3 nz-col [nzXs]="8" [nzLg]="12" class="team-reservations-filters__header-title">
+    {{ 'Filters' | dictionary | translate }}
+  </h3>
+
+  <div nz-col [nzXs]="8" [nzLg]="12" class="team-reservations-filters__header-action _right">
+    <button nz-button [nzType]="'link'" (click)="clear()">
+      {{ 'Clear' | dictionary | translate }}
+    </button>
+  </div>
+</div>
+
+<nz-spin [nzSpinning]="loading" class="team-reservations-filters__form-wrapper">
+  <form nz-form [nzLayout]="'vertical'" [formGroup]="formGroup" [ngSwitch]="type" class="team-reservations-filters__form">
+    <perfect-scrollbar [config]="{ suppressScrollX: true }" class="team-reservations-filters__form-scroll">
+      <div *ngSwitchDefault app-team-reservations-filters-workplace [formGroup]="formGroup"></div>
+    </perfect-scrollbar>
+  </form>
+</nz-spin>

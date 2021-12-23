@@ -1,0 +1,86 @@
+@import "colors.less";
+
+:host {
+  display: block;
+  height: 100%;
+}
+
+.app-list {
+  &__container {
+    height: 100%;
+    width: 100%;
+  }
+  &__table {
+    height: 100%;
+    width: 100%;
+
+    & /deep/ .ant-table,
+    & /deep/ .ant-table-wrapper,
+    & /deep/ .ant-spin-nested-loading,
+    & /deep/ .ant-spin-container,
+    & /deep/ .ant-table-content,
+    & /deep/ .ant-table-container
+    {
+      min-width: 100%;
+      width: 100%;
+    }
+
+    & /deep/ .ant-table,
+    & /deep/ .ant-table-wrapper,
+    & /deep/ .ant-spin-nested-loading,
+    & /deep/ .ant-spin-container,
+    & /deep/ .ant-table-content,
+    & /deep/ .ant-table-container,
+    & /deep/ .ant-table-body
+    {
+      height: 100%;
+    }
+
+    & /deep/ .ant-spin-container,
+    & /deep/ .ant-table-container{
+      display: flex;
+      flex-direction: column;
+      flex-wrap: nowrap;
+      justify-content: stretch;
+    }
+
+    & /deep/ .ant-table,
+    & /deep/ .ant-table-body {
+      overflow: hidden;
+      position: relative;
+    }
+
+    & /deep/ nz-pagination,
+    & /deep/ .ant-table-header {
+      flex-shrink: 0;
+      flex-grow: 0;
+    }
+
+    & /deep/ .ant-table-header {
+      overflow: hidden!important;
+    }
+  }
+
+  &__body {
+    &-row {
+      cursor: pointer;
+    }
+
+    &-col {
+      tr._selected > & {
+        background-color: @blue-1;
+      }
+
+      & /deep/ .app-renderer-action {
+        margin-right: 12px;
+
+        &__button.ant-btn-link {
+          &:first-child {
+            padding-left: 0;
+            padding-right: 0;
+          }
+        }
+      }
+    }
+  }
+}

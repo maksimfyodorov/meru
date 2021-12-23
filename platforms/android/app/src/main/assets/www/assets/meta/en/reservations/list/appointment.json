@@ -1,0 +1,57 @@
+{
+  "actions": [
+    {
+      "id": "create",
+      "label": "Create",
+      "prefixIcon": "plus",
+      "buttonType": "primary",
+      "params": {
+        "route": "/reservations/appointment/create",
+        "relativeRoute": true
+      }
+    }
+  ],
+  "dictionaries": [
+    {
+      "order": 0,
+      "name": "workplaces",
+      "fieldId": "workplaceId",
+      "maps": [
+        {
+          "fieldFrom": "uniqueCode",
+          "fieldTo": "workplace"
+        },
+        {
+          "fieldFrom": "floorMapId",
+          "fieldTo": "floorMapId"
+        }
+      ]
+    },
+    {
+      "order": 1,
+      "name": "floorMaps",
+      "fieldId": "floorMapId",
+      "maps": [
+        {
+          "fieldFrom": "name",
+          "fieldTo": "floor"
+        },
+        {
+          "fieldFrom": "buildingId",
+          "fieldTo": "buildingId"
+        }
+      ]
+    },
+    {
+      "order": 2,
+      "name": "buildings",
+      "fieldId": "buildingId",
+      "maps": [
+        {
+          "fieldFrom": "name",
+          "fieldTo": "building"
+        }
+      ]
+    }
+  ]
+}

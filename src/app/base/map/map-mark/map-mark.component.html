@@ -1,0 +1,81 @@
+<ng-container *ngTemplateOutlet="mark.popup ? withPopupTpl : withOutPopupTpl"></ng-container>
+
+<ng-template #withPopupTpl>
+  <div
+    class="map-mark"
+    [style.size]="scale(mark.coordinates.size, (factor.width + factor.height) / 2)"
+    [style.top]="scale(mark.coordinates.y, factor.height)"
+    [style.left]="scale(mark.coordinates.x, factor.width)"
+    [style.width]="isIcon || isRoom ? 'auto' : scale(mark.coordinates.size, factor.width)"
+    [ngClass]="'_' + mark.type"
+    [class.d-none]="hidden"
+    [nz-tooltip]="mark.tooltip"
+    [nzTooltipMouseEnterDelay]="0.5"
+    nz-popover
+    [nzPopoverTrigger]="'click'"
+    [nzPopoverPlacement]="'top'"
+    [nzPopoverOverlayClassName]="'_collapse-padding _mark-popover _' + mark?.logicType"
+    [nzPopoverContent]="popoverContentTpl"
+    (click)="onClick($event)"
+  >
+    <ng-template #popoverContentTpl>
+      <ng-container *ngTemplateOutlet="mark.popup; context: { mark: mark }"></ng-container>
+    </ng-template>
+    <ng-container *ngTemplateOutlet="iconAndImgTpl"></ng-container>
+  </div>
+</ng-template>
+
+<ng-template #withOutPopupTpl>
+  <div
+    class="map-mark"
+    [style.size]="scale(mark.coordinates.size, (factor.width + factor.height) / 2)"
+    [style.top]="scale(mark.coordinates.y, factor.height)"
+    [style.left]="scale(mark.coordinates.x, factor.width)"
+    [style.width]="isIcon || isRoom ? 'auto' : scale(mark.coordinates.size, factor.width)"
+    [ngClass]="'_' + mark.type"
+    [class.d-none]="hidden"
+    nz-popover
+    [nzPopoverTrigger]="'click'"
+    [nzPopoverContent]="popoverTpl"
+    [nzPop]
+    (click)="onClick($event)"
+  >
+    <ng-container *ngTemplateOutlet="iconAndImgTpl"></ng-container>
+  </div>
+</ng-template>
+
+<ng-template #iconAndImgTpl>
+  <div class="icon-and-img-tpl">
+    <div
+      *ngIf="hasPermanentAssignment"
+      class="map-mark__assignment"
+      [style.width]="assigmentSize.width"
+      [style.height]="assigmentSize.height"
+    ></div>
+    <div *ngIf="pulse" class="map-mark__pulse"></div>
+
+    <i *ngIf="isIcon" nz-icon [nzType]="mark.icon" nzTheme="outline"></i>
+
+    <img *ngIf="visibleImg && mark.img" [src]="mark.img" [alt]="mark.id" class="map-mark__img" />
+
+    <div *ngIf="visibleUser" class="map-mark__user" [class._green]="mark.logicType === 'User'">
+      <i nz-icon nzType="icons:mark" class="map-mark__user-mark"></i>
+      <img [src]="mark.img" [alt]="mark.id" class="map-mark__user-avatar" />
+    </div>
+
+    <div
+      *ngIf="isRoom"
+      class="map-mark__room"
+      [style.height.px]="mark.size.height * factor.height"
+      [style.width.px]="mark.size.width * factor.width"
+    >
+      <img *ngIf="mark.img" [src]="mark.img" [alt]="mark.id" [style.transform]="'scale(' + this.factor.width + ')'" class="map-mark__img" />
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #popoverTpl>
+  <perfect-scrollbar class="map-mark__popover">
+    <div [innerHTML]="mark.tooltip"></div>
+  </perfect-scrollbar>
+</ng-template>

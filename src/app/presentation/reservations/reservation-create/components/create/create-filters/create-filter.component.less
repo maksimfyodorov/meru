@@ -1,0 +1,51 @@
+@import "~src/theme/colors.less";
+
+@footer-height: 64px;
+@header-height: 52px;
+@app-list-filter-prefix-cls: app-list-filters;
+
+:host {
+  height: 100%;
+  padding: 0 4px 0 24px;
+
+  .@{app-list-filter-prefix-cls} {
+    &__header {
+      height: @header-height;
+      padding-right: 24px;
+
+      &-action {
+        padding: 16px 0 0;
+
+        & ::ng-deep .ant-btn {
+          padding-left: 0;
+          padding-right: 0;
+        }
+
+        &._right {
+          text-align: right;
+        }
+      }
+    }
+
+    &__form {
+      height: calc(100% - @header-height);
+
+      .ant-checkbox-wrapper {
+        margin-bottom: 4px;
+      }
+
+      &-scroll {
+        padding-right: 20px;
+      }
+    }
+
+    &-item {
+      &__scroll {
+        &,
+        & .ps {
+          max-height: 200px;
+        }
+      }
+    }
+  }
+}

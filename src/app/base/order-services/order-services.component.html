@@ -1,0 +1,10 @@
+<button nz-button nzType="primary" (click)="openOrderSeriveModal()">
+  {{ 'Order' | translate }}
+</button>
+<span>{{ 'Viewing ordered services is available in the K2 system' | translate }}</span>
+<ng-template #successUrlTpl>
+  <div><span>{{ 'Viewing ordered services is available in the K2 system' | translate }}</span></div>
+  <div class="url-link">
+    <a *ngIf="url" [href]="url" target="_blank">{{ 'Viewing an order in the K2 system' | translate }}</a>
+  </div>
+</ng-template>

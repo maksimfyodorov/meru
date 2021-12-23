@@ -1,0 +1,25 @@
+<nz-list [nzDataSource]="items" [nzRenderItem]="item" [nzItemLayout]="'horizontal'">
+  <ng-template #item let-item>
+    <nz-comment [nzAuthor]="item.author" [nzDatetime]="item.datetime | date: 'dd.mm.YYYY hh:mm:ss'">
+      <nz-avatar nz-comment-avatar nzIcon="user" [nzSrc]="item.avatar | imageBlob | async"></nz-avatar>
+      <nz-comment-content>
+        <p>{{ item.content }}</p>
+      </nz-comment-content>
+      <nz-comment-action>Reply to</nz-comment-action>
+    </nz-comment>
+  </ng-template>
+</nz-list>
+
+<!--<nz-comment>-->
+<!--  <nz-avatar nz-comment-avatar nzIcon="user" [nzSrc]="userAvatar"></nz-avatar>-->
+<!--  <nz-comment-content>-->
+<!--    <nz-form-item>-->
+<!--      <textarea [(ngModel)]="newComment" nz-input rows="4"></textarea>-->
+<!--    </nz-form-item>-->
+<!--    <nz-form-item>-->
+<!--      <button nz-button nzType="primary" (click)="handleAddComment()">-->
+<!--        Добавить комментарий-->
+<!--      </button>-->
+<!--    </nz-form-item>-->
+<!--  </nz-comment-content>-->
+<!--</nz-comment>-->

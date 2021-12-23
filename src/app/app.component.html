@@ -1,0 +1,4 @@
+<div [ngClass]="{ 'd-none': $loader.globalLoading$ | async }">
+  <router-outlet></router-outlet>
+</div>
+<div *ngIf="$loader.globalLoading$ | async" class="global-loader"></div>

@@ -1,0 +1,21 @@
+.widgets {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 24px;
+}
+.widget {
+  grid-column-start: 1;
+  grid-column-end: 3;
+}
+
+.mobile-calender {
+  display: none;
+}
+
+@media(max-width: 767px){
+  .widget_mobile_hide{ display: none; }
+  .mobile-calender {
+    display: block;
+
+  }
+}

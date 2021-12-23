@@ -1,0 +1,36 @@
+<div class="item-card">
+  <img [src]="item.avatarImageUrl || DEFAULT_WORKPLACE_CARD" alt="" />
+  <div class="item-card_wrap">
+    <div class="info">
+      <div class="header">
+        <h1>{{ item.name }}, {{ item.floor.name }}</h1>
+        <img (click)="onLink(calendarLink, item.id)" [src]="CALENDAR_ICON" [alt]="'Reservation calendar' | translate" />
+      </div>
+      <div class="info-item" *ngIf="item.labelIdPermanentAssignment && item.labelIdPermanentAssignment !== -5000">
+        {{ 'Permanent' | translate }}:
+        <a (click)="onLink('/team/profiles', item.labelIdPermanentAssignment.id)">{{ item.labelIdPermanentAssignment.name }}</a>
+      </div>
+      <div class="info-item" *ngIf="item.seatCount">{{ 'Seats count' | translate }}: {{ item.seatCount }}</div>
+      <div class="info-item" *ngIf="item.reservationAllowedFrom && item.reservationAllowedTo">
+        {{ 'Work hours' | translate }}: {{ item.reservationAllowedFrom }} - {{ item.reservationAllowedTo }}
+      </div>
+      <div class="tags">
+        <nz-tag *ngFor="let tag of item.tags" class="tag" [nzColor]="tagInFilter(tag) ? 'processing' : 'default'">
+          {{ tag }}
+        </nz-tag>
+      </div>
+    </div>
+    <ng-container *ngIf="nornikAplana && item.isEwsReadOnly; else notAplanaReadOnly">
+      <div class="buttons">
+        <a nz-button nzType="primary" [href]="aplanaUrl" target="_blank">{{ 'Reservation system' | translate }}</a>
+      </div>
+    </ng-container>
+    <ng-template #notAplanaReadOnly>
+      <div class="buttons">
+        <button nz-button nzType="primary" [disabled]="isLoading" (click)="reservationPlace()">
+          {{ 'Reserve' | translate }}
+        </button>
+      </div>
+    </ng-template>
+  </div>
+</div>

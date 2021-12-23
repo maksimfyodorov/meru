@@ -1,0 +1,39 @@
+<nz-form-item>
+  <ng-container *ngTemplateOutlet="titleTpl; context: {$implicit: 'Buildings/Rooms'}"></ng-container>
+  <nz-form-control>
+    <app-filter-checkbox-group [formControl]="requestAppointmentRoomIdsControl"
+                               [groups]="roomsGroups"
+                               [maxHeight]="'320px'"
+    >
+    </app-filter-checkbox-group>
+  </nz-form-control>
+</nz-form-item>
+<nz-form-item>
+  <ng-container *ngTemplateOutlet="titleTpl; context: {$implicit: 'Members'}"></ng-container>
+  <nz-form-control>
+    <app-filter-checkbox [formControl]="requestAppointmentLabelIdsControl"
+                         [options]="labels || []"
+                         [allowSearch]="true"
+                         [maxHeight]="'240px'"
+                         [placeholder]="'EnterYourName' | dictionary | translate"
+    >
+    </app-filter-checkbox>
+  </nz-form-control>
+</nz-form-item>
+
+<ng-template #titleTpl let-title>
+  <h6 class="app-reservations-filter-item__title">
+    {{title | dictionary | translate}}
+  </h6>
+</ng-template>
+
+<ng-template #filterStatusTpl
+             let-color="color"
+             let-label="label"
+>
+  <app-status-renderer [color]="color"
+                       [value]="label"
+                       [needConvert]="false"
+  >
+  </app-status-renderer>
+</ng-template>

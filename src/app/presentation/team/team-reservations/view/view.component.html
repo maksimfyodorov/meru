@@ -1,0 +1,28 @@
+<app-extra-title-tpl>
+  <div class="left">
+    <button nz-button [disabled]="isLoading" nzType="primary" class="btn" *ngIf="checkStatus(['NEW'])" (click)="approve()">
+      {{ 'Approve by manager' | translate }}
+    </button>
+    <button nz-button [disabled]="isLoading" nzType="primary" class="btn" *ngIf="checkStatus(['APPROVED'])" (click)="confirm()">
+      {{ 'Approve' | translate }}
+    </button>
+    <button nz-button [disabled]="isLoading" nzType="primary" class="btn" *ngIf="checkStatus(['CONFIRMED'])" (click)="complete()">
+      {{ 'Close' | translate }}
+    </button>
+    <button nz-button nzDanger [disabled]="isLoading" nzType="primary" class="btn" *ngIf="checkStatus(['NEW'])" (click)="delete()">
+      {{ 'Deny' | translate }}
+    </button>
+    <button nz-button nzDanger [disabled]="isLoading" nzType="primary" class="btn" *ngIf="checkStatus(['APPROVED'])" (click)="complete()">
+      {{ 'Delete' | translate }}
+    </button>
+  </div>
+</app-extra-title-tpl>
+
+<app-reservation-view
+  [isLoadingOperation]="isLoading"
+  [reservation]="reservation"
+  [showLabelName]="true"
+  [workplace]="workplace"
+  [placeType]="'workplace'"
+>
+</app-reservation-view>

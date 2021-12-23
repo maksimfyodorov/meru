@@ -1,0 +1,90 @@
+<div class="team-requests">
+  <app-result *ngIf="error as error; else reservationsListTpl"
+              [@fadeInOut]
+              [status]="'error'"
+              [title]="error?.title | translate"
+              [subtitle]="error?.subtitle | translate"
+              [message]="error?.message | translate"
+              class="team-requests__error"
+  >
+    <button nz-button
+            [nzGhost]="true"
+            [nzType]="'primary'"
+            [nzSize]="'large'"
+            (click)="reset()"
+    >
+      {{'ReloadReservations' | dictionary | translate}}
+    </button>
+  </app-result>
+</div>
+
+<ng-template #reservationsListTpl>
+  <div class="team-requests__workspace"
+       [ngClass]="{'_expanded': !filtersVisible, _ready: ready}"
+  >
+    <div app-list
+         [columns]="meta?.columns"
+         [paging]="queryParams?.paging"
+         [sort]="queryParams?.sort"
+         [rows]="data"
+         [total]="data?.length"
+         [loading]="loading"
+         [multiSelectRows]="true"
+         (rowsSelect)="selectRows($event)"
+         (pagingChange)="changePaging($event)"
+         (sortChange)="changeSort($event)"
+         (actionCall)="callAction($event)"
+    >
+    </div>
+  </div>
+</ng-template>
+
+<app-extra-title-tpl>
+  <app-toolbar #contentTpl
+               [actions]="meta?.actions || []"
+               [data]="{items: selectedRows}"
+               [skeletonButtonsCount]="3"
+               (actionCall)="callMassAction($event)"
+  >
+    <!-- <button nz-button
+            nz-dropdown
+            [nzDropdownMenu]="menu"
+            [nzType]="'primary'"
+            [nz-tooltip]="'Export' | dictionary | translate"
+    >
+      <i nz-icon [nzType]="'download'"></i>
+      <nz-dropdown-menu #menu="nzDropdownMenu">
+        <ul nz-menu nzSelectable>
+          <li nz-menu-item><i nz-icon nzType="file-pdf" nzTheme="outline"></i>PDF</li>
+          <li nz-menu-item><i nz-icon nzType="file-excel" nzTheme="outline"></i>XLS</li>
+        </ul>
+      </nz-dropdown-menu>
+    </button> -->
+  </app-toolbar>
+</app-extra-title-tpl>
+
+<nz-modal [nzVisible]="!!massActionResults.length"
+          [nzTitle]="'ResultOfAction' | dictionary | translate"
+          [nzOkText]="null"
+          [nzCancelText]="'Close' | dictionary | translate"
+          [nzMaskClosable]="true"
+          [nzClassName]="'mass-action-results'"
+          (nzOnCancel)="massActionResults = []"
+>
+  <perfect-scrollbar [config]="{suppressScrollX: true}"
+                     class="mass-action-results__list"
+  >
+    <p *ngFor="let result of massActionResults"
+       nz-typography
+       class="mass-action-results__item"
+    >
+      <i nz-icon
+         [nzType]="result.isOk ? 'check-circle' : 'close-circle'"
+         [class._success]="result.isOk"
+         [class._fail]="!result.isOk"
+         class="mass-action-results__icon"
+      ></i>
+      {{result.message}}
+    </p>
+  </perfect-scrollbar>
+</nz-modal>

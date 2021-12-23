@@ -1,0 +1,11 @@
+<ng-container *ngIf="format && isNotEmptyValue">
+  <ng-container [ngSwitch]="type">
+    <ng-container *ngSwitchCase="'number'">
+      {{value | number : this.format : lang || value}}
+    </ng-container>
+
+    <ng-container *ngSwitchCase="'datetime'">
+      {{value | date : this.format || value}}
+    </ng-container>
+  </ng-container>
+</ng-container>

@@ -1,0 +1,70 @@
+<nz-form-item class="app-list-filter-item">
+  <ng-container *ngTemplateOutlet="titleTpl; context: { $implicit: 'Period' }"></ng-container>
+  <app-filter-date-time
+    [format]="dateFormat"
+    [workHours]="workHours"
+    [minDuration]="minDuration"
+    [allowAllDay]="true"
+    [autoUpdateDateTo]="true"
+    [autoUpdateDateToFullDay]="true"
+    [minDateTime]="now"
+    [ngModel]="[dateTimeFromControl.value, dateTimeToControl.value]"
+    [nzAllowClear]="false"
+    (ngModelChange)="updateDateTime($event)"
+  ></app-filter-date-time>
+  <br />
+  <label nz-checkbox [(ngModel)]="repeat" [nzDisabled]="repeatDisable" (nzCheckedChange)="updateRepeatDays()">
+    <h6 class="app-list-filter-item__title checkbox-title">
+      {{ 'Repeat' | dictionary | translate }}
+    </h6>
+  </label>
+  <div class="app-list-filter-item__repeat">
+    <nz-input-group
+      class="week-num mb-25"
+      [nzAddOnBefore]="'Every' | dictionary | translate"
+      [nzAddOnAfter]="'week' | dictionary | translate"
+    >
+      <nz-select [nzDisabled]="!repeat" [(ngModel)]="repeatData.weekNum" (ngModelChange)="updateRepeatDays()" [style.width.%]="100">
+        <nz-option *ngFor="let week of weekNums" [nzValue]="week" [nzLabel]="week.toString()"></nz-option>
+      </nz-select>
+    </nz-input-group>
+    <nz-checkbox-wrapper class="mb-15" style="width: 100%" (nzOnChange)="chooseDays($event)">
+      <div nz-row>
+        <div class="mb-10" nz-col nzSpan="6" *ngFor="let day of daysNaming">
+          <label nz-checkbox [nzDisabled]="!repeat" [nzValue]="day.value">{{ day.label | dictionary | translate }}</label>
+        </div>
+      </div>
+    </nz-checkbox-wrapper>
+    <nz-input-group [nzAddOnBefore]="'End' | dictionary | translate">
+      <nz-date-picker
+        [(ngModel)]="repeatData.end"
+        [nzFormat]="dateFormat"
+        [nzDisabled]="!repeat"
+        [nzDisabledDate]="endMaxDate"
+        (ngModelChange)="updateRepeatDays()"
+      >
+      </nz-date-picker>
+    </nz-input-group>
+  </div>
+</nz-form-item>
+<nz-form-item class="app-reservations-filter-item" *ngIf="typesControl">
+  <ng-container *ngTemplateOutlet="titleTpl; context: { $implicit: 'Type' }"></ng-container>
+  <nz-form-control>
+    <app-filter-checkbox [formControl]="typesControl" [options]="typesCheckBoxOptions"> </app-filter-checkbox>
+  </nz-form-control>
+</nz-form-item>
+
+<nz-form-item class="app-list-filter-item" *ngIf="tags?.length">
+  <ng-container *ngTemplateOutlet="titleTpl; context: { $implicit: 'Environment' }"></ng-container>
+  <div *ngIf="tags">
+    <nz-tag *ngFor="let tag of tags" class="tag" [nzColor]="tagsStatus[tag.name] ? 'processing' : 'default'" (click)="updateTags(tag.name)">
+      {{ tag.name }}
+    </nz-tag>
+  </div>
+</nz-form-item>
+
+<ng-template #titleTpl let-title>
+  <h6 class="app-list-filter-item__title">
+    {{ title | dictionary | translate }}
+  </h6>
+</ng-template>

@@ -1,0 +1,11 @@
+<div class="floor-item" (click)="onSelect()" [ngClass]="{ pointer: (disableSelected && !selected) || !disableSelected }">
+  <div [ngClass]="headerClass">
+    <div class="floor-item__name">
+      <img *ngIf="selected" class="check" [src]="CHECK_UNION" />
+      {{ item.title }}
+    </div>
+    <div class="floor-item__workload">
+      {{ 'Workload' | translate }}:&nbsp;<span>{{ workload | number: '1.0-0' }}%</span>
+    </div>
+  </div>
+</div>

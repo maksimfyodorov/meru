@@ -1,0 +1,30 @@
+@import "colors";
+
+:host {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.app-status-renderer {
+  &__indicator {
+    background: @blue-6;
+    border-radius: 50%;
+    display: inline-block;
+    flex: 0 0 6px;
+    height: 6px;
+    margin-right: 8px;
+  }
+
+  &__label {
+    flex: 1 1 auto;
+  }
+}
+
+@media(max-width: 767px){
+  :host {
+    padding-top: 2px;
+  }
+}

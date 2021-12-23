@@ -1,0 +1,179 @@
+@import '~src/theme/override';
+
+.item {
+  display: flex;
+  div {
+    display: block;
+    flex: 1;
+    text-align: right;
+  }
+  div:nth-child(1) {
+    flex: 2;
+    text-align: left;
+  }
+}
+.wrapper {
+  display: flex;
+  &__info {
+    border-left: 1px solid @gray-5;
+    flex-basis: 400px;
+    padding: 20px;
+  }
+}
+
+.extra-padding {
+  padding-top: 2px;
+}
+
+.reservatio-employee-main {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .cdk-drop-list {
+    display: none;
+  }
+  .mobile-wrapper-reservation {
+    display: none;
+  }
+  .reservatio-employee-main {
+    display: block;
+    .profile__avatar {
+      display: block !important;
+    }
+    .reservatio-employee {
+      padding: 0px;
+      margin-bottom: 15px;
+      ::ng-deep {
+        .ant-card {
+          background: #ffffff;
+          box-shadow: 0px 8px 16px rgba(110, 120, 130, 0.12);
+          border-radius: 4px;
+          :hover {
+            cursor: pointer;
+          }
+        }
+
+        .ant-card-head {
+          padding: 15px 20px 0px 15px;
+          min-height: inherit;
+          border: none;
+          .ant-card-head-wrapper {
+            align-items: flex-start;
+            .ant-card-head-title {
+              padding: 0px;
+              text-overflow: inherit;
+              overflow: initial;
+              white-space: inherit;
+            }
+          }
+          .ant-card-extra {
+            padding: 0px 0px 0px 10px;
+          }
+        }
+        .ant-card-body {
+          padding: 0px 0px 15px 0px;
+        }
+      }
+      ::ng-deep {
+        table {
+          width: 100%;
+          tr {
+            &:last-child {
+              td {
+                color: rgba(0, 0, 0, 0.85);
+              }
+            }
+          }
+          tr.active-color {
+            td {
+              color: #52c41a;
+            }
+            td {
+              &:last-child {
+                color: #f24e1e;
+              }
+            }
+          }
+          tr.divider-static {
+            td {
+              padding: 0px !important;
+            }
+          }
+          tr {
+            td {
+              font-size: 14px;
+              line-height: 23px;
+              color: rgba(0, 0, 0, 0.45);
+              &:nth-child(odd) {
+                padding-left: 15px;
+              }
+              &:nth-child(even) {
+                padding-right: 15px;
+                text-align: right;
+                color: rgba(0, 0, 0, 0.85);
+              }
+              // .ant-divider-horizontal{
+              //   border: none;
+              // }
+            }
+          }
+        }
+      }
+      a {
+        color: rgba(0, 0, 0, 0.45);
+      }
+    }
+
+    .avtar {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      width: 100%;
+      .avtar_image {
+        margin-right: 15px;
+        width: 73px;
+        height: 73px;
+        & * {
+          width: 100%;
+          height: 100%;
+        }
+      }
+
+      .avtar_content {
+        h4 {
+          font-weight: 500;
+          font-size: 16px;
+          color: rgba(0, 0, 0, 0.85);
+          margin: 0px;
+        }
+        p {
+          font-size: 12px;
+          line-height: 23px;
+          color: rgba(0, 0, 0, 0.65);
+        }
+      }
+    }
+    .avtar-table {
+      ::ng-deep {
+        .ant-table {
+          background-color: transparent;
+          padding: 10px 0px;
+          td.ant-table-cell {
+            font-size: 14px;
+            line-height: 22px;
+            color: rgba(0, 0, 0, 0.45);
+            padding: 10px 0px;
+            &:nth-child(even) {
+              font-size: 24px;
+              line-height: 28px;
+              display: flex;
+              align-items: center;
+              color: rgba(0, 0, 0, 0.85);
+            }
+          }
+        }
+      }
+    }
+  }
+}

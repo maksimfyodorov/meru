@@ -1,0 +1,28 @@
+<button nz-button
+        [nzType]="buttonType"
+        [nzSize]="size"
+        [disabled]=""
+        [nzDanger]="isDanger"
+        (click)="emitActionCall($event)"
+        class="app-renderer-action__button"
+>
+  <i *ngIf="prefixIcon"
+     nz-icon
+     [nzType]="prefixIcon"
+     class="app-renderer-action__prefix-icon"
+  >
+  </i>
+
+  <span *ngIf="label"
+        class="app-renderer-action__label"
+  >
+    {{label | translate}}
+  </span>
+
+  <i *ngIf="suffixIcon"
+     nz-icon
+     [nzType]="suffixIcon"
+     class="app-renderer-action__suffix-icon"
+  >
+  </i>
+</button>

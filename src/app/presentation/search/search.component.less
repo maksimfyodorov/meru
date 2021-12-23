@@ -1,0 +1,48 @@
+@import "colors";
+
+.search {
+  background: @gray-1;
+  height: 100%;
+  padding: 24px;
+
+  &__scroll {
+    height: calc(100% - 210px);
+    max-width: calc(100% + 16px);
+    padding-right: 16px;
+    position: relative;
+    width: calc(100% + 16px);
+
+    & ::ng-deep .ps-content {
+      height: 100%;
+    }
+  }
+
+  & ::ng-deep .ant-list-split .ant-list-item {
+    border-bottom: none;
+  }
+
+  & ::ng-deep .ant-list-item {
+    cursor: pointer;
+  }
+
+  & ::ng-deep .ant-list-header {
+    padding: 0;
+  }
+
+  & ::ng-deep .ant-tabs-nav {
+    margin: 0;
+    padding: 0 4px;
+
+    &::before{
+      display: none;
+    }
+  }
+
+  ::ng-deep .ant-empty-image {
+    align-items: center;
+    color: #aaaaaa;
+    display: flex;
+    font-size: 48px;
+    justify-content: center;
+  }
+}

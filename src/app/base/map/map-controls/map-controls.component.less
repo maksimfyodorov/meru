@@ -1,0 +1,30 @@
+@import "~ng-zorro-antd/style/themes";
+@import '~src/theme/override';
+
+@border: @border-width-base @border-style-base @border-color-base;
+.map-controls {
+  position: absolute;
+  top: 50%;
+  transform: translateY(calc(-50% - 30px));
+  display: flex;
+  flex-direction: column;
+  z-index: 8;
+  background-color: @gray-1;
+  border: @border;
+  border-radius: @border-radius-base;
+
+  i {
+    font-size: 22px;
+    color: @gray-6;
+    cursor: pointer;
+    padding: 10px;
+
+    &._active {
+      color: @blue-4;
+    }
+
+    & + i {
+      // border-top: @border;
+    }
+  }
+}

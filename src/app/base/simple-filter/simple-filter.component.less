@@ -1,0 +1,35 @@
+@import '~src/theme/override';
+:host {
+  display: block;
+}
+.filter {
+  background-color: @gray-1;
+  &__collapse-header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    &-tpl {
+      flex: 1 1 auto;
+    }
+    &-btn {
+      margin-left: auto;
+      flex: 0 0 auto;
+      i {
+        font-size: 10px;
+      }
+    }
+  }
+  &__collapse {
+    border: none;
+    padding: 24px;
+    background-color: transparent;
+    ::ng-deep {
+      .ant-collapse-header, .ant-collapse-content, .ant-collapse-content-box {
+        padding: 0!important;
+      }
+    }
+  }
+  &__no-collapse {
+    padding: 24px;
+  }
+}

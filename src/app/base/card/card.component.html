@@ -1,0 +1,91 @@
+<ng-container *ngTemplateOutlet="type === 'flex' ? flex : table"></ng-container>
+
+<ng-template #table>
+  <nz-card [style.width]="width" [nzCover]="coverTpl">
+    <nz-descriptions class="description-list" [nzTitle]="title | translate" [nzColumn]="1">
+      <nz-descriptions-item *ngFor="let desc of descriptionList" [nzTitle]="desc.name | translate">
+        {{ desc.value | translate }}
+      </nz-descriptions-item>
+    </nz-descriptions>
+    <div>
+      <nz-tag class="mb-10" *ngFor="let tag of tags">{{ tag }}</nz-tag>
+    </div>
+  </nz-card>
+</ng-template>
+
+<ng-template #flex>
+  <nz-card [style.width]="width" [nzCover]="coverTpl">
+    <h5 class="card__title">
+      {{ title | translate }}
+      <img class="card__title-edit" *ngIf="canEditTitle" [src]="EDIT_ICON" [alt]="'Edit' | translate" (click)="onEditTitle()" />
+      <div [title]="'Meeting room calendar' | translate">
+        <img
+          class="card__calendar"
+          *ngIf="calendarLink"
+          (click)="onLink(calendarLink)"
+          [src]="CALENDAR_ICON"
+          [alt]="'Meeting room calendar' | translate"
+        />
+      </div>
+      <div class="card__edit-controls" *ngIf="showEditControls && descriptionList">
+        <nz-spin nzSimple *ngIf="loading"></nz-spin>
+        <ng-container *ngIf="!loading">
+          <button *ngIf="!editModeEnabled" nz-button nzSize="small" nzShape="circle" (click)="enableEditMode()">
+            <i nz-icon nzType="edit" nzTheme="outline"></i>
+          </button>
+          <button *ngIf="editModeEnabled" [disabled]="!cardForm.valid" nz-button nzSize="small" nzShape="circle" (click)="saveEdit()">
+            <i nz-icon nzType="check" nzTheme="outline"></i>
+          </button>
+          <button *ngIf="editModeEnabled" nz-button nzSize="small" nzShape="circle" (click)="cancelEdit()">
+            <i nz-icon nzType="close" nzTheme="outline"></i>
+          </button>
+        </ng-container>
+      </div>
+    </h5>
+    <form nz-form [formGroup]="cardForm">
+      <div class="card__description-list">
+        <div
+          class="card__description-item"
+          [ngClass]="{
+            'card__form--enabled': editModeEnabled && desc.formControlTpl
+          }"
+          *ngFor="let desc of descriptionList"
+        >
+          <div class="card__description-title">
+            <ng-container *ngIf="desc.nameTpl">
+              <ng-container *ngTemplateOutlet="desc.nameTpl"></ng-container>
+            </ng-container>
+            <ng-container *ngIf="desc.name && !desc.nameTpl"> {{ desc.name | translate }}: </ng-container>
+          </div>
+          <div class="card__description-value">
+            <ng-container *ngIf="editModeEnabled && desc.formControlTpl; else elseEditModeEnabledBlock">
+              <nz-form-item>
+                <nz-form-control>
+                  <ng-container *ngTemplateOutlet="formControlsHash[desc.formControlTpl]"></ng-container>
+                </nz-form-control>
+              </nz-form-item>
+            </ng-container>
+            <ng-template #elseEditModeEnabledBlock>
+              <ng-container *ngTemplateOutlet="desc.valueTpl"></ng-container>
+              <ng-container *ngIf="desc.value && !desc.valueTpl">
+                <ng-container *ngIf="!desc.link; else isLink">
+                  {{ desc.value | translate }}
+                </ng-container>
+                <ng-template #isLink>
+                  <a (click)="onLink(desc.link)">{{ desc.value | translate }}</a>
+                </ng-template>
+              </ng-container>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+    </form>
+    <div class="card__tags">
+      <nz-tag class="mb-10" *ngFor="let tag of tags">{{ tag }}</nz-tag>
+    </div>
+  </nz-card>
+</ng-template>
+
+<ng-template #coverTpl>
+  <img *ngIf="image" [alt]="title" [src]="image" />
+</ng-template>

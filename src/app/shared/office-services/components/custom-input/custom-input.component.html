@@ -1,0 +1,55 @@
+<nz-form-item [formGroup]="stepForm">
+  <nz-form-control formArrayName="params" [ngSwitch]="type">
+    <div [formGroupName]="index">
+      <input
+        *ngSwitchCase="'STRING'"
+        class="input-value"
+        nz-input
+        [placeholder]="param.description"
+        [(ngModel)]="param.value"
+        formControlName="field"
+      />
+      <nz-input-number
+        *ngSwitchCase="'INTEGER'"
+        class="input-value"
+        [placeholder]="param.description"
+        [(ngModel)]="param.value"
+        formControlName="field"
+        [nzMin]="0"
+        [nzStep]="1"
+      ></nz-input-number>
+      <nz-select
+        *ngSwitchCase="'DICTIONARY'"
+        class="input-value"
+        [nzPlaceHolder]="param.description"
+        [(ngModel)]="param.value"
+        formControlName="field"
+      >
+        <nz-option
+          *ngFor="let item of items"
+          [nzValue]="item.id"
+          [nzLabel]="item.description"
+        ></nz-option>
+      </nz-select>
+      <label
+        *ngSwitchCase="'BOOLEAN'"
+        class="input-value"
+        formControlName="field"
+        nz-checkbox
+        [ngModel]="param.value == 'true' ? true : false"
+        (ngModelChange)="param.value = $event ? 'true' : 'false'"
+        >{{ param.description }}</label
+      >
+      <nz-date-picker
+        *ngSwitchCase="'DATETIME'"
+        class="input-value"
+        formControlName="field"
+        [nzPlaceHolder]="param.description"
+        [(ngModel)]="param.value"
+        [nzFormat]="dateFormat"
+        [nzShowTime]="{ nzFormat: 'HH:mm' }"
+      >
+      </nz-date-picker>
+    </div>
+  </nz-form-control>
+</nz-form-item>

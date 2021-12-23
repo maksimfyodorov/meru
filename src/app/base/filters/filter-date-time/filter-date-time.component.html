@@ -1,0 +1,70 @@
+<div class="date-time">
+  <nz-date-picker
+    name="from-date"
+    [nzPlaceHolder]="'From' | dictionary | translate"
+    [nzFormat]="format"
+    [nzDisabledDate]="disableDateFrom"
+    [ngModel]="value[0]"
+    (ngModelChange)="updateDateFrom($event)"
+    [nzDisabledDate]="(!staticDisabled && disableDateFrom) || (staticDisabled && disabledDate)"
+    [nzAllowClear]="nzAllowClear"
+  >
+  </nz-date-picker>
+  <nz-time-picker
+    id="fromTimePicker"
+    [nzDisabled]="value[0] == null || allDay"
+    name="from-date-time"
+    [nzPopupClassName]="timePickerPopupClass('fromTimePicker')"
+    nzNowText=" "
+    [ngModel]="value[0]"
+    [nzDefaultOpenValue]="timePickerOptions.nzDefaultOpenValue"
+    [nzFormat]="timePickerOptions.nzFormat"
+    [nzMinuteStep]="timePickerOptions.nzMinuteStep"
+    [nzHideDisabledOptions]="timePickerOptions.nzHideDisabledOptions"
+    [nzDisabledHours]="disableHoursFrom"
+    [nzDisabledMinutes]="disableMinutesFrom"
+    [nzAllowEmpty]="nzAllowClear"
+    (ngModelChange)="updateDateFrom($event)"
+  ></nz-time-picker>
+</div>
+<i class="divider" nz-icon nzType="line" nzTheme="outline"></i>
+<div class="date-time">
+  <nz-date-picker
+    [nzDisabled]="allDay"
+    name="to-date"
+    [nzPlaceHolder]="'To' | dictionary | translate"
+    [nzFormat]="format"
+    [nzDisabledDate]="disableDateTo"
+    [(ngModel)]="value[1]"
+    (ngModelChange)="updateDateTo($event)"
+    [nzDisabledDate]="(!staticDisabled && disableDateTo) || (staticDisabled && disabledDate)"
+    [nzAllowClear]="nzAllowClear"
+  >
+  </nz-date-picker>
+  <nz-time-picker
+    id="toTimePicker"
+    [nzDisabled]="value[1] == null || allDay"
+    name="to-date-time"
+    [nzPopupClassName]="timePickerPopupClass('toTimePicker')"
+    nzNowText=" "
+    [(ngModel)]="value[1]"
+    [nzDefaultOpenValue]="timePickerOptions.nzDefaultOpenValue"
+    [nzFormat]="timePickerOptions.nzFormat"
+    [nzMinuteStep]="timePickerOptions.nzMinuteStep"
+    [nzHideDisabledOptions]="timePickerOptions.nzHideDisabledOptions"
+    [nzDisabledHours]="disableHoursTo"
+    [nzDisabledMinutes]="disableMinutesTo"
+    [nzAllowEmpty]="nzAllowClear"
+    (ngModelChange)="updateDateTo($event)"
+  ></nz-time-picker>
+</div>
+<label
+  *ngIf="allowAllDay"
+  nz-checkbox
+  name="set-all-day"
+  [disabled]="disableAllDay"
+  [(ngModel)]="allDay"
+  (ngModelChange)="toggleAllDay($event)"
+>
+  {{ 'AllDay' | dictionary | translate }}
+</label>

@@ -1,0 +1,17 @@
+<div class="steps">
+  <nz-steps [nzCurrent]="current" nzProgressDot>
+    <nz-step *ngFor="let item of items"
+             [nzTitle]="item.title | translate"
+             [nzDescription]="item.description | translate">
+    </nz-step>
+  </nz-steps>
+</div>
+
+<div class="steps-mobile">
+  <nz-steps [nzCurrent]="current" nzProgressDot nzDirection="vertical">
+    <nz-step *ngFor="let item of items"
+             [nzTitle]="item.title | translate"
+             [nzDescription]="item.description | translate">
+    </nz-step>
+  </nz-steps>
+</div>

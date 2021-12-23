@@ -1,0 +1,43 @@
+<div *nzModalTitle>
+  {{ gotQrResult ? "Quick place reservation" : "Scan QR-code" }}
+</div>
+<div class="content" *ngIf="!gotQrResult">
+  <zxing-scanner
+    class="qr-scanner"
+    [hidden]="!hasDevices"
+    [(device)]="currentDevice"
+    (scanSuccess)="onCodeResult($event)"
+    [formats]="formatsEnabled"
+    (permissionResponse)="onHasPermission($event)"
+    (camerasFound)="onCamerasFound($event)"
+  ></zxing-scanner>
+  <div class="element"></div>
+</div>
+<div class="content" *ngIf="gotQrResult">
+  <div class="place-info">
+    <p>{{ actionMessage }}</p>
+    <p>{{ placeInfo }}</p>
+    <app-filter-date-time
+      *ngIf="canCreateReservation"
+      [(ngModel)]="reservationDateRange.value"
+      [minDateTime]="minDateTime"
+      [workHours]="reservationDateRange.workHours"
+      [autoUpdateDateTo]="true"
+      [autoUpdateDateToFullDay]="true"
+    ></app-filter-date-time>
+  </div>
+  <div class="actions" *ngIf="gotQrResult">
+    <button
+      *ngIf="!reservationDisabled"
+      nz-button
+      nzType="primary"
+      [nzDanger]="canCancelReservation"
+      (click)="yesAction()"
+    >
+      Да
+    </button>
+    <button nz-button nzType="default" (click)="destroyModal()">
+      {{ reservationDisabled ? "Ok" : "No" }}
+    </button>
+  </div>
+</div>

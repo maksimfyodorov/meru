@@ -1,0 +1,41 @@
+@import "colors.less";
+
+@team-reservations-prefix-cls: team-requests;
+
+:host {
+  height: 100%;
+}
+
+:host {
+  background-color: #fff;
+  display: block;
+  height: 100%;
+
+  ::ng-deep nz-spin {
+    width: 100%;
+  }
+
+  .@{team-reservations-prefix-cls} {
+    display: flex;
+    height: 100%;
+    flex-direction: row;
+    justify-content: stretch;
+    width: 100%;
+
+    &__workspace {
+      width: 100%;
+
+      &._expanded {
+        width: 100%;
+      }
+
+      &._ready {
+        transition: flex .5s, width .5s;
+      }
+    }
+
+    &__error {
+      flex: 0 0 100%;
+    }
+  }
+}

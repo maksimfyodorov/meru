@@ -1,0 +1,15 @@
+<ng-container *ngIf="options.condition?.expression; else valuePatternTpl">
+  <ng-container *appCondition="let visible for options.condition data data; else emptyPatternTpl">
+    {{value}}
+  </ng-container>
+</ng-container>
+
+<ng-template #emptyPatternTpl>
+  <ng-container *ngIf="options?.emptyPattern">
+    {{options?.emptyPattern}}
+  </ng-container>
+</ng-template>
+
+<ng-template #valuePatternTpl>
+  {{value}}
+</ng-template>

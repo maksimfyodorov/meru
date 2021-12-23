@@ -1,0 +1,100 @@
+<nz-form-item class="app-list-filter-item">
+  <ng-container *ngTemplateOutlet="titleTpl; context: {$implicit: 'User group'}"></ng-container>
+  <nz-select *ngIf="labelGroups?.length" [formControl]="groupControl">
+    <nz-option *ngFor="let group of labelGroups" [nzValue]="group.id" [nzLabel]="group.name"></nz-option>
+  </nz-select>
+  <ng-container *ngTemplateOutlet="titleTpl; context: {$implicit: 'Users'}"></ng-container>
+  <nz-form-control>
+    <app-filter-checkbox [formControl]="labelsControl"
+                         [options]="users || []"
+                         [maxHeight]="'320px'"
+                         [allowSearch]="true"
+                         [disabled]="labelsControl?.value === null"
+                         [allowEmpty]="false"
+                         [allowSelectAll]="true"
+    >
+    </app-filter-checkbox>
+  </nz-form-control>
+  <nz-form-control class="mt-24">
+    <label nz-checkbox
+           [formControl]="autoModeControl">
+        {{'Auto choose places through one' | translate}}
+    </label>
+  </nz-form-control>
+  <ng-container *ngTemplateOutlet="titleTpl; context: {$implicit: 'Period'}"></ng-container>
+  <app-filter-date-time
+    [ngModel]="[dateTimeFromControl.value, dateTimeToControl.value]"
+    [format]="dateTimeFormat"
+    [workHours]="workHours"
+    [minDuration]="minDuration"
+    [allowAllDay]="true"
+    [autoUpdateDateTo]="true"
+    [autoUpdateDateToFullDay]="true"
+    (ngModelChange)="updateDateTime($event)"
+></app-filter-date-time>
+  <br />
+  <label nz-checkbox
+         [(ngModel)]="repeat"
+         [nzDisabled]="repeatDisable"
+         (nzCheckedChange)="updateRepeatDays()">
+    <h6 class="app-list-filter-item__title checkbox-title">
+      {{'Repeat' | translate}}
+    </h6>
+  </label>
+  <div class="app-list-filter-item__repeat">
+    <nz-input-group class="week-num mb-25"
+                    [nzAddOnBefore]="'Every' | translate"
+                    [nzAddOnAfter]="'week' | translate">
+      <nz-select [nzDisabled]="!repeat"
+                 [(ngModel)]="repeatData.weekNum"
+                 (ngModelChange)="updateRepeatDays()"
+                 [style.width.%]="100">
+        <nz-option *ngFor="let week of weekNums" [nzValue]="week" [nzLabel]="week.toString()"></nz-option>
+      </nz-select>
+    </nz-input-group>
+    <nz-checkbox-wrapper class="mb-15" style="width: 100%;" (nzOnChange)="chooseDays($event)">
+      <div nz-row>
+        <div class="mb-10" nz-col nzSpan="6" *ngFor="let day of daysNaming">
+          <label nz-checkbox [nzDisabled]="!repeat" [nzValue]="day.value">{{ day.label | translate }}</label>
+        </div>
+      </div>
+    </nz-checkbox-wrapper>
+    <nz-input-group [nzAddOnBefore]="'End' | translate">
+      <nz-date-picker [(ngModel)]="repeatData.end"
+                      [nzFormat]="dateFormat"
+                      [nzDisabled]="!repeat"
+                      [nzDisabledDate]="endMaxDate"
+                      (ngModelChange)="updateRepeatDays()">
+      </nz-date-picker>
+    </nz-input-group>
+  </div>
+</nz-form-item>
+
+<nz-form-item class="app-reservations-filter-item">
+  <ng-container *ngTemplateOutlet="titleTpl; context: {$implicit: 'Type'}"></ng-container>
+  <nz-form-control>
+    <app-filter-checkbox [formControl]="typesControl"
+                         [options]="typesCheckBoxOptions"
+    >
+    </app-filter-checkbox>
+  </nz-form-control>
+</nz-form-item>
+
+<nz-form-item class="app-list-filter-item" *ngIf="tags?.length">
+  <ng-container *ngTemplateOutlet="titleTpl; context: {$implicit: 'Environment'}"></ng-container>
+  <div *ngIf="tags">
+    <nz-tag  *ngFor="let tag of tags"
+             class="tag"
+             [nzColor]="tagsStatus[tag.name] ? 'processing' : 'default'"
+             (click)="updateTags(tag.name)">
+      {{ tag.name }}
+    </nz-tag>
+  </div>
+
+</nz-form-item>
+
+<ng-template #titleTpl let-title>
+  <h6 class="app-list-filter-item__title">
+    {{ title | translate }}
+  </h6>
+</ng-template>

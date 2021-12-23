@@ -1,0 +1,22 @@
+<div class="book-item border-bottom" [class._active]="active">
+  <div class="book-item__header">
+    <h4 class="book-item__title">{{ title | translate }}</h4>
+    <span class="book-item__label">{{ label | translate }}</span>
+  </div>
+  <div *ngIf="content">
+    <ng-container *ngTemplateOutlet="content; context: contentContext"></ng-container>
+  </div>
+  <div *ngIf="tags?.length > 0" class="book-item__tags">
+    <nz-tag *ngFor="let tag of tags" [nzColor]="tag.type" class="book-item__tag"> <i *ngIf="tag.icon" nz-icon [nzType]="tag.icon"></i> {{ tag.title || tag }} </nz-tag>
+  </div>
+  <div *ngIf="actions.length > 0" class="book-item__actions">
+    <button *ngFor="let action of actions" class="book-item__action" nz-button nzSize="small" [nzType]="action.type" (click)="actionHandler($event, action)">
+      {{ action.title | dictionary | translate }}
+    </button>
+  </div>
+  <div *ngIf="select">
+    <nz-select [ngModel]="value" (ngModelChange)="updateSelected($event)" [nzPlaceHolder]="'ChooseWorkplace' | dictionary | translate" nzAllowClear>
+      <nz-option *ngFor="let place of places" [nzValue]="place.id" [nzLabel]="place.name"></nz-option>
+    </nz-select>
+  </div>
+</div>

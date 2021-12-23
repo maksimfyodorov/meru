@@ -1,0 +1,97 @@
+<nz-tag
+  *ngFor="let item of items"
+  class="mb-10"
+  [nzMode]="tagMode(item.value)"
+  (nzOnClose)="removeItem(item)"
+  [nz-tooltip]="item.value"
+  [nzColor]="item.theme"
+  ><ng-container [ngSwitch]="item.answer">
+    <i nz-icon nzType="check-circle" class="accept" *ngSwitchCase="'ACCEPT'"></i>
+    <i nz-icon nzType="sync" nzSpin *ngSwitchCase="'TENTATIVE'"></i>
+    <i nz-icon nzType="close-circle" class="decline" *ngSwitchCase="'DECLINE'"></i></ng-container
+  >&nbsp;{{ item.label }}</nz-tag
+>
+<button
+  #popover
+  nz-button
+  nzSize="small"
+  [nzType]="'dashed'"
+  nz-popover
+  [nzPopoverContent]="searchContentTpl"
+  [nzPopoverTrigger]="null"
+  [nzPopoverOverlayClassName]="'add-member'"
+  [nzPopoverPlacement]="'bottomLeft'"
+  [nzPopoverVisible]="popoverVisible"
+  (click)="popoverVisibleChange()"
+>
+  <i nz-icon nzType="plus"></i> {{ 'Add user' | translate }}
+</button>
+<ng-template #searchContentTpl>
+  <perfect-scrollbar class="search-scroll" *ngIf="isFound">
+    <ul class="list-reset">
+      <li *ngFor="let user of users">
+        <button nz-button class="btn-reset" (click)="addUserInSearch(user)">
+          <i nz-icon nzType="user-add" nzTheme="outline"></i>
+        </button>
+        <span>{{ user.name }}</span>
+        <button
+          nz-button
+          class="btn-reset"
+          nz-popover
+          (click)="setActiveUser(user)"
+          [nzPopoverTrigger]="'click'"
+          [nzPopoverContent]="userCardTpl"
+          [nzPopoverOverlayClassName]="'add-member__user-card'"
+          [nzPopoverPlacement]="'right'"
+        >
+          <i nz-icon nzType="idcard" nzTheme="outline"></i>
+        </button>
+      </li>
+    </ul>
+  </perfect-scrollbar>
+  <form (ngSubmit)="submit($event)" [formGroup]="validateForm">
+    <nz-form-item>
+      <nz-form-control [nzErrorTip]="'Please enter a valid email' | translate" [nzDisableAutoTips]="true">
+        <nz-input-group [nzAddOnAfter]="suffixIconSearch" nzSearch>
+          <input
+            type="text"
+            nz-input
+            [(ngModel)]="value"
+            (ngModelChange)="searchUsers($event)"
+            placeholder="email сотрудника"
+            [formControlName]="'mail'"
+          />
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</ng-template>
+<ng-template #suffixIconSearch>
+  <button nz-button nzType="primary" nzSearch (click)="submit($event)"><i nz-icon nzType="right"></i></button>
+</ng-template>
+<ng-template #userCardTpl>
+  <section class="user-card">
+    <div class="user-card__header">
+      <img
+        [src]="(activeUser.avatarImageUrl | imageBlob | async) || DEFAULT_USER_AVATAR"
+        [alt]="activeUser.name"
+        class="user-card__avatar"
+      />
+      <h5 class="user-card__name">{{ activeUser.name }}</h5>
+    </div>
+    <div class="user-card__description">
+      <div class="user-card__description-item">
+        <span class="user-card__description-label">Почта:</span>
+        <span class="user-card__description-value">{{ activeUser.mail || '-' }}</span>
+      </div>
+      <div class="user-card__description-item">
+        <span class="user-card__description-label">Телефон:</span>
+        <span class="user-card__description-value">{{ activeUser.mainPhone || '-' }}</span>
+      </div>
+      <div class="user-card__description-item">
+        <span class="user-card__description-label">Специальность:</span>
+        <span class="user-card__description-value">{{ activeUser.post || '-' }}</span>
+      </div>
+    </div>
+  </section>
+</ng-template>

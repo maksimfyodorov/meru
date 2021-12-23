@@ -1,0 +1,30 @@
+[
+  {
+    "id": 0,
+    "lang": "ru",
+    "default": true,
+    "measurements": {
+      "date": "dd.MM.yyyy",
+      "time": "HH:mm:ss",
+      "dateTime": "dd.MM.yyyy HH:mm:ss",
+      "shortDate": "dd.MM.yy",
+      "shortTime": "HH:mm",
+      "shortDateTime": "dd.MM.yy HH:mm",
+      "filterDate": "yyyy-MM-dd HH:mm:ss.SSS Z"
+    }
+  },
+  {
+    "id": 1,
+    "lang": "en",
+    "default": false,
+    "measurements": {
+      "date": "yyyy-MM-dd",
+      "time": "HH:mm:ss",
+      "dateTime": "yyyy-MM-dd HH:mm:ss",
+      "shortDate": "yy-MM-dd",
+      "shortTime": "HH:mm",
+      "shortDateTime": "yy-MM-dd HH:mm",
+      "filterDate": "yyyy-MM-dd HH:mm:ss.SSS Z"
+    }
+  }
+]

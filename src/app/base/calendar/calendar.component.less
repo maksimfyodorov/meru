@@ -1,0 +1,89 @@
+@prefix-cls: calendar;
+
+@header-height: 44px;
+
+:host {
+  background-color: #fff;
+  display: block;
+  height: 100%;
+  padding: 24px;
+}
+
+.@{prefix-cls} {
+  &__header {
+    align-items: center;
+    display: flex;
+    height: @header-height;
+    justify-content: space-between;
+    padding: 0 0 8px;
+    user-select: none;
+  }
+
+  &__body {
+    height: calc(100% - @header-height);
+  }
+
+  &__scroll {
+    height: 100%;
+  }
+
+  &__date {
+    cursor: pointer;
+
+    &-month {
+      text-transform: capitalize;
+    }
+
+    ::ng-deep &-picker {
+      & .ant-picker-wrapper {
+        opacity: 1 !important;
+        transform: scale(1) !important;
+      }
+    }
+  }
+
+  ::ng-deep & .ant-spin-nested-loading {
+    &,
+    & .ant-spin-container {
+      height: 100%;
+    }
+  }
+}
+
+@media (max-width: 400px) {
+  .@{prefix-cls} {
+    &__header {
+      height: auto;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    &__date {
+      font-size: 16px;
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  :host {
+    padding: 0;
+  }
+
+  .@{prefix-cls} {
+    &__today {
+      display: none;
+    }
+
+    &__date {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    &__switch {
+      .calendar__radio-button {
+        padding: 0 10px;
+      }
+    }
+  }
+}

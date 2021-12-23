@@ -1,0 +1,8 @@
+<section class="map">
+  <div id="map" class="map" (wheel)="eventZoomChange()"></div>
+  <app-map-zoom
+    [value]="zoom"
+    (valueChange)="zoomChange($event)"
+    [options]="sliderOptions"
+  ></app-map-zoom>
+</section>

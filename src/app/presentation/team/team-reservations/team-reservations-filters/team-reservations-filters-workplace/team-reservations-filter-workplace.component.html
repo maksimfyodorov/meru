@@ -1,0 +1,59 @@
+<nz-form-item>
+  <ng-container *ngTemplateOutlet="titleTpl; context: { $implicit: 'UserGroup' }"></ng-container>
+  <nz-form-control>
+    <nz-select [formControl]="labelGroupIdControl" (ngModelChange)="updateLabelGroup($event)">
+      <nz-option *ngFor="let labelGroup of labelGroups" [nzLabel]="labelGroup.name" [nzValue]="labelGroup.id"> </nz-option>
+    </nz-select>
+  </nz-form-control>
+</nz-form-item>
+
+<nz-form-item>
+  <ng-container *ngTemplateOutlet="titleTpl; context: { $implicit: 'Users' }"></ng-container>
+  <nz-form-control>
+    <app-filter-checkbox
+      [formControl]="labelIdsControl"
+      [options]="usersOptions || []"
+      [maxHeight]="'320px'"
+      [allowSearch]="true"
+      [disabled]="labelGroupIdControl?.value === null"
+      [allowEmpty]="false"
+      [allowSelectAll]="true"
+    >
+    </app-filter-checkbox>
+  </nz-form-control>
+</nz-form-item>
+
+<nz-form-item>
+  <ng-container *ngTemplateOutlet="titleTpl; context: { $implicit: 'Buildings/Floors' }"></ng-container>
+  <nz-form-control>
+    <app-filter-checkbox-group [formControl]="floorMapIdsControl" [groups]="floorMapsGroups" [maxHeight]="'320px'">
+    </app-filter-checkbox-group>
+  </nz-form-control>
+</nz-form-item>
+
+<nz-form-item class="app-reservations-filter-item">
+  <ng-container *ngTemplateOutlet="titleTpl; context: { $implicit: 'Statuses' }"></ng-container>
+  <nz-form-control>
+    <app-filter-checkbox [formControl]="statusesControl" [options]="statuses" [label]="filterStatusTpl"> </app-filter-checkbox>
+  </nz-form-control>
+</nz-form-item>
+
+<nz-form-item class="app-reservations-filter-item">
+  <ng-container *ngTemplateOutlet="titleTpl; context: { $implicit: 'Period' }"></ng-container>
+
+  <app-filter-date-time
+    [ngModel]="[dateTimeFromControl.value, dateTimeToControl.value]"
+    [format]="dateFormat"
+    (ngModelChange)="updateDateTime($event)"
+  ></app-filter-date-time>
+</nz-form-item>
+
+<ng-template #titleTpl let-title>
+  <h6 class="app-reservations-filter-item__title">
+    {{ title | dictionary | translate }}
+  </h6>
+</ng-template>
+
+<ng-template #filterStatusTpl let-color="color" let-label="label">
+  <app-status-renderer [color]="color" [value]="label" [needConvert]="false"> </app-status-renderer>
+</ng-template>

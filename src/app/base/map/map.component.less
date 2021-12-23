@@ -1,0 +1,53 @@
+@import "~src/theme/override";
+:host {
+  display: block;
+}
+.map {
+  margin: 0;
+  padding: 15px;
+  background-color: @gray-1;
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+  .canvas {
+    position: absolute;
+  }
+  &__spin {
+    z-index: 10;
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    &-wrapper {
+      z-index: 10;
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      background-color: rgba(255, 255, 255, 0.75);
+    }
+  }
+  &__img {
+    user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+    &._grab {
+      cursor: grab;
+    }
+    &._grabbing {
+      cursor: grabbing!important;
+    }
+    &-wrapper {
+      position: relative;
+    }
+    img {
+      height: 100%;
+      display: block;
+    }
+  }
+}

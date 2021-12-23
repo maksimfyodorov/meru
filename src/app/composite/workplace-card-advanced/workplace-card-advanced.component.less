@@ -1,0 +1,135 @@
+@import 'override';
+
+.workspace-card {
+  // margin-left: 50px;
+  background: #fff;
+}
+
+.ant-card-bordered {
+  border-width: 0px !important;
+}
+
+.buttons {
+  border-top: 1px solid @gray-4;
+  display: flex;
+
+  justify-content: flex-end;
+  padding: 10px;
+  margin-bottom: 20px;
+  & > button {
+    margin-right: 8px;
+  }
+}
+
+.card {
+  &__title {
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 1.6;
+    margin: 0 0 20px;
+  }
+  &__row {
+    display: flex;
+    justify-content: space-between;
+  }
+  &__calendar {
+    cursor: pointer;
+    width: 20px;
+  }
+  &__description-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 16px;
+
+    &.card__form--enabled {
+      align-items: center;
+    }
+  }
+  &__description-title {
+    font-weight: 500;
+    max-width: 50%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    flex: 1 0 auto;
+  }
+  &__description-value {
+    color: rgba(0, 0, 0, 0.65);
+    font-weight: 400;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    text-align: end;
+    flex: 0 1 auto;
+
+    ::ng-deep & {
+      .ant-form-item {
+        margin-bottom: 0;
+      }
+
+      input {
+        width: 100%;
+      }
+    }
+  }
+}
+
+.close-icon {
+  color: @gray-1;
+  cursor: pointer;
+  font-size: 20px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 9999;
+}
+
+@media screen and (max-width: 1350px) {
+  .workspace-card {
+    margin-left: 40px;
+    margin-right: -10px;
+    border: 1px solid @gray-6;
+  }
+  .close-icon {
+    right: 10px;
+  }
+}
+
+@media (max-width: 767px) {
+  ::ng-deep {
+    .ant-card-body {
+      padding: 0 15px 0 15px;
+    }
+  }
+  .card {
+    &__description-list {
+      overflow-y: auto;
+    }
+    &__title {
+      font-weight: 700;
+      font-size: 16px;
+      line-height: 1.6;
+      margin: 0 0 10px;
+    }
+  }
+
+  .workspace-card {
+    margin-left: 0;
+    margin-right: 0;
+    border: 0;
+    min-height: 100% !important;
+  }
+
+  .buttons {
+    display: flex;
+    flex-direction: column;
+    button {
+      height: 45px;
+      width: 100%;
+      border: none;
+      line-height: 25px;
+      align-items: center;
+      text-align: center;
+      color: #ffffff;
+      margin-bottom: 2px;
+    }
+  }
+}

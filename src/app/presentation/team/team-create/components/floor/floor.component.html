@@ -1,0 +1,141 @@
+<section class="workspace" (mousemove)="preventClose()">
+  <div class="workspace-wrapper">
+    <ng-container>
+      <div>
+        <div class="workspace__top-controls">
+          <a class="workspace__top-controls-link" nz-button nzType="link" (click)="goBuildingSelect()">{{ 'Reservations.Back to building selection' | translate }}</a>
+          <app-dropdown-select
+            class="workspace__top-controls-dropdown-select"
+            [values]="select.values"
+            [value]="select.value"
+            (valueChange)="setCurrentFloor($event.value)"
+          ></app-dropdown-select>
+        </div>
+        <app-map
+          class="workspace__map"
+          [img]="image"
+          [marks]="marks"
+          [size]="imageSize"
+          [height]="mapHeight"
+          [centeredMarkId]="centeredItemId"
+          [loading]="loading$ | async"
+          [areas]="areas"
+          [areasVisible]="areasVisible"
+          [hiddenMarksTypes]="hiddenMarksTypes"
+          [useAdvCard]="true"
+          [selectedMarkId]="currentWorkplace?.id"
+          (hiddenMarksChange)="onHiddenMarksChange($event)"
+          (areaVisibilityChange)="onAreaVisibilityChange($event)"
+          (mousedown)="onCloseAdvcard(300)"
+        >
+        </app-map>
+      </div>
+    </ng-container>
+
+    <div class="workspace__actions" [hidden]="showAdvancedCard">
+      <div class="workspace__button">
+        <button nz-button nzType="primary" (click)="reservationTeamPlaces()">{{ 'Reserve Now' | translate }}</button>
+      </div>
+      <app-book-list
+        appScroll
+        [items]="bookingItems"
+        [activeIndex]="activeMarkIndex"
+        [emptyText]="'No available users' | translate "
+        [autoMode]="autoModeFilter$ | async"
+        (activeItemId)="centerPlace($event)"
+      >
+      </app-book-list>
+    </div>
+    <div
+      [hidden]="showAdvancedCard"
+      app-create-filters
+      [type]="'workplace'"
+      (valuesChange)="changeFilters($event)"
+      class="app-list__filters workspace__actions workspace__filters"
+    ></div>
+  </div>
+</section>
+<div [hidden]="!showAdvancedCard" class="advcard">
+  <app-workplace-card-advanced
+    *ngIf="currentWorkplace$ | async as place"
+    [disabled]="place.disabled"
+    [readOnly]="place.isEwsReadOnly"
+    [showPermanentAssignment]="true"
+    [type]="currentType"
+    [hideQuickActionsBtns]="true"
+    [workplaceId]="place.id"
+    [reservation]="place.reservation"
+    (close)="onCloseAdvcard()"
+    (reservation)="handleReservation()"
+  ></app-workplace-card-advanced>
+</div>
+
+<ng-template #modalTitleTpl>
+  <span class="modal-title"> <i nz-icon nzType="check-circle"></i>{{ 'Booking confirmation' | translate }} </span>
+</ng-template>
+
+<ng-template #modalContentTpl>
+  <div class="modal-content">
+    <span class="modal-content__name">{{ 'Building' | translate }}: </span>
+    <span>{{ currentReservation.buildName }}</span>
+  </div>
+  <div class="modal-content">
+    <span class="modal-content__name">{{ 'Offices.Floor' | translate }}: </span>
+    <span>{{ currentReservation.floorNumber }}</span>
+  </div>
+  <div class="modal-content" *ngIf="filterDates$ | async as dates">
+    <span class="modal-content__name">{{ 'Date' | translate }}: </span>
+    <span>{{ 'From' | translate }} {{ dates.dateTimeFrom }} {{ 'To' | translate }} {{ dates.dateTimeTo }}</span>
+  </div>
+  <div class="modal-content" *ngIf="repeatFilter$ | async as repeat">
+    <span class="modal-content__name">{{ 'Repeat' | translate }}: </span>
+    <span>{{ 'Every' | translate }} {{ repeat.weekNum }} {{ 'week' | translate }} {{ getDays(repeat.days) }}</span>
+  </div>
+  <div class="modal-content" *ngIf="repeatFilter$ | async as repeat">
+    <span class="modal-content__name">{{ 'Completing reps' | translate }}: </span>
+    <span>{{ repeat.end }}</span>
+  </div>
+  <div class="modal-content">
+    <div *ngFor="let place of currentReservation.places">
+      <span class="modal-content__name"> {{ 'Place' | translate }}: </span>
+      <span>{{ place.place }}</span>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #reservationModalTpl>
+  <div [style.max-height.px]="400" appScroll>
+    <div *ngIf="reservations.success.length" class="mb-25">
+      <div>
+        <span class="modal-title"> <i nz-icon nzType="check-circle"></i>{{ 'Booked successfully' | translate }} </span>
+      </div>
+      <div class="modal-content" *ngFor="let item of reservations.success">
+        <span class="modal-content__name"
+          >{{ item.label }}, {{ item.place }}, {{ item.dates[0] | date: shortDateTimeFormat }} - {{ item.dates[1] | date: shortDateTimeFormat }}:
+        </span>
+        <span>{{ item.message }}</span>
+      </div>
+    </div>
+    <div *ngIf="reservations.errors.length">
+      <div>
+        <span class="modal-title"> <i nz-icon nzType="close-circle" class="error"></i>{{ 'Failed to book' | translate }} </span>
+      </div>
+      <div class="modal-content" *ngFor="let err of reservations.errors">
+        <span class="modal-content__name">{{ err.label }}, {{ err.place }}, {{ err.dates[0] | date: shortDateTimeFormat }} - {{ err.dates[1] | date: shortDateTimeFormat }}: </span>
+        <span>{{ err.message }}</span>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #popupTpl>
+  <app-workplace-card
+    *ngIf="currentWorkplace$ | async as place"
+    [showPermanentAssignment]="true"
+    [disabled]="place?.disabled"
+    [workplaceId]="place?.id"
+    [hideReserveBtn]="true"
+    (reservation)="handleReservation()"
+  >
+  </app-workplace-card>
+</ng-template>

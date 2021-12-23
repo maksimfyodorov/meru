@@ -1,0 +1,19 @@
+<nz-modal
+  [nzCloseOnNavigation]="true"
+  [nzMaskClosable]="true"
+  [nzClosable]="true"
+  [nzZIndex]="10"
+  [(nzVisible)]="nzVisible"
+  (nzOnCancel)="onHandleCancel()"
+  (nzOnOk)="onHandleOk()"
+  [nzStyle]="{ top: '5px' }"
+>
+  <ng-container *nzModalContent>
+    <div class="modal-h100" [style.maxHeight]="contentHeight">
+      <ng-container *ngTemplateOutlet="contentTpl"></ng-container>
+    </div>
+  </ng-container>
+  <div *nzModalFooter #footer>
+    <ng-container *ngTemplateOutlet="footerTpl"></ng-container>
+  </div>
+</nz-modal>

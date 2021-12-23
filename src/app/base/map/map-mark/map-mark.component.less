@@ -1,0 +1,140 @@
+@import "~src/theme/override";
+
+.map-mark {
+  position: absolute;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+
+  &__room {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+
+    & > img {
+      height: 64px;
+      opacity: 0.5;
+      width: 64px;
+    }
+  }
+
+  &__assignment {
+    position: absolute;
+    background-color: @red-5;
+    border-radius: 50%;
+  }
+
+  &__pulse {
+    position: absolute;
+    height: 10px;
+    width: 10px;
+    background-color: @red-5;
+    border-radius: 50%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -100%);
+    animation: pulse 1.5s infinite;
+    z-index: 100;
+  }
+
+  &__user {
+    &._green .map-mark__user-mark {
+      color: @green-5;
+    }
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -100%);
+    width: 10px;
+    height: 10px;
+    display: block;
+    position: relative;
+
+    &-avatar {
+      transform: translate(0%, -40%) scale(0.8);
+      position: absolute;
+      display: block;
+      border-radius: 50%;
+      width: 100%;
+    }
+
+    &-mark {
+      display: block;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 20px;
+      color: @blue-5;
+      position: absolute;
+    }
+  }
+
+  &__popover {
+    &,
+    ::ng-deep .ps,
+    ::ng-deep .ps-content {
+      max-height: 33vh;
+      max-width: 33vw;
+    }
+  }
+  &__pulse {
+    &,
+    ::ng-deep .ps,
+    ::ng-deep .ps-content {
+      max-height: 330vh;
+      max-width: 330vw;
+    }
+  }
+
+  &._default {
+    background-color: transparent;
+  }
+
+  &._success {
+    color: @gray-1;
+    background-color: @green-6;
+  }
+
+  &._info {
+    color: @gray-1;
+    background-color: @blue-5;
+  }
+
+  &._danger {
+    color: @gray-1;
+    background-color: @red-5;
+  }
+
+  &._warning {
+    color: @gray-1;
+    background-color: @gold-6;
+  }
+
+  &__img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+  }
+}
+
+::ng-deep ._collapse-padding .ant-popover-inner-content {
+  padding: 0;
+}
+
+.icon-and-img-tpl {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 40px rgba(255, 0, 0, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 0, 0, 0);
+  }
+}

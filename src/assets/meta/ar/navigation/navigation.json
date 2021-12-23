@@ -1,0 +1,118 @@
+[
+  {
+    "id": "1",
+    "title": "الصفحة الرئيسية",
+    "mobileTitle": "الصفحة الرئيسية",
+    "icon": "icons:speedometer",
+    "url": "/",
+    "showOnlyOnMobile": false,
+    "showInMobileMenu": false
+  },
+  {
+    "id": "2",
+    "title": "المكاتب",
+    "mobileTitle": "المكاتب",
+    "icon": "icons:office-building",
+    "url": "/office",
+    "roles": [],
+    "showOnlyOnMobile": false,
+    "showInMobileMenu": true
+  },
+  {
+    "id": "3",
+    "title": "الحجوزات",
+    "mobileTitle": "الحجوزات",
+    "subMenuTitle": "حجوزاتي ",
+    "icon": "icons:contacts",
+    "url": "/reservations",
+    "showOnlyOnMobile": false,
+    "showInMobileMenu": true,
+    "shortTitle": "Bookings",
+    "children": [
+      {
+        "id": "3-1",
+        "title": "مكان العمل",
+        "mobileTitle": "مكان العمل",
+        "url": "/reservations/workplace"
+      },
+      {
+        "id": "3-2",
+        "title": "غرفة الاجتماعات",
+        "mobileTitle": "غرفة الاجتماعات",
+        "url": "/reservations/appointment"
+      },
+      {
+        "id": "3-3",
+        "title": "خزانة",
+        "mobileTitle": "خزانة",
+        "url": "/reservations/locker"
+      },
+      {
+        "id": "3-4",
+        "title": "موقف سيارات",
+        "mobileTitle": "موقف سيارات",
+        "url": "/reservations/parking"
+      }
+    ]
+  },
+  {
+    "id": "4",
+    "title": "الخدامات المكتبية",
+    "mobileTitle": "الخدمات المكتبية",
+    "icon": "icons:printer",
+    "url": "/services",
+    "showOnlyOnMobile": false,
+    "showInMobileMenu": true,
+    "shortTitle": "الخدمات"
+  },
+  {
+    "id": "5",
+    "title": "المستخدمون",
+    "mobileTitle": "المستخدمون",
+    "icon": "icons:agenda",
+    "url": "/users",
+    "showOnlyOnMobile": false,
+    "showInMobileMenu": false
+  },
+  {
+    "id": "6",
+    "title": "فريقي",
+    "mobileTitle": "فريقي",
+    "subMenuTitle": "فريقي",
+    "icon": "icons:teamwork",
+    "url": "/team",
+    "showOnlyOnMobile": false,
+    "showInMobileMenu": true,
+    "shortTitle": "الفريق",
+    "children": [
+      {
+        "id": "6-1",
+        "title": "الحجوزات",
+        "mobileTitle": "الحجوزات",
+        "url": "/team/reservations/"
+      },
+      {
+        "id": "6-2",
+        "title": "الملفات الشخصية",
+        "mobileTitle": "الملفات الشخصية",
+        "url": "/team/profiles"
+      },
+      {
+        "id": "6-3",
+        "title": "الطلبات",
+        "mobileTitle": "الطلبات",
+        "url": "/team/requests"
+      }
+    ]
+  },
+  {
+    "id": "7",
+    "title": "رمز الاستجابة السريعة",
+    "mobileTitle": "رمز الاستجابة السريعة",
+    "icon": "icons:qr",
+    "url": "/qrscan",
+    "showOnlyOnMobile": true,
+    "showInMobileMenu": false,
+    "openModal": true
+  }
+]

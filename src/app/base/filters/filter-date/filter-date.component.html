@@ -1,0 +1,40 @@
+<nz-date-picker
+  [nzPlaceHolder]="'From' | dictionary | translate"
+  [nzShowTime]="timePickerOptions"
+  [nzFormat]="format"
+  [nzDisabledDate]="
+    (!staticDisabled && disableDateFrom) || (staticDisabled && disabledDate)
+  "
+  [nzDisabledTime]="
+    (!staticDisabled && disableTimeFrom) || (staticDisabled && disabledDateTime)
+  "
+  [ngModel]="value[0]"
+  (ngModelChange)="updateDateFrom($event)"
+>
+</nz-date-picker>
+
+<nz-date-picker
+  [nzPlaceHolder]="'To' | dictionary | translate"
+  [nzShowTime]="timePickerOptions"
+  [nzFormat]="format"
+  [nzDisabled]="allDay"
+  [nzDisabledDate]="
+    (!staticDisabled && disableDateTo) || (staticDisabled && disabledDate)
+  "
+  [nzDisabledTime]="
+    (!staticDisabled && disableTimeTo) || (staticDisabled && disabledDateTime)
+  "
+  [(ngModel)]="value[1]"
+  (ngModelChange)="updateDateTo($event); updateRangeFrom()"
+>
+</nz-date-picker>
+
+<label
+  *ngIf="allowAllDay"
+  nz-checkbox
+  [ngModel]="false"
+  [disabled]="disableAllDay"
+  (ngModelChange)="toggleAllDay($event)"
+>
+  {{ "AllDay" | dictionary | translate }}
+</label>

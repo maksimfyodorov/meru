@@ -1,0 +1,160 @@
+@import '~src/theme/override';
+.workspace {
+  background-color: @gray-1;
+  &-wrapper {
+    width: 100%;
+    display: flex;
+    & > div:first-child {
+      flex-basis: calc(100% - 290px);
+    }
+  }
+  &__center {
+    width: 100%;
+  }
+  &__map {
+    width: 100%;
+    height: 600px;
+  }
+  &__actions {
+    max-height: 100%;
+    flex-basis: 340px;
+    background-color: @gray-1;
+    border-left: 1px solid @gray-4;
+    ::ng-deep nz-spin {
+      height: 100%;
+    }
+  }
+  &__top-controls {
+    position: relative;
+    padding: 32px 23px 8px;
+  }
+  &__top-controls-link {
+    padding: 0;
+  }
+  &__top-controls-dropdown-select {
+    position: absolute;
+    top: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+@media screen and (max-width: 1350px) {
+  .workspace-wrapper {
+    flex-direction: column;
+  }
+}
+
+.left,
+.right {
+  flex: 1;
+}
+
+.active {
+  background-color: @blue-5;
+  color: @gray-1;
+}
+
+.modal {
+  &-title {
+    display: flex;
+    & i {
+      font-size: 22px;
+      color: @green-6;
+      margin-right: 10px;
+    }
+  }
+  &-content {
+    &__name {
+      opacity: 0.65;
+    }
+    & + & {
+      margin-top: 10px;
+    }
+  }
+}
+
+.free {
+  color: @green-6;
+}
+.busy {
+  color: @red-6;
+}
+
+.list_of_offices {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .workspace {
+    &-wrapper {
+      & > div:first-child {
+        flex-basis: 100%;
+      }
+    }
+  }
+
+  .workspace__actions {
+    display: none !important;
+  }
+  .create-map-space {
+    padding-top: 125px !important;
+  }
+  ::ng-deep {
+    .offices {
+      padding-top: 130px;
+      padding-bottom: 40px;
+      .ant-tabs-nav {
+        display: none;
+      }
+    }
+    .office-card__header {
+      padding: 5px 18px !important;
+    }
+  }
+  .list_of_offices {
+    background-color: #ffffff;
+    padding: 15px 24px;
+    position: fixed;
+    top: 64px;
+    left: 0px;
+    width: 100%;
+    z-index: 9;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
+    display: block;
+    h2 {
+      font-size: 18px;
+      line-height: 28px;
+      color: rgba(0, 0, 0, 0.85);
+      margin: 0px 0px 20px 0px;
+      font-weight: 500;
+    }
+    .list-of-offices-wrap {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      img {
+        margin-left: auto;
+        filter: invert(46%) sepia(48%) saturate(3725%) hue-rotate(190deg) brightness(101%) contrast(101%);
+      }
+      a {
+        margin-left: 8px;
+        font-size: 14px;
+        color: #1890ff;
+      }
+      span {
+        color: #888888;
+      }
+    }
+    .office-address-wrap {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      font-size: 0.9em;
+      span {
+        color: #888888;
+      }
+    }
+  }
+}

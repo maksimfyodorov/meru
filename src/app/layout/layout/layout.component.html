@@ -1,0 +1,45 @@
+<nz-layout class="layout">
+  <nz-header class="layout__header" #headerEl>
+    <app-header></app-header>
+  </nz-header>
+  <nz-layout>
+    <nz-sider
+      class="layout__aside"
+      [nzWidth]="nzSider.nzWidth"
+      [nzTheme]="nzSider.nzTheme"
+      [nzCollapsible]="nzSider.nzCollapsible"
+    >
+      <app-navigation
+        class="layout__aside-menu"
+        [items]="navigationItems"
+      ></app-navigation>
+      <div class="layout__aside-actions">
+        <i nz-icon
+           [nzType]="($navigation.collapse | async) ? 'menu-unfold' : 'menu-fold'"
+           (click)="collapsed()"
+           [nz-tooltip]="($navigation.collapse | async) ? 'Развернуть' : 'Свернуть'"
+           class="toggle-btn"
+        ></i>
+      </div>
+    </nz-sider>
+    <nz-content class="layout__content p-0">
+      <div>
+        <div #pageTitleEl>
+          <app-breadcrumb *ngIf="breadcrumbs?.length"
+                          [items]="breadcrumbs"
+                          [back]="showBackBtn"
+                          class="layout__breadcrumb">
+          </app-breadcrumb>
+          <app-title [extra]="extraTpl"></app-title>
+        </div>
+        <section class="section-content" appScroll [style.height]="contentHeight" [ngClass]="{ 'd-none': $loader.contentLoading$ | async }">
+          <router-outlet></router-outlet>
+        </section>
+      </div>
+      <div class="layout__content-loader" *ngIf="$loader.contentLoading$ | async">
+        <nz-spin nzSimple nzTip="Загрузка..."></nz-spin>
+      </div>
+    </nz-content>
+  </nz-layout>
+</nz-layout>
+<app-navigation-mobile [items]="navigationItems"></app-navigation-mobile>

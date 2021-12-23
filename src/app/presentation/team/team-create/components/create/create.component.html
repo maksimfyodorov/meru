@@ -1,0 +1,47 @@
+<section class="workspace create-map-space">
+  <div class="workspace-wrapper" [style.height.px]="mapHeight">
+    <div class="workspace__center">
+      <app-open-street-map
+        *ngIf="buildingList?.length"
+        class="workspace__map"
+        [height]="mapHeight"
+        [style.height.px]="mapHeight"
+        [options]="osmOptions"
+        [marks]="osmMarks"
+        (markClicked)="handleMarkClicked($event)"
+      >
+      </app-open-street-map>
+    </div>
+
+    <div appScroll class="workspace__actions">
+      <app-book-list [items]="buildingList" [activeIndex]="activeMarkIndex"> </app-book-list>
+    </div>
+  </div>
+</section>
+
+<ng-template #bookListContentTpl let-workplaces="workplaces" let-rooms="rooms">
+  <div>
+    {{ 'Offices.Workplaces' | translate }}: <span class="free">{{ workplaces.free }}</span> |
+    <span class="busy">{{ workplaces.busy }}</span> | {{ workplaces.freePercents }}%
+  </div>
+</ng-template>
+
+<div class="list_of_offices">
+  <h2>{{ 'Offices.OfficeList' | dictionary | translate }}</h2>
+  <div class="list-of-offices-wrap">
+    <span> {{ 'Offices.OfficeName' | dictionary | translate }} </span>
+    <a nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu">
+      {{ currentBuilding?.name }}
+      <i nz-icon nzType="down"></i>
+    </a>
+    <nz-dropdown-menu #menu="nzDropdownMenu">
+      <ul nz-menu *ngFor="let tab of buildingList">
+        <li nz-menu-item (click)="tabChange(tab)">{{ tab.name }}</li>
+      </ul>
+    </nz-dropdown-menu>
+    <img src="assets/images/location-mobile.svg" alt="text" class="mobile-location" height="20px" width="20px" (click)="linkFloor()" />
+  </div>
+  <div class="office-address-wrap">
+    <span>{{ currentBuilding?.address }}</span>
+  </div>
+</div>

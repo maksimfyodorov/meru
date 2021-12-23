@@ -1,0 +1,173 @@
+<div class="reservations">
+  <app-result
+    *ngIf="error as error; else reservationsListTpl"
+    [@fadeInOut]
+    [status]="'error'"
+    [title]="error?.title | translate"
+    [subtitle]="error?.subtitle | translate"
+    [message]="error?.message | translate"
+    class="reservations__error"
+  >
+    <button nz-button [nzGhost]="true" [nzType]="'primary'" [nzSize]="'large'" (click)="reset()">
+      {{ 'ReloadReservations' | dictionary | translate }}
+    </button>
+  </app-result>
+</div>
+<ng-template #reservationsListTpl>
+  <div class="reservations__body" [ngSwitch]="type" [ngClass]="{ _expanded: !filtersVisible, _ready: ready }">
+    <div
+      *ngSwitchCase="'appointment'"
+      app-calendar
+      [loading]="loading"
+      [events]="data"
+      [modes]="['month', 'day', 'week']"
+      [mode]="'month'"
+      [allowSelectDayEvent]="true"
+      (periodChange)="changePeriod($event)"
+      (eventSelect)="selectRow($event.data)"
+    ></div>
+
+    <div
+      *ngSwitchDefault
+      app-list
+      [columns]="meta?.columns"
+      [paging]="queryParams?.paging"
+      [sort]="queryParams?.sort"
+      [rows]="data"
+      [total]="data?.length"
+      [loading]="loading"
+      [multiSelectRows]="true"
+      (rowSelect)="selectRow($event)"
+      (rowsSelect)="selectRows($event)"
+      (pagingChange)="changePaging($event)"
+      (sortChange)="changeSort($event)"
+      (actionCall)="callAction($event)"
+      class="reservations__list"
+    ></div>
+  </div>
+
+  <div class="reservations__left" [ngClass]="{ _collapsed: !filtersVisible, _ready: ready }">
+    <div
+      app-reservations-filters
+      [loading]="!ready"
+      [type]="type"
+      [values]="queryParams?.filters"
+      (valuesChange)="changeFilters($event)"
+      class="reservations__filters"
+    ></div>
+  </div>
+</ng-template>
+
+<app-extra-title-tpl>
+  <app-toolbar
+    #contentTpl
+    [actions]="meta?.actions || []"
+    [data]="{ items: selectedRows }"
+    [skeletonButtonsCount]="type === 'appointment' ? 1 : 5"
+    (actionCall)="callMassAction($event)"
+  >
+    <button
+      *ngIf="hasExport"
+      nz-button
+      nz-dropdown
+      [nzDropdownMenu]="menu"
+      [nzType]="'primary'"
+      [nz-tooltip]="'Export' | dictionary | translate"
+    >
+      <i nz-icon [nzType]="'download'"></i>
+      <nz-dropdown-menu #menu="nzDropdownMenu">
+        <ul nz-menu nzSelectable>
+          <li nz-menu-item (click)="exportxls()"><i nz-icon nzType="file-excel" nzTheme="outline"></i>XLS</li>
+        </ul>
+      </nz-dropdown-menu>
+    </button>
+
+    <button *ngIf="showFiltersVisibleButton" nz-button [nzType]="'primary'" (click)="toggleFiltersVisible()">
+      <i nz-icon [nzType]="filtersVisible ? 'eye-invisible' : 'eye'"> </i>
+      {{ 'Filters' | dictionary | translate }}
+    </button>
+  </app-toolbar>
+</app-extra-title-tpl>
+
+<nz-modal
+  [nzVisible]="!!massActionResults.length"
+  [nzTitle]="'ResultOfAction' | dictionary | translate"
+  [nzOkText]="null"
+  [nzCancelText]="'Close' | dictionary | translate"
+  [nzMaskClosable]="true"
+  [nzClassName]="'mass-action-results'"
+  (nzOnCancel)="massActionResults = []"
+>
+  <perfect-scrollbar [config]="{ suppressScrollX: true }" class="mass-action-results__list">
+    <p *ngFor="let result of massActionResults" nz-typography class="mass-action-results__item">
+      <i
+        nz-icon
+        [nzType]="result.isOk ? 'check-circle' : 'close-circle'"
+        [class._success]="result.isOk"
+        [class._fail]="!result.isOk"
+        class="mass-action-results__icon"
+      ></i>
+      {{ result.message }}
+    </p>
+  </perfect-scrollbar>
+</nz-modal>
+
+<div class="filter-header">
+  <ng-container [ngSwitch]="type">
+    <span *ngSwitchCase="'workplace'">{{ 'List of workplace reservations' | translate }}</span>
+    <span *ngSwitchCase="'appointment'">{{ 'List of room reservations' | translate }}</span>
+    <span *ngSwitchCase="'parking'">{{ 'List of parking reservations' | translate }}</span>
+  </ng-container>
+
+  <button nz-button [nzType]="'primary'" (click)="showModal()">
+    <span>{{ 'Filter' | translate }}</span>
+  </button>
+  <img src="assets/images/filter-i.png" alt="text" />
+
+  <app-mobile-dialog-contentscroll
+    [nzVisible]="isVisible"
+    [contentTpl]="filterContentTpl"
+    [footerTpl]="filterFooterTpl"
+    (handleCancel)="handleCancel()"
+    (handleOk)="handleOk()"
+  ></app-mobile-dialog-contentscroll>
+
+  <ng-template #filterContentTpl>
+    <div
+      app-reservations-filters
+      [loading]="!ready"
+      [type]="type"
+      [values]="queryParams?.filters"
+      (valuesChange)="changeFilters($event)"
+      class="reservations__filters"
+    ></div>
+  </ng-template>
+  <ng-template #filterFooterTpl>
+    <button nz-button nzType="primary" (click)="handleOk()" [nzLoading]="isConfirmLoading">{{ 'Apply' | translate }}</button>
+  </ng-template>
+</div>
+
+<div class="reservatio-employee-main">
+  <ng-container *ngIf="loading; else ready">
+    <nz-spin class="loading-spinner" nzSimple></nz-spin>
+  </ng-container>
+  <ng-template #ready>
+    <ng-container *ngFor="let bookingData of data">
+      <app-mobile-reservation-card
+        [type]="type"
+        [status]="bookingData.status || bookingData.data.appointmentStatus"
+        [dateTimeFrom]="bookingData.dateTimeFrom || bookingData.start"
+        [dateTimeTo]="bookingData.dateTimeTo || bookingData.end"
+        [descriptionList]="bookingData.descriptionList"
+      ></app-mobile-reservation-card>
+    </ng-container>
+  </ng-template>
+</div>
+
+<div class="reservatio-employee-main">
+  <div class="mobile-bottom-button">
+    <button nztype="primary" class="ant-btn-primary" (click)="onQuickCreateLink()">
+      {{ 'Create' | translate }}
+    </button>
+  </div>
+</div>

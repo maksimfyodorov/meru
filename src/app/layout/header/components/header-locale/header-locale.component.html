@@ -1,0 +1,31 @@
+<a nz-dropdown
+   [nzDropdownMenu]="langMenu"
+   [nzTrigger]="'click'"
+   href="javascript:void(0)"
+   class="profile"
+>
+  <i nz-icon
+     [nzType]="'icons:' + currentLang"
+     [nz-tooltip]="currentLang | dictionary"
+     [nzTooltipMouseEnterDelay]=".5"
+     class="header-locale__icon"
+  >
+  </i>
+</a>
+
+<nz-dropdown-menu #langMenu="nzDropdownMenu">
+  <ul nz-menu>
+    <li *ngFor="let langOption of langsOptions"
+        nz-menu-item
+
+        (click)="changeLang(langOption.value)"
+    >
+      <i nz-icon
+         [nzType]="'icons:'+langOption.label"
+         class="header-locale__icon"
+      >
+      </i>
+      {{langOption.label  | dictionary}}
+    </li>
+  </ul>
+</nz-dropdown-menu>

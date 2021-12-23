@@ -1,0 +1,10 @@
+<span class="map-controls">
+  <i *ngFor="let control of controls"
+     nz-icon
+     [nzType]="control.icon"
+     nzTheme="outline"
+     [ngClass]="{ _active: control.active }"
+     [nz-tooltip]="control.tooltip | translate"
+     nzTooltipPlacement="right"
+     (mousedown)="toggleControl(control, $event)"></i>
+</span>

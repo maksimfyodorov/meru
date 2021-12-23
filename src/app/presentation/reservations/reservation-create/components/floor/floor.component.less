@@ -1,0 +1,143 @@
+@import "~src/theme/override";
+.advcard {
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  max-height: 100%;
+  width: 500px;
+}
+
+.workspace {
+  background-color: @gray-1;
+  height: 100%;
+  &-wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    & > div:first-child {
+      max-width: calc(100% - 520px);
+      flex-basis: calc(100% - 290px);
+    }
+  }
+  &__map {
+    width: 100%;
+  }
+  &__actions {
+    max-height: 100%;
+    flex-basis: 290px;
+    background-color: @gray-1;
+    border-left: 1px solid @gray-4;
+  }
+  &__filters {
+    flex-basis: 350px;
+  }
+  &__top-controls {
+    position: relative;
+    padding: 32px 23px 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    &-item {
+      font-size: 21px;
+      cursor: pointer;
+      color: @gray-6;
+      &._active {
+        color: @blue-6;
+      }
+    }
+  }
+  &__top-controls-link {
+    padding: 0;
+  }
+  &__top-controls-dropdown-select {
+    position: absolute;
+    top: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+@media screen and (max-width: 1350px) {
+  .workspace-wrapper {
+    flex-direction: column;
+  }
+  .advcard {
+    position: absolute;
+    right: 25px;
+    max-height: 100vh;
+    min-height: 100vh;
+    width: 100%;
+    z-index: 999;
+  }
+  
+  .workspace {
+    &-wrapper {
+      & > div:first-child {
+        max-width: 100%;
+        flex-basis: 100%;
+      }
+    }
+  }
+}
+
+.left,
+.right {
+  flex: 1;
+}
+
+.active {
+  background-color: @blue-5;
+  color: @gray-1;
+}
+
+.mark-popover {
+  width: 416px;
+  box-sizing: border-box;
+  padding: 20px;
+  &__icon {
+    color: #52c41a;
+    float: left;
+    margin-right: 16px;
+    font-size: 22px;
+  }
+  &__title {
+    display: block;
+    overflow: hidden;
+    color: rgba(0, 0, 0, 0.85);
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 1.4;
+  }
+  &__content {
+    color: rgba(0, 0, 0, 0.85);
+    font-size: 14px;
+    margin-top: 8px;
+    margin-left: 38px;
+  }
+  &__buttons {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 30px;
+  }
+}
+
+.modal {
+  &-title {
+    display: flex;
+    & i {
+      font-size: 22px;
+      color: @green-6;
+      margin-right: 10px;
+      &.error {
+        color: @red-6;
+      }
+    }
+  }
+  &-content {
+    &__name {
+      opacity: 0.65;
+    }
+    & + & {
+      margin-top: 10px;
+    }
+  }
+}

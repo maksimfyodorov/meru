@@ -1,0 +1,159 @@
+@import '~src/theme/override';
+.advcard {
+  position: absolute;
+  top: 25px;
+  right: 24px;
+  bottom: 67px;
+  max-height: 100%;
+  width: 500px;
+  z-index: 999;
+  background: #fff;
+}
+.offices-map {
+  &__filter {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+
+    &-date {
+      padding-right: 30px;
+    }
+    &-time {
+      padding-left: 30px;
+      flex: 1 1 auto;
+    }
+  }
+  &__bottom-controls {
+    padding: 18px 20px;
+    ::ng-deep {
+      .ant-slider.ant-slider-with-marks {
+        margin-bottom: 8px;
+      }
+    }
+  }
+  &__mode {
+    margin-left: auto;
+    &-label {
+      cursor: pointer;
+      display: inline-block;
+      padding-right: 15px;
+    }
+
+    &-switcher {
+      text-align: right;
+    }
+  }
+
+  &__action {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    &-dropdown-select {
+      position: absolute;
+      top: 27px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    &-filter {
+      display: none;
+      padding: 0;
+
+      &-caption {
+        color: @gray-7;
+      }
+    }
+  }
+
+  &__search-img {
+    width: 22px;
+    height: 22px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-right: 4px;
+  }
+  &__top-controls {
+    position: relative;
+    padding: 24px 32px;
+    background-color: @gray-1;
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 767px) {
+  ::ng-deep .ant-popover {
+    display: none;
+  }
+
+  .advcard {
+    top: 0px;
+    left: 0px;
+    max-height: 100% !important;
+    min-height: 100% !important;
+    width: calc(100% - 1px);
+    z-index: 1000;
+    background: #fff;
+  }
+  .offices-map {
+    &__filter {
+      margin-top: 20px;
+    }
+    &__bottom-controls {
+      display: none;
+    }
+
+    &__top-controls {
+      padding: 15px 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 15px;
+    }
+
+    &__mode {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      order: 1;
+      margin-left: 0;
+
+      &-label {
+        font-style: normal;
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 28px;
+      }
+    }
+
+    &__action {
+      order: 2;
+
+      &-dropdown-select {
+        position: relative;
+        top: 0;
+        left: 0;
+        transform: none;
+      }
+
+      &-filter {
+        display: block;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1350px) {
+  .advcard {
+    position: absolute;
+    right: 25px;
+    max-height: 100vh;
+    min-height: 100vh;
+    width: 100%;
+  }
+}

@@ -1,0 +1,86 @@
+.skeleton {
+  background: #fff;
+  height: 100%;
+  margin: 0 auto;
+  padding: 16px;
+  width: 100%;
+
+  &__background {
+    background: linear-gradient(90deg, #f2f2f2 25%, #e6e6e6 37%, #f2f2f2 63%);
+    background-size: 400% 100%;
+    -webkit-animation: 1.4s infinite ant-skeleton-loading;
+    animation: 1.4s infinite ant-skeleton-loading;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+  }
+}
+
+.generate-rows(24);
+
+.skeleton-table {
+  &__mask {
+    background: #fff;
+    position: absolute;
+
+    &._row {
+      height: 5px;
+      width: 100%;
+    }
+
+    &._row-1 {
+      top: 43px;
+      height: 10px;
+    }
+
+    &._col {
+      height: calc(100% - 0px);
+      margin-left: -2.5px;
+      top: 0;
+      width: 5px;
+    }
+
+    &._col-1 {
+      left: 10%;
+    }
+
+    &._col-2 {
+      left: 30%;
+    }
+
+    &._col-3 {
+      left: 50%;
+    }
+
+    &._col-4 {
+      left: 70%;
+    }
+
+    &._col-5 {
+      left: 90%;
+    }
+  }
+}
+
+.skeleton-form {
+  &__header {
+    margin-bottom: 14px;
+    width: 100%;
+  }
+
+  &__item {
+    margin-bottom: 24px;
+
+    ::ng-deep nz-skeleton-element {
+      width: 100%;
+    }
+  }
+}
+
+.generate-rows(@n, @i: 1) when (@i =< @n) {
+  .skeleton-table__mask._row._row-@{i} {
+    top: (@i * 48px);
+  }
+  .generate-rows(@n, (@i + 1));
+}
+

@@ -1,0 +1,72 @@
+<div nz-row
+     [nzGutter]="12"
+     class="app-reservations-filters__header"
+>
+  <div nz-col [nzXs]="8"
+       [nzLg]="0"
+       class="app-reservations-filters__header-action"
+  >
+    <button nz-button
+            [nzType]="'link'"
+    >
+      {{'Close' | dictionary | translate}}
+    </button>
+  </div>
+
+  <h3 nz-col
+      [nzXs]="8"
+      [nzLg]="12"
+      class="app-reservations-filters__header-title"
+  >
+    {{'Filters' | dictionary | translate}}
+  </h3>
+
+  <div nz-col
+       [nzXs]="8"
+       [nzLg]="12"
+       class="app-reservations-filters__header-action _right"
+  >
+    <button nz-button
+            [nzType]="'link'"
+            (click)="clear()"
+    >
+      {{'Clear' | dictionary | translate}}
+    </button>
+  </div>
+</div>
+
+<nz-spin [nzSpinning]="loading"
+         class="app-reservations-filters__form-wrapper"
+>
+  <form nz-form
+        [nzLayout]="'vertical'"
+        [formGroup]="formGroup"
+        [ngSwitch]="type"
+        class="app-reservations-filters__form"
+  >
+    <perfect-scrollbar [config]="{suppressScrollX: true}"
+                       class="app-reservations-filters__form-scroll"
+    >
+      <div *ngSwitchCase="'appointment'"
+           app-list-filter-appointment
+           [formGroup]="formGroup"
+      >
+      </div>
+
+      <div *ngSwitchCase="'parking'"
+           app-list-filter-common
+           [formGroup]="formGroup"
+           [filterFloorsBy]="'parkingLots'"
+      >
+      </div>
+
+      <div *ngSwitchDefault
+           app-list-filter-common
+           [formGroup]="formGroup"
+           [filterFloorsBy]="'workplaces'"
+      >
+      </div>
+    </perfect-scrollbar>
+  </form>
+</nz-spin>
+

@@ -1,0 +1,44 @@
+<div class="reservation">
+  <div class="reservation__status">
+    <h3 class="title">{{'Reservation status' | translate }}</h3>
+    <nz-steps [nzCurrent]="1" nzProgressDot nzDirection="vertical">
+      <nz-step nzTitle="{{'Created' | translate}}" nzDescription="{{reservation?.dateTimeCreated | date: dateTimeFormat}}"></nz-step>
+      <nz-step nzTitle="{{'Approved' | translate}}" nzDescription="{{reservation?.dateTimeApproved | date: dateTimeFormat}}"></nz-step>
+      <nz-step nzTitle="{{'Confirmed' | translate}}" nzDescription="{{reservation?.dateTimeConfirmed | date: dateTimeFormat}}"></nz-step>
+      <nz-step nzTitle="{{'Canceled' | translate}}" nzDescription="{{reservation?.dateTimeCanceled | date: dateTimeFormat}}"></nz-step>
+      <nz-step nzTitle="{{'Closed' | translate}}" nzDescription="{{reservation?.dateTimeClosed | date: dateTimeFormat}}"></nz-step>
+    </nz-steps>
+  </div>
+
+  <div class="reservation__comment">
+    <h3 class="title">
+      <span>{{ 'Comment' | translate }}</span>
+    </h3>
+    <div class="user" nz-row>
+      <div class="left" [nzXs]="{span:2}" [nzSm]="{span:4}" [nzLg]="{span:1}" nz-col>
+        <div class="user-image">
+          <img src="../../../../assets/images/avatar.png" alt="User Image"/>
+        </div>
+      </div>
+      <div nz-col class="right" [nzXs]="{span:20, offset:2}" [nzSm]="{span:19, offset:1}" [nzLg]="{span:22, offset:1}">
+        <div class="user__details">
+          <h4 class="user__name">Han Solo <span>几秒前</span></h4>
+          <p>We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.</p>
+        </div>
+        <div class="user__actions">
+          <a href="#" class="like">
+            <img src="../../../../assets/images/thumb-up.svg" alt=""/>
+            <span class="count">0</span>
+          </a>
+          <a href="#" class="dislike">
+            <img src="../../../../assets/images/thumb-down.svg" alt=""/>
+            <span class="count">0</span>
+          </a>
+          <a href="#">
+            {{ 'Reply to' | translate}}
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

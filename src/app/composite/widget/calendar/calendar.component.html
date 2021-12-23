@@ -1,0 +1,11 @@
+<nz-calendar [nzMode]="'month'">
+  <ng-container *nzDateCell="let cellDate">
+    <ul class="cell-list" *ngIf="isCell(cellDate) && complexData.length > 0">
+      <li class="cell-item" *ngFor="let cell of cellItems(cellDate)">
+        <a [routerLink]="['/', 'reservations', 'workplace', 'view', cell.reservationId]" class="link-reset">
+          <p><span>{{ cell.time }}</span> {{ cell.text }}</p>
+        </a>
+      </li>
+    </ul>
+  </ng-container>
+</nz-calendar>

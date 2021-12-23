@@ -1,0 +1,162 @@
+<div #searchRef
+     class="search"
+     [nz-popover]
+     [nzPopoverTrigger]="null"
+     [nzPopoverContent]="searchResultTpl"
+     [nzPopoverPlacement]="'bottomLeft'"
+     [nzPopoverOverlayClassName]="'header-search-results'"
+>
+  <input #inputRef
+         *ngIf="isActiveSearch"
+         nz-input
+         [placeholder]="'StartWritingWhatYouWantFind' | translate"
+         (blur)="blur()"
+         (click)="focus()"
+         class="search__control animate__animated animate__fadeInLeft"
+  >
+  <i nz-icon
+     [nzType]="'search'"
+     [nzTheme]="'outline'"
+     [nz-tooltip]="'Search' | dictionary | translate"
+     (click)="toggleSearch()"
+     class="search__icon"
+  ></i>
+</div>
+
+<ng-template #searchResultTpl>
+  <div class="header-search-results">
+    <ng-container *ngIf="(results$ | async) as results; else noSearchQueryResultsTpl">
+      <ng-container *ngIf="results.length; else emptysearchResultTpl">
+        <perfect-scrollbar class="header-search-results__scroll">
+          <nz-list *ngFor="let resultGroup of results">
+            <nz-list-header>
+              <ng-container
+                *ngTemplateOutlet="searchResultHeaderTpl; context: {$implicit: resultGroup.title, type: resultGroup.type}"
+              >
+              </ng-container>
+            </nz-list-header>
+
+            <ng-container *ngFor="let item of resultGroup.items | slice : 0: 3">
+              <ng-container *ngTemplateOutlet="searchResultItemTpl; context: item"></ng-container>
+            </ng-container>
+          </nz-list>
+        </perfect-scrollbar>
+
+        <nz-divider></nz-divider>
+        <div class="text-center">
+          <a [routerLink]="['search']"
+             [queryParams]="{query: inputRef.nativeElement.value}"
+          >
+            {{'ViewAllResults' | translate}}
+          </a>
+        </div>
+      </ng-container>
+    </ng-container>
+  </div>
+</ng-template>
+
+<ng-template #searchResultItemTpl
+             let-type
+             let-title="title"
+             let-data="data"
+             let-img="img"
+>
+  <nz-list-item class="header-search-results__item"
+                (click)="openItem(type, data)"
+  >
+    <nz-list-item-meta>
+      <nz-list-item-meta-avatar [nzSrc]="img | imageBlob | async"></nz-list-item-meta-avatar>
+      <nz-list-item-meta-title>
+        <span [innerHTML]="title | highlight : query"></span>
+      </nz-list-item-meta-title>
+
+      <nz-list-item-meta-description [ngSwitch]="type">
+        <ng-container *ngSwitchCase="'user'">
+          <ng-container
+            *ngTemplateOutlet="searchResultItemDescriptionUserTpl; context: {$implicit: data}"></ng-container>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="'customObject'">
+          <ng-container
+            *ngTemplateOutlet="searchResultItemReserveItemTpl; context: {$implicit: data}"></ng-container>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="'room'">
+          <ng-container
+            *ngTemplateOutlet="searchResultItemReserveItemTpl; context: {$implicit: data}"></ng-container>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="'workplace'">
+          <ng-container
+            *ngTemplateOutlet="searchResultItemReserveItemTpl; context: {$implicit: data}"></ng-container>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="'parkingLot'">
+          <ng-container
+            *ngTemplateOutlet="searchResultItemReserveItemTpl; context: {$implicit: data}"></ng-container>
+        </ng-container>
+      </nz-list-item-meta-description>
+    </nz-list-item-meta>
+  </nz-list-item>
+</ng-template>
+
+<ng-template #searchResultHeaderTpl
+             let-title
+             let-type="type"
+>
+  <div class="header-search-results__title">
+    <span nz-typography nzType="link">
+      <a [routerLink]="['search', type]"
+         [queryParams]="{query: inputRef.nativeElement.value}"
+      >
+        {{title | translate}}
+      </a>
+    </span>
+  </div>
+</ng-template>
+
+<ng-template #noSearchQueryResultsTpl>
+  <nz-empty [nzNotFoundContent]="'PleaseEnterQueryForSearch' | translate"
+            [nzNotFoundImage]="noSearchQueryResultsIconTpl"
+  ></nz-empty>
+</ng-template>
+
+<ng-template #noSearchQueryResultsIconTpl>
+  <i nz-icon nzType="search" nzTheme="outline"></i>
+</ng-template>
+
+<ng-template #emptysearchResultTpl>
+  <nz-empty [nzNotFoundContent]="'EmptySearchResults' | translate"
+            [nzNotFoundImage]="emptyResultsIconTpl"
+  ></nz-empty>
+</ng-template>
+
+<ng-template #emptyResultsIconTpl>
+  <i nz-icon nzType="frown" nzTheme="outline"></i>
+</ng-template>
+
+<ng-template #searchResultItemDescriptionUserTpl
+             let-data
+>
+   <span *ngIf="data.post">
+     {{'Post'| translate}}: <span [innerHTML]="data.post | highlight : query"></span>
+   </span>
+  <span *ngIf="data.post && (data.phones || data.mail)">, </span>
+  <span *ngIf="data.phones">
+    {{'Phones' | translate}}: <span [innerHTML]="data.phones | highlight : query"></span>
+  </span>
+  <span *ngIf="data.phones && data.mail">, </span>
+  <span *ngIf="data.mail">
+    {{'Email' | translate}}: <span [innerHTML]="data.mail | highlight : query"></span>
+  </span>
+</ng-template>
+
+<ng-template #searchResultItemReserveItemTpl
+             let-data
+>
+  {{'Building' | translate}}: {{data.building}}, {{'Floor' | translate}}: {{data.floor}}
+  <div *ngIf="data.description"
+       [innerHTML]="data.description | highlight : query"
+  >
+  </div>
+</ng-template>

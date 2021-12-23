@@ -1,0 +1,21 @@
+<nz-result
+  [nzTitle]="title | translate"
+  [nzStatus]="status | translate"
+  [nzSubTitle]="resultSubtitle | translate"
+>
+  <div *ngIf="withSubtitleAndMessage"
+       nz-result-content
+  >
+    <div class="desc">
+      <h4 *ngIf="subtitle" nz-title>{{ subtitle  | translate }}:</h4>
+      <p *ngIf="message"
+         nz-paragraph
+      >
+        {{ message | translate }}
+      </p>
+    </div>
+  </div>
+  <div nz-result-extra>
+    <ng-content></ng-content>
+  </div>
+</nz-result>

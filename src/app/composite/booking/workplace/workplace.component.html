@@ -1,0 +1,17 @@
+<section class="workspace">
+  <ng-template #t1>
+    <nz-range-picker class="mr-24" [nzShowTime]="false" [nzPlaceHolder]="['Start' | translate, 'End' | translate]"></nz-range-picker>
+    <label class="mr-24" nz-checkbox>{{ 'Available' | translate }}</label>
+    <label class="mr-24" nz-checkbox>{{ 'View all' | translate }}</label>
+  </ng-template>
+  <ng-template #t2>
+    <nz-date-picker></nz-date-picker>
+  </ng-template>
+  <app-simple-filter class="mb-24" [tpl]="t1" [collapseTpl]="t2"></app-simple-filter>
+  <div class="workspace-wrapper">
+    <app-map class="workspace__map"></app-map>
+    <div appScroll class="workspace__actions">
+      <app-book-list [items]="items"></app-book-list>
+    </div>
+  </div>
+</section>

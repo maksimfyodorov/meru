@@ -1,0 +1,114 @@
+{
+  "sort": {
+    "serverSide": false,
+    "by": null,
+    "direction": null
+  },
+  "paging": {
+    "pageIndex": 1,
+    "pageSize": 10,
+    "pageSizeOptions": [
+      10,
+      50,
+      100
+    ],
+    "serverSide": false
+  },
+  "columns": [
+    {
+      "id": "dateTimeFrom",
+      "type": "datetime",
+      "title": "Начало",
+      "sortable": true,
+      "renderer": {
+        "type": "datetime",
+        "options": {
+          "format": "dd.MM.yyyy HH:mm:ss"
+        }
+      }
+    },
+    {
+      "id": "dateTimeTo",
+      "type": "datetime",
+      "title": "Окончание",
+      "sortable": true,
+      "renderer": {
+        "type": "datetime",
+        "options": {
+          "format": "dd.MM.yyyy HH:mm:ss"
+        }
+      }
+    },
+    {
+      "id": "building",
+      "type": "string",
+      "title": "Здание",
+      "sortable": true
+    },
+    {
+      "id": "floorMapId",
+      "type": "number",
+      "title": "Этаж",
+      "sortable": true
+    },
+    {
+      "id": "workplaceId",
+      "type": "string",
+      "title": "Место",
+      "sortable": true,
+      "renderer": {
+        "type": "link",
+        "options": {
+          "route": "/office/:building/:floor/:workplaceId"
+        }
+      }
+    },
+    {
+      "id": "status",
+      "type": "number",
+      "title": "Статус",
+      "sortable": true,
+      "renderer": {
+        "type": "status",
+        "options": {
+          "value": {
+            "NEW": "Новая",
+            "CONFIRMED": "Подтверждена",
+            "CANCELED": "Отменена"
+          },
+          "type": {
+            "CONFIRMED": "success",
+            "CANCELED": "danger"
+          }
+        }
+      }
+    },
+    {
+      "id": "actions",
+      "type": "any",
+      "title": "Действия",
+      "sortable": false,
+      "renderer": {
+        "type": "actions",
+        "options": {
+          "actions": [
+            {
+              "label": "Просмотр",
+              "params": {
+                "route": ":id",
+                "relativeRoute": true
+              }
+            },
+            {
+              "label": "Клик",
+              "params": {
+                "url": "./assets/meta/ru/reservations/list/workplace1.json",
+                "method": "get"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

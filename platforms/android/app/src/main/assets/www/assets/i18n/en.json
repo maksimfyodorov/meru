@@ -1,0 +1,55 @@
+{
+  "Buildings": "Buildings",
+  "Buildings/Floors": "Buildings/floors",
+  "Buildings/Rooms": "Buildings/rooms",
+  "Reload reservations": "Reload reservations",
+  "Error loading reservations list": "Error loading reservations list",
+  "Error loading reservations list metadata": "Error loading reservations list metadata",
+  "Login": "Login",
+  "Phones": "Phones",
+  "Post": "Post",
+  "Offices": {
+    "Negotiations": "Negotiations",
+    "Workplaces": "Workplaces",
+    "Cabinets": "Cabinets",
+    "Parkinglots": "Parking lots",
+    "Free": "Free",
+    "Busy": "Busy",
+    "Floor": "Floor",
+    "Workload": "Workload",
+    "Available": "Available "
+  },
+  "Please waiting login": "Please waiting login",
+  "System login": "System login",
+  "Dropdown select": {
+    "Floor": "Floor"
+  },
+  "Reservations": {
+    "Back to building selection": "Back to building selection",
+    "successReservation": "The workplace has been successfully booked"
+  },
+  "Days": {
+    "0": "Sun",
+    "1": "Mon",
+    "2": "Tue",
+    "3": "Wed",
+    "4": "Thu",
+    "5": "Fri",
+    "6": "Sat"
+  },
+  "UserCard": {
+    "User is not found": "User is not found"
+  },
+  "WrongCredentials": "Incorrect login or password",
+  "OfficesMap": {
+    "Error": "Error",
+    "Floor not found": "Floor not found"
+  },
+  "EmptySearchResults": "Sorry, but nothing was found for your request. Please try to search for something else...",
+  "HowCanWeHelpYou": "How can we help you",
+  "PleaseEnterQueryForSearch": "Please enter a query to search for people, jobs, POI objects or meeting rooms",
+  "StartWritingWhatYouWantFind": "Start writing what you want to find",
+  "ViewAll": "View all",
+  "ViewAllResults": "View all results",
+  "ParkingLots": "Parking lots"
+}

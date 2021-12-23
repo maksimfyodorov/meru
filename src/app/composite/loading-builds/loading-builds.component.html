@@ -1,0 +1,11 @@
+<button nz-button nzType="primary" (click)="fetchBuild()">{{ 'Upload building floors' | translate }}</button>
+<div class="img">
+  <img *ngIf="linkImg" [src]="linkImg" [alt]="'img'">
+</div>
+
+<ul>
+  <li *ngFor="let floor of build">
+    <h4>{{ floor.name }}</h4>
+    <button nz-button nzType="dashed" (click)="fetchImg(floor?.mapImageUrl)">Fetch IMG data</button>
+  </li>
+</ul>

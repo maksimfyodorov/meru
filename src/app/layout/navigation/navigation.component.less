@@ -1,0 +1,16 @@
+@import "../../../theme/override";
+.navigation {
+  &__item {}
+  &__sub-item {}
+}
+::ng-deep {
+  .ant-layout-sider-trigger {
+    border-top: 1px solid @gray-4;
+  }
+  .ant-menu-inline, .ant-menu-vertical, .ant-menu-vertical-left {
+    border-right: 0;
+  }
+  .ant-menu-inline-collapsed {
+    border-right: 1px solid @gray-4;
+  }
+}

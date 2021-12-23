@@ -1,0 +1,10 @@
+<section class="dropdown-select">
+  <span>{{ label | translate }}: </span>
+  <a nz-dropdown [nzDropdownMenu]="menu" nzTrigger="click"> {{ value.label | translate }} <i nz-icon nzType="down"></i></a>
+  <nz-dropdown-menu #menu="nzDropdownMenu">
+    <ul nz-menu>
+      <li nz-menu-item *ngFor="let v of values" (click)="onClick(v)" [ngClass]="{ _active: value.value === v.value }">{{ v.label }}</li>
+    </ul>
+  </nz-dropdown-menu>
+</section>
+

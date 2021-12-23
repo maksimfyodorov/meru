@@ -1,0 +1,137 @@
+<ng-container *ngIf="mode === 'list'; else mapView">
+  <ng-container *ngTemplateOutlet="loading ? loadingTpl : mainTpl"></ng-container>
+</ng-container>
+<ng-template #mapView>
+  <section class="maps">
+    <div class="maps-wrapper" [style.height.px]="mapHeight">
+      <div class="maps__center">
+        <app-open-street-map
+          class="maps__map"
+          [height]="mapHeight"
+          [style.height.px]="mapHeight"
+          [options]="osmOptions"
+          [marks]="osmMarks"
+          (markClicked)="handleMarkClicked($event)"
+        >
+        </app-open-street-map>
+      </div>
+    </div>
+  </section>
+</ng-template>
+
+<ng-template #mainTpl>
+  <section class="offices">
+    <nz-tabset
+      [nzTabBarExtraContent]="actionTemplate"
+      class="offices__tabs"
+      [ngClass]="{ dragable: isDragable }"
+      cdkDropList
+      cdkDropListOrientation="horizontal"
+      (cdkDropListDropped)="dropOffice($event)"
+      [cdkDropListDisabled]="!isDragable"
+      [nzSelectedIndex]="selectedIndex"
+    >
+      <nz-tab [nzTitle]="titleTemplate" *ngFor="let tab of tabs">
+        <ng-template #titleTemplate class="offices__tabs__header">
+          <div cdkDrag>
+            {{ tab.name }}
+          </div>
+        </ng-template>
+        <div class="offices__tabs__items">
+          <ng-container *ngTemplateOutlet="isDragable ? dragableCards : cards"></ng-container>
+          <ng-template #dragableCards>
+            <a
+              *ngFor="let card of tab.items"
+              [routerLink]="[card.floorId]"
+              class="link-reset dragable"
+              ngSortgridItem
+              autoScroll="true"
+              [scrollPointTop]="100"
+              [ngSortGridGroup]="'tab-' + tab.buildId"
+              [ngSortGridItems]="tab.items"
+              (sorted)="dropFloors($event, tab)"
+            >
+              <app-office-card [title]="card.title" [floor]="card.floor" [places]="card.places"></app-office-card>
+            </a>
+          </ng-template>
+
+          <ng-template #cards>
+            <a *ngFor="let card of tab.items" [routerLink]="[card.floorId]" class="link-reset">
+              <app-office-card [title]="card.title" [floor]="card.floor" [places]="card.places"></app-office-card>
+            </a>
+          </ng-template>
+        </div>
+      </nz-tab>
+    </nz-tabset>
+    <ng-template #actionTemplate>
+      <button *ngIf="!isDragable && !(loadingChanges | async)" nz-button nzType="link" (click)="enableDragAndDrop()">
+        {{ 'Change order' | translate }}
+      </button>
+      <nz-space *ngIf="isDragable || (loadingChanges | async)">
+        <button *nzSpaceItem nz-button nzType="primary" [nzLoading]="loadingChanges | async" (click)="applyOrders()">
+          {{ 'Apply order' | translate }}
+        </button>
+        <button *nzSpaceItem nz-button nzType="default" [nzLoading]="loadingChanges | async" (click)="cancelChanges()">
+          {{ 'Cancel' | translate }}
+        </button>
+      </nz-space>
+    </ng-template>
+  </section>
+</ng-template>
+
+<ng-template #mainFilter>
+  <app-simple-filter [tpl]="filterHeader" class="mb-24"></app-simple-filter>
+</ng-template>
+<ng-template #filterHeader>
+  <nz-range-picker
+    [(ngModel)]="filter.date.value"
+    (ngModelChange)="dateRangeHandler($event)"
+    [nzShowTime]="filter.date.time"
+    [nzFormat]="filter.date.format"
+    class="mr-24"
+  ></nz-range-picker>
+  <nz-checkbox-group [(ngModel)]="filter.checkboxGroup" (ngModelChange)="allDayHandler($event)"></nz-checkbox-group>
+</ng-template>
+
+<ng-template #loadingTpl>
+  <section class="skeleton">
+    <nz-row [nzGutter]="24">
+      <nz-col [nzXs]="24" [nzMd]="8" *ngFor="let skeleton of amountSkeleton(12)">
+        <nz-skeleton [nzActive]="true"></nz-skeleton>
+      </nz-col>
+    </nz-row>
+  </section>
+</ng-template>
+
+<div class="list_of_offices">
+  <h2>{{ 'List of offices' | translate }}</h2>
+  <div class="list-of-offices-wrap">
+    <span>{{ 'Office' | translate }}</span>
+    <a nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu">
+      {{ tabs[selectedIndex]?.name }}
+      <i nz-icon nzType="down"></i>
+    </a>
+    <nz-dropdown-menu #menu="nzDropdownMenu">
+      <ul nz-menu *ngFor="let tab of tabs; let tabIndex = index">
+        <li nz-menu-item (click)="setTab(tabIndex)">{{ tab.name }}</li>
+      </ul>
+    </nz-dropdown-menu>
+    <ng-container *ngIf="mode === 'list'; else mapViewC">
+      <div class="icon-type">
+        <img
+          src="assets/images/location-mobile.svg"
+          alt="text"
+          class="mobile-location"
+          height="20px"
+          width="20px"
+          (click)="setMode('map')"
+        />
+      </div>
+    </ng-container>
+    <ng-template #mapViewC>
+      <div class="icon-type">
+        <i class="mobile-location" nz-icon nzType="unordered-list" nzTheme="outline" (click)="setMode('list')"></i>
+      </div>
+    </ng-template>
+  </div>
+</div>

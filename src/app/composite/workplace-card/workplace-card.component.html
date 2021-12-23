@@ -1,0 +1,36 @@
+<section class="workspace-card">
+  <app-card
+    *ngIf="card$ | async as card"
+    [title]="card.title | translate"
+    [image]="card.image"
+    [width]="card.width"
+    [descriptionList]="card.descriptionList"
+    [tags]="card.tags"
+    [calendarLink]="type === 'appointment' ? calendarLink : null"
+  ></app-card>
+  <ng-container *ngIf="nornikAplana && readOnly; else notAplanaReadOnly">
+    <div class="buttons">
+      <a nz-button nzType="primary" [href]="aplanaUrl" target="_blank"
+        >{{ 'External booking system' | translate }}</a
+      >
+    </div>
+  </ng-container>
+  <ng-template #notAplanaReadOnly>
+    <ng-container *ngIf="hideReserveBtn; else withBtn">
+      <div [style.min-width]="'135px'" [style.height]="'1px'"></div>
+    </ng-container>
+    <ng-template #withBtn>
+      <div *ngIf="!hideReserveBtn" class="buttons">
+        <button
+          nz-button
+          nzType="primary"
+          [disabled]="disabled"
+          (click)="reservationPlace()"
+        >
+          {{ 'Reserve' | translate }}
+        </button>
+      </div>
+    </ng-template>
+  </ng-template>
+  <i nz-icon nzType="close" class="close-icon" (click)="close()"></i>
+</section>

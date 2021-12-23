@@ -1,0 +1,31 @@
+<div class="members">
+  <nz-tag *ngFor="let member of members"
+          class="tag"
+          nzMode="closeable"
+          (nzOnClose)="onClose(member)">
+    {{ member }}
+  </nz-tag>
+  <nz-tag class="editable-tag tag"
+          nzNoAnimation
+          nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu">
+    <i nz-icon nzType="plus"></i>
+    {{ 'Employees name' | translate }}
+  </nz-tag>
+</div>
+
+<nz-dropdown-menu #menu>
+  <ul nz-menu>
+    <li nz-menu-item *ngFor="let member of newMembers" (click)="addMember(member)">
+      <i nz-icon nzType="user-add"></i>
+      {{ member }}
+    </li>
+    <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton" class="email-input">
+      <input type="email" nz-input placeholder="{{ 'Employees email' | translate }}" />
+    </nz-input-group>
+    <ng-template #suffixIconButton>
+      <button class="email-input__btn" nz-button nzType="primary" nzSearch>
+        <i nz-icon nzType="right"></i></button>
+    </ng-template>
+  </ul>
+</nz-dropdown-menu>
+

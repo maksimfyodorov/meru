@@ -1,0 +1,21 @@
+:host {
+  display: flex;
+
+  &._horizontal {
+    flex-direction: row;
+    margin: 0 -8px;
+
+    ::ng-deep .ant-picker{
+      margin: 0 8px;
+    }
+  }
+
+  &._vertical {
+    flex-direction: column;
+
+    ::ng-deep .ant-picker{
+      margin-bottom: 22px;
+      width: 100%;
+    }
+  }
+}

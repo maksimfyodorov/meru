@@ -1,0 +1,139 @@
+<div class="wrapper mobile-wrapper-reservation">
+  <ul nz-menu nzMode="inline">
+    <li
+      nz-menu-item
+      class="item"
+      [nzSelected]="selectedType === 'workplace'"
+      (click)="chooseActive(workplacereservetion, 'workplace')"
+      *ngIf="workplacereservetion"
+    >
+      <div>
+        <span>{{ workplacereservetion.workplace.name }}</span>
+      </div>
+      <div>
+        <span>{{ workplacereservetion.reservation.dateTimeFrom | date: dateFormat }}</span>
+      </div>
+      <div>
+        <span>{{ workplacereservetion.reservation.dateTimeFrom | date: timeFormat }}</span>
+      </div>
+      <div>
+        <span (click)="openReservation(workplacereservetion.reservation.id, 'workplace')">{{ 'View' | translate }}</span>
+      </div>
+    </li>
+    <li
+      nz-menu-item
+      class="item"
+      [nzSelected]="selectedType === 'appointment'"
+      (click)="chooseActive(roomAppointment, 'appointment')"
+      *ngIf="roomAppointment"
+    >
+      <div>
+        <span>{{ roomAppointment.room.name }}</span>
+      </div>
+      <div>
+        <span>{{ roomAppointment.reservation.appointmentDateFrom | date: dateFormat }}</span>
+      </div>
+      <div>
+        <span>{{ roomAppointment.reservation.appointmentDateFrom | date: timeFormat }}</span>
+      </div>
+      <div>
+        <span (click)="openReservation(roomAppointment.reservation.appointmentId, 'appointment')">{{ 'View' | translate }}</span>
+      </div>
+    </li>
+    <li
+      nz-menu-item
+      class="item"
+      [nzSelected]="selectedType === 'parking'"
+      (click)="chooseActive(parkinglot, 'parking')"
+      *ngIf="parkinglot"
+    >
+      <div>
+        <span>{{ parkinglot.parkingLot.name }}</span>
+      </div>
+      <div>
+        <span>{{ parkinglot.reservation.dateTimeFrom | date: dateFormat }}</span>
+      </div>
+      <div>
+        <span>{{ parkinglot.reservation.dateTimeFrom | date: timeFormat }}</span>
+      </div>
+      <div>
+        <span (click)="openReservation(parkinglot.reservation.id, 'parking')">{{ 'View' | translate }}</span>
+      </div>
+    </li>
+  </ul>
+
+  <div class="wrapper__info" *ngIf="current">
+    <nz-descriptions [nzColumn]="1">
+      <nz-descriptions-item [nzTitle]="'Status' | dictionary | translate">
+        <app-status-renderer
+          type="status"
+          [options]="statuses"
+          [value]="current.reservation.status || current.reservation.appointmentAttendeeStatus"
+        ></app-status-renderer>
+      </nz-descriptions-item>
+      <nz-descriptions-item [nzTitle]="'Start' | dictionary | translate">
+        {{ current.reservation.dateTimeFrom || current.reservation.appointmentDateFrom | date: dateTimeFormat }}
+      </nz-descriptions-item>
+      <nz-descriptions-item [nzTitle]="'End' | dictionary | translate">
+        {{ current.reservation.dateTimeTo || current.reservation.appointmentDateTo | date: dateTimeFormat }}
+      </nz-descriptions-item>
+    </nz-descriptions>
+    <div>
+      <nz-tag class="mb-10" *ngFor="let tag of tags | async">{{ tag }}</nz-tag>
+    </div>
+  </div>
+</div>
+
+<div class="reservatio-employee-main">
+  <ng-container *ngIf="currentUser$ | async as currentUser">
+    <div class="avtar">
+      <div class="avtar_image">
+        <nz-avatar nzIcon="user" [nzSrc]="currentUser.avatarUrl | imageBlob | async" class="profile__avatar"></nz-avatar>
+      </div>
+      <div class="avtar_content">
+        <h4>{{ currentUser.name }}</h4>
+      </div>
+    </div>
+  </ng-container>
+  <nz-table *ngIf="reservationAmount$ | async as amount" #basicTable class="avtar-table">
+    <tr *ngIf="isManager" class="divider-static">
+      <td>{{ 'Approval requests' | translate }}</td>
+      <td>{{ amount.forApprove }}</td>
+    </tr>
+    <tr class="divider-static">
+      <td>{{ 'Awaiting confirmation' | translate }}</td>
+      <td>{{ amount.forConfirm }}</td>
+    </tr>
+  </nz-table>
+
+  <ng-container *ngIf="workplacereservetion">
+    <app-mobile-reservation-card
+      [type]="'workplace'"
+      [status]="workplacereservetion.reservation.status"
+      [dateTimeFrom]="workplacereservetion.reservation.dateTimeFrom"
+      [dateTimeTo]="workplacereservetion.reservation.dateTimeTo"
+      [descriptionList]="workplacereservetion.descriptionList"
+      (click)="openReservation(workplacereservetion.reservation.id, 'workplace')"
+    ></app-mobile-reservation-card>
+  </ng-container>
+  <ng-container *ngIf="roomAppointment">
+    <app-mobile-reservation-card
+      [type]="'appointment'"
+      [status]="roomAppointment.reservation.appointmentAttendeeStatus"
+      [dateTimeFrom]="roomAppointment.reservation.appointmentDateFrom"
+      [dateTimeTo]="roomAppointment.reservation.appointmentDateTo"
+      [descriptionList]="roomAppointment.descriptionList"
+      (click)="openReservation(roomAppointment.reservation.appointmentId, 'appointment')"
+    ></app-mobile-reservation-card>
+  </ng-container>
+  <ng-container *ngIf="parkinglot">
+    <app-mobile-reservation-card
+      [type]="'parking'"
+      [status]="parkinglot.reservation.status"
+      [dateTimeFrom]="parkinglot.reservation.dateTimeFrom"
+      [dateTimeTo]="parkinglot.reservation.dateTimeTo"
+      [descriptionList]="parkinglot.descriptionList"
+      (click)="openReservation(parkinglot.reservation.id, 'parking')"
+    ></app-mobile-reservation-card>
+  </ng-container>
+</div>

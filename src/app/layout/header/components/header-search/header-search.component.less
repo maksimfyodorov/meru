@@ -1,0 +1,69 @@
+@import "colors";
+
+:host {
+  display: inline-block;
+}
+.search {
+  align-items: center;
+  display: flex;
+  justify-content: flex-end;
+
+  &__control {
+    margin-right: 12px;
+    animation-duration: .5s;
+  }
+
+  &__icon {
+    cursor: pointer;
+  }
+}
+
+.header-search {
+  &-results {
+    &__title {
+      align-items: center;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    &__item {
+      cursor: pointer;
+      padding: 0;
+      transition: background .25s;
+
+      :hover {
+        background: @blue-1;
+      }
+
+      ::ng-deep .ant-list-item-meta {
+        padding: 12px;
+      }
+    }
+
+    &__scroll {
+      margin-right: -12px;
+      max-height: 330px;
+      max-width: calc(100% + 12px);
+      padding-right: 12px;
+      position: relative;
+      width: calc(100% + 12px);
+
+      ::ng-deep & .ps,
+      ::ng-deep & .ps-content {
+        max-height: 330px;
+      }
+    }
+
+    ::ng-deep .ant-empty-image {
+      align-items: center;
+      color: #aaaaaa;
+      display: flex;
+      font-size: 48px;
+      justify-content: center;
+    }
+
+    ::ng-deep nz-divider {
+      margin: 8px 0 12px;
+    }
+  }
+}

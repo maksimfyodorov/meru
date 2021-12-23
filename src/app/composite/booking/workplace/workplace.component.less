@@ -1,0 +1,21 @@
+@import '~src/theme/override';
+.workspace {
+  &-wrapper {
+    width: 100%;
+    display: flex;
+  }
+  &__map {
+    flex-basis: calc(100% - 290px);
+  }
+  &__actions {
+    flex-basis: 290px;
+    background-color: @gray-1;
+    border-left: 1px solid @gray-4;
+    height: 400px;
+  }
+}
+@media screen and (max-width: 1350px)  {
+  .workspace-wrapper {
+    flex-direction: column;
+  }
+}

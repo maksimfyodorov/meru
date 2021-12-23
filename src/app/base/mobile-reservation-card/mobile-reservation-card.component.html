@@ -1,0 +1,27 @@
+<div class="reservatio-employee">
+  <nz-card [nzBordered]="false" [nzTitle]="title | translate" [nzExtra]="extraTemplate">
+    <nz-divider></nz-divider>
+    <div class="card-row" *ngFor="let item of descriptionList">
+      <div class="card-row__key">
+        <span class="gray-color">{{ item.name | translate }}</span>
+      </div>
+      <div class="card-row__value">{{ item.value }}</div>
+    </div>
+    <nz-divider></nz-divider>
+    <div class="card-row">
+      <div class="card-row__key">
+        <ng-container *ngIf="dateTimeFrom">
+          <span class="start-color">{{ 'Start' | translate }}</span> <br />{{ dateTimeFrom | date: dateTimeFormat }}</ng-container
+        >
+      </div>
+      <div class="card-row__value">
+        <ng-container *ngIf="dateTimeTo">
+          <span class="end-color">{{ 'End' | translate }}</span> <br />{{ dateTimeTo | date: dateTimeFormat }}</ng-container
+        >
+      </div>
+    </div>
+  </nz-card>
+</div>
+<ng-template #extraTemplate>
+  <app-status-renderer *ngIf="statuses" type="status" [options]="statuses" [value]="status"></app-status-renderer>
+</ng-template>

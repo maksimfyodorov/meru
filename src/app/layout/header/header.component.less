@@ -1,0 +1,43 @@
+:host {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.header {
+  &__loading {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__logo {
+    img {
+      display: block;
+      width: 83px;
+    }
+  }
+
+  &__tools {
+    align-items: center;
+    display: flex;
+    justify-content: flex-end;
+    margin-left: auto;
+    width: 100%;
+
+    ::ng-deep i {
+      font-size: 15px;
+      cursor: pointer;
+    }
+
+    > * {
+      margin: 0 15px;
+    }
+
+    ::ng-deep app-header-search {
+      max-width: 600px;
+      width: 100%;
+    }
+  }
+}

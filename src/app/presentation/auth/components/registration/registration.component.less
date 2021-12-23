@@ -1,0 +1,51 @@
+@import "~src/theme/override";
+
+.text-center {
+  text-align: center;
+}
+.input-content {
+  width: 100%;
+}
+.main-button {
+  margin: 28px 0 10px 0;
+}
+.error-text {
+  color: @red-6;
+}
+
+
+
+@media(max-width: 767px){
+    .link-redirect {
+      text-align: center;
+      a {
+        font-size: 14px;
+        line-height: 23px;
+        color: #1890FF;
+      }
+    }
+  
+    .check-ur-mail {
+      .ant-card{ 
+        background-color: #F6FFED; border: none;  max-width: 265px;     margin: 0 auto; padding: 16px; border: 1px solid #B7EB8F;
+        margin-bottom: 40px;
+      }
+      ::ng-deep{
+        .ant-card-head{
+          border: none; padding: 0px 0px 6px 0px; min-height: auto;
+          .ant-card-head-title {
+            padding: 0px;
+          }
+        }
+        .ant-card-body{ 
+          padding: 0px ;
+          p{ 
+            margin-bottom: 0px;
+          }
+        }
+      }
+    }
+  
+  }
+  
+  

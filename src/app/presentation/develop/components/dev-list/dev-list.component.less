@@ -1,0 +1,25 @@
+@log-height: 256px;
+
+:host {
+  display: block;
+  height: 100%;
+  padding: 24px;
+}
+
+.app-devlist {
+
+  &__content {
+    height: calc(100% - @log-height);
+  }
+  &__table {
+    height: calc(100% - 54px);
+  }
+
+  &__debug {
+    color: #eee;
+    background-color: #222;
+    height: calc(@log-height);
+    margin-top: 20px;
+    padding: 16px;
+  }
+}

@@ -1,0 +1,25 @@
+<div class="toolbar__left">
+  <ng-container *ngIf="actions.length; else skeletonTpl">
+    <ng-container *ngFor="let action of actions">
+      <app-action *appCondition="let result for action.condition data data"
+                  [properties]="action"
+                  [disabled]="result && action.condition?.type === 'disable'"
+                  (actionCall)="emitActionCall($event)"
+      >
+      </app-action>
+    </ng-container>
+  </ng-container>
+</div>
+
+<div class="toolbar__right">
+  <ng-content></ng-content>
+</div>
+
+<ng-template #skeletonTpl>
+  <nz-skeleton-element *ngFor="let item of skeletonButtons"
+                       nzType="button"
+                       [nzActive]="true"
+                       class="toolbar__skeleton-item"
+  >
+  </nz-skeleton-element>
+</ng-template>

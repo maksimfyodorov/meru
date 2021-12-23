@@ -1,0 +1,13 @@
+<a *ngIf="route as route; else linkTpl"
+   [routerLink]="[route]"
+   (click)="$event.stopPropagation()"
+>
+  {{anchor}}
+</a>
+
+
+<ng-template #linkTpl>
+  <a [href]="href">
+    {{anchor}}
+  </a>
+</ng-template>

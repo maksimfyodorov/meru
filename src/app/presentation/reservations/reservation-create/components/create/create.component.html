@@ -1,0 +1,60 @@
+<section class="workspace create-map-space">
+  <div class="workspace-wrapper" [style.height.px]="mapHeight">
+    <div class="workspace__center">
+      <app-open-street-map
+        *ngIf="buildingList?.length"
+        class="workspace__map"
+        [height]="mapHeight"
+        [style.height.px]="mapHeight"
+        [options]="osmOptions"
+        [marks]="osmMarks"
+        (markClicked)="handleMarkClicked($event)"
+      >
+      </app-open-street-map>
+    </div>
+
+    <div appScroll class="workspace__actions">
+      <nz-spin [nzSpinning]="loading">
+        <app-book-list [items]="buildingList" [activeIndex]="activeMarkIndex"> </app-book-list>
+      </nz-spin>
+    </div>
+  </div>
+</section>
+
+<ng-template #bookListContentTpl let-places>
+  <div class="office-list-column">
+    <ng-container [ngSwitch]="placeType">
+      <ng-container *ngSwitchCase="'rooms'">
+        {{ 'Rooms' | dictionary | translate }}
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'parkingLots'">
+        {{ 'Parkings' | dictionary | translate }}
+      </ng-container>
+
+      <ng-container *ngSwitchDefault>
+        {{ 'Offices.Workplaces' | dictionary | translate }}
+      </ng-container> </ng-container
+    >: <span class="free">{{ places.free }}</span> | <span class="busy">{{ places.busy }}</span> | {{ places.freePercents }}%
+  </div>
+</ng-template>
+
+<div class="list_of_offices">
+  <h2>{{ 'Offices.OfficeList' | dictionary | translate }}</h2>
+  <div class="list-of-offices-wrap">
+    <span> {{ 'Offices.OfficeName' | dictionary | translate }} </span>
+    <a nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu">
+      {{ currentBuilding?.name }}
+      <i nz-icon nzType="down"></i>
+    </a>
+    <nz-dropdown-menu #menu="nzDropdownMenu">
+      <ul nz-menu *ngFor="let tab of buildingList">
+        <li nz-menu-item (click)="tabChange(tab)">{{ tab.name }}</li>
+      </ul>
+    </nz-dropdown-menu>
+    <img src="assets/images/location-mobile.svg" alt="text" class="mobile-location" height="20px" width="20px" (click)="linkFloor()" />
+  </div>
+  <div class="office-address-wrap">
+    <span>{{ currentBuilding?.address }}</span>
+  </div>
+</div>

@@ -1,0 +1,173 @@
+<div class="search">
+  <div class="search__header">
+    <h2 nz-typography>{{ 'Team users list' | translate }}</h2>
+    <app-mobile-filter-button *ngIf="isSmallScreen" (showModal)="showModal()"></app-mobile-filter-button>
+  </div>
+  <div class="search__actions" *ngIf="!isSmallScreen">
+    <div *ngTemplateOutlet="filterContentTpl"></div>
+    <div *ngTemplateOutlet="createButtonTpl"></div>
+  </div>
+  <div class="search__date">
+    <div class="pointer" (click)="previousDay()"><i nz-icon nzType="left" nzTheme="outline"></i></div>
+    <div>{{ dateOfData }}</div>
+    <div class="pointer" (click)="nextDay()"><i nz-icon nzType="right" nzTheme="outline"></i></div>
+  </div>
+  <cdk-virtual-scroll-viewport
+    *ngIf="table?.data"
+    appendOnly
+    [minBufferPx]="1000"
+    [maxBufferPx]="3000"
+    [itemSize]="isSmallScreen ? 200 : 101"
+    class="search__scroll"
+  >
+    <div class="user-list-item-row">
+      <div *cdkVirtualFor="let item of table.data | userFilter: initialQuery" class="user-list-item">
+        <div class="user-list-item__header" (click)="openItem(item)">
+          <div class="_avatar"><img [src]="item.img | imageBlob | async" alt="" /></div>
+          <div class="_title">
+            <div class="name">
+              {{ item.name }}
+            </div>
+            <div class="status">
+              <app-renderer
+                [type]="'status'"
+                [color]="getColor(item.workplace ? 'success' : 'danger')"
+                [value]="item.workplace ? 'office' : 'home'"
+                [options]="statusOptions"
+              ></app-renderer>
+            </div>
+          </div>
+        </div>
+        <div class="user-list-item__description">
+          <div class="user-list-item__description _item">
+            <div class="key">{{ 'Phone' | translate }}:</div>
+            <div class="value">{{ item.mainPhone }}</div>
+          </div>
+          <div class="user-list-item__description _item">
+            <div class="key">{{ 'E-mail' | translate }}:</div>
+            <div class="value">{{ item.mail }}</div>
+          </div>
+        </div>
+      </div>
+      <ng-container *ngIf="(table?.data | userFilter: initialQuery).length == 0">
+        <div *ngTemplateOutlet="emptySearchResultTpl"></div>
+      </ng-container>
+    </div>
+  </cdk-virtual-scroll-viewport>
+  <div class="search__actions" *ngIf="isSmallScreen">
+    <div *ngTemplateOutlet="createButtonTpl"></div>
+  </div>
+  <div class="spin-wrapper" *ngIf="loading">
+    <nz-spin class="spin" nzSimple [nzSize]="'large'"></nz-spin>
+  </div>
+</div>
+<app-mobile-dialog-contentscroll
+  [nzVisible]="isVisible"
+  [contentTpl]="filterContentTpl"
+  [footerTpl]="filterFooterTpl"
+  (handleCancel)="handleCancel()"
+  (handleOk)="handleOk()"
+></app-mobile-dialog-contentscroll>
+<ng-template #filterContentTpl>
+  <nz-form-item class="search__input">
+    <nz-input-group [nzSuffixIcon]="'search'" [nzSize]="'large'">
+      <input nz-input [placeholder]="'User' | translate" [name]="'query'" [ngModel]="initialQuery" (ngModelChange)="onQuery($event)" />
+    </nz-input-group>
+  </nz-form-item>
+</ng-template>
+<ng-template #filterFooterTpl>
+  <button nz-button nzType="primary" (click)="handleOk()" [nzLoading]="isConfirmLoading">{{ 'Apply' | translate }}</button>
+</ng-template>
+<ng-template #createButtonTpl>
+  <a (click)="onAddProfile()" class="search__action">
+    <button nz-button nzType="primary"><i nz-icon nzType="plus"></i> {{ 'Create' | translate }}</button>
+  </a>
+</ng-template>
+<ng-template #emptySearchResultTpl>
+  <span nz-typography
+    ><strong>{{ 'EmptySearchResultsUsers' | translate }}</strong></span
+  >
+</ng-template>
+<ng-template #modalFooterTpl>
+  <div class="modal-footer">
+    <button nz-button class="ant-btn" (click)="cancelAdd()">
+      <span> {{ 'Cancel' | translate }} </span>
+    </button>
+    <button nz-button class="ant-btn ant-btn-primary" (click)="onAddGuest()" [nzLoading]="loading" [disabled]="guestForm.invalid">
+      <span> {{ 'Save' | translate }} </span>
+    </button>
+  </div>
+</ng-template>
+<ng-template #modalContentTpl>
+  <nz-tabset>
+    <nz-tab [nzTitle]="'Guest' | translate">
+      <form [formGroup]="guestForm">
+        <div class="modal-content">
+          <input formControlName="name" class="input ant-input" nz-input [placeholder]="'Name' | translate" (input)="onInput()" />
+        </div>
+        <div class="modal-content">
+          <input formControlName="post" class="input ant-input" nz-input [placeholder]="'Position' | translate" (input)="onInput()" />
+        </div>
+        <div class="modal-content">
+          <textarea
+            formControlName="description"
+            class="input ant-input"
+            nz-input
+            [placeholder]="'Description' | translate"
+            (input)="onInput()"
+          ></textarea>
+        </div>
+        <div class="modal-content">
+          <div [style.width]="'45%'">
+            <input
+              formControlName="phones"
+              class="input ant-input"
+              mask="+0 (000) 000-00-00"
+              nz-input
+              [placeholder]="'Phone' | translate"
+              (input)="onInput()"
+            />
+          </div>
+          <div [style.width]="'45%'" [style.margin-left]="'10%'">
+            <input formControlName="mail" class="input ant-input" nz-input [placeholder]="'Email' | translate" (input)="onInput()" />
+          </div>
+        </div>
+        <div class="modal-content">
+          <input
+            formControlName="cardNumber"
+            class="input ant-input"
+            nz-input
+            [placeholder]="'Access card number' | translate"
+            (input)="onInput()"
+          />
+        </div>
+      </form>
+      <div class="modal-content">
+        <nz-date-picker
+          [nzPlaceHolder]="'Valid until' | translate"
+          class="input"
+          [(ngModel)]="dateTimeLifetimeTo"
+          [nzFormat]="dateFormat"
+          (ngModelChange)="onSetDate($event)"
+        ></nz-date-picker>
+      </div>
+
+      <div>
+        <button nz-button class="ant-btn ant-btn-primary" (click)="onOpenFilesInput()">
+          <span> {{ 'Guest photo' | translate }} </span>
+        </button>
+        <span>&nbsp;{{ photoFilename }}</span>
+      </div>
+      <small>{{ 'File size must be no more than 30kb' | translate }}</small>
+      <input
+        type="file"
+        accept=".jpg, .png, .gif, .bmp', .jpeg, .JPG, .PNG, .GIF, .BMP, .JPEG"
+        class="form-control"
+        placeholder=""
+        (change)="handleUpload($event)"
+        [style.display]="'none'"
+        #filesInput
+      />
+    </nz-tab>
+  </nz-tabset>
+</ng-template>

@@ -1,0 +1,13 @@
+<app-calendar
+  [modes]="isSmallScreen ? ['month', 'day'] : ['month', 'week', 'day']"
+  [mode]="'month'"
+  [events]="data"
+  [loading]="isLoading"
+  [allowSelectEmptyDay]="true"
+  [allowSelectDayEvent]="true"
+  [allowSelectMonthEvent]="true"
+  (periodChange)="monthSelectHandler($event)"
+  (eventSelect)="eventHandler($event)"
+  [hourSegmentHeight]="50"
+  [minDate]="minDate"
+></app-calendar>

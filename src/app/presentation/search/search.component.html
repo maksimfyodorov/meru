@@ -1,0 +1,157 @@
+<div class="search">
+  <h2 nz-typography>
+    {{'HowCanWeHelpYou' | translate}}?
+  </h2>
+
+  <nz-form-item>
+    <nz-tabset [nzSelectedIndex]="initialTabIndex"
+               [nzSize]="'large'"
+               (nzSelectedIndexChange)="changeType($event)"
+    >
+      <nz-tab *ngFor="let SearchType of searchTypes"
+              [nzTitle]="tabsTitles[SearchType] | translate"
+      >
+      </nz-tab>
+    </nz-tabset>
+
+    <nz-input-group [nzSuffixIcon]="'search'"
+                    [nzSize]="'large'"
+    >
+      <input nz-input
+             [placeholder]="'StartWritingWhatYouWantFind' | translate"
+             [name]="'query'"
+             [ngModel]="initialQuery"
+             (ngModelChange)="search($event)"
+      />
+    </nz-input-group>
+  </nz-form-item>
+
+  <perfect-scrollbar [config]="{suppressScrollX: true}"
+                     class="search__scroll"
+  >
+    <ng-container *ngIf="result; else noSearchQueryResultsTpl">
+      <nz-list nzGrid *ngFor="let resultGroup of result">
+        <nz-list-header>
+          <nz-row class="align-items-center">
+            <nz-col [nzSpan]="12"
+
+            >
+              <h3>{{resultGroup.title | translate}}</h3>
+            </nz-col>
+
+            <nz-col [nzSpan]="12"
+                    class="text-right"
+            >
+              <nz-pagination #paging="nzPagination"
+                             [nzTotal]="resultGroup.items.length"
+                             [nzPageSize]="resultGroupPageSize"
+                             [nzSize]="'small'"
+                             [ngStyle]="{display: resultGroup.items.length < resultGroupPageSize ? 'none' : 'block'}"
+              >
+              </nz-pagination>
+            </nz-col>
+          </nz-row>
+        </nz-list-header>
+
+        <div nz-row
+             [nzGutter]="24"
+        >
+          <nz-list-item
+            *ngFor="let item of resultGroup.items | slice : ((paging.nzPageIndex - 1) * paging.nzPageSize) : ((paging.nzPageIndex) * paging.nzPageSize )"
+            nz-col
+            [nzSpan]="12"
+            (click)="openItem(resultGroup.type, item.data)"
+          >
+            <nz-list-item-meta>
+              <nz-list-item-meta-avatar [nzSrc]="item.img | imageBlob | async"></nz-list-item-meta-avatar>
+              <nz-list-item-meta-title>
+                <span [innerHTML]="item.title"></span>
+              </nz-list-item-meta-title>
+
+              <nz-list-item-meta-description [ngSwitch]="resultGroup.type">
+                <ng-container *ngSwitchCase="'user'">
+                  <ng-container
+                    *ngTemplateOutlet="searchResultItemDescriptionUserTpl; context: {$implicit: item.data}"></ng-container>
+                </ng-container>
+
+                <ng-container *ngSwitchCase="'customObject'">
+                  <ng-container
+                    *ngTemplateOutlet="searchResultItemReserveItemTpl; context: {$implicit: item.data}"></ng-container>
+                </ng-container>
+
+                <ng-container *ngSwitchCase="'room'">
+                  <ng-container
+                    *ngTemplateOutlet="searchResultItemReserveItemTpl; context: {$implicit: item.data}"></ng-container>
+                </ng-container>
+
+                <ng-container *ngSwitchCase="'workplace'">
+                  <ng-container
+                    *ngTemplateOutlet="searchResultItemReserveItemTpl; context: {$implicit: item.data}"></ng-container>
+                </ng-container>
+
+                <ng-container *ngSwitchCase="'parkingLot'">
+                  <ng-container
+                    *ngTemplateOutlet="searchResultItemReserveItemTpl; context: {$implicit: item.data}"></ng-container>
+                </ng-container>
+              </nz-list-item-meta-description>
+            </nz-list-item-meta>
+          </nz-list-item>
+
+          <nz-list-empty *ngIf="!resultGroup.items.length" [nzNoResult]="emptySearchResultTpl">
+
+          </nz-list-empty>
+        </div>
+      </nz-list>
+    </ng-container>
+  </perfect-scrollbar>
+</div>
+
+<ng-template #searchResultItemDescriptionUserTpl
+             let-data
+>
+   <span *ngIf="data.post">
+     {{'Position'| translate}}: <span [innerHTML]="data.post | highlight : query"></span>
+   </span>
+  <span *ngIf="data.post && (data.phones || data.mail)">, </span>
+  <span *ngIf="data.phones">
+    {{'Phones' | translate}}: <span [innerHTML]="data.phones | highlight : query"></span>
+  </span>
+  <span *ngIf="data.phones && data.mail">, </span>
+  <span *ngIf="data.mail">
+    {{'Email' | translate}}: <span [innerHTML]="data.mail | highlight : query"></span>
+  </span>
+</ng-template>
+
+<ng-template #searchResultItemReserveItemTpl
+             let-data
+>
+  {{'Building' | translate}}: {{data.building}}, {{'Floor' | translate}}: {{data.floor}}
+  <div *ngIf="data.description"
+       [innerHTML]="data.description | highlight : query"
+  >
+  </div>
+</ng-template>
+
+<ng-template #emptySearchResultTpl>
+  <span nz-typography><strong>{{'EmptySearchResults' | translate}}</strong></span>
+</ng-template>
+
+<ng-template #emptyResultsIconTpl>
+  <i nz-icon nzType="frown" nzTheme="outline"></i>
+</ng-template>
+
+
+<ng-template #noSearchQueryResultsTpl>
+  <nz-empty [nzNotFoundContent]="noSearchQueryResultsContentTpl"
+            [nzNotFoundImage]="noSearchQueryResultsIconTpl"
+  ></nz-empty>
+</ng-template>
+
+<ng-template #noSearchQueryResultsContentTpl>
+  <span nz-typography><strong>{{'PleaseEnterQueryForSearch' | translate}}</strong></span>
+</ng-template>
+
+<ng-template #noSearchQueryResultsIconTpl>
+  <i nz-icon nzType="search" nzTheme="outline"></i>
+</ng-template>
+

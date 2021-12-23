@@ -1,0 +1,260 @@
+@import 'colors.less';
+
+@filters-width: 280px;
+@filters-with-mobile: 360px;
+@app-reservations-prefix-cls: reservations;
+
+:host {
+  background-color: #fff;
+  display: block;
+  height: 100%;
+
+  ::ng-deep nz-spin {
+    width: 100%;
+  }
+
+  .@{app-reservations-prefix-cls} {
+    display: flex;
+    height: 100%;
+    flex-direction: row;
+    justify-content: stretch;
+    width: 100%;
+
+    &__body {
+      width: calc(100% - @filters-width);
+
+      &._expanded {
+        width: 100%;
+      }
+
+      &._ready {
+        transition: flex 0.5s, width 0.5s;
+      }
+    }
+
+    &__toolbar {
+      height: 56px;
+      padding: 12px 16px;
+    }
+
+    &__list {
+      height: calc(100% - 56px);
+
+      &:first-child {
+        height: 100%;
+      }
+    }
+
+    &__left {
+      background-color: #fff;
+      border-left: 1px solid #eee;
+      height: 100%;
+      flex: 0 0 @filters-width;
+      overflow: hidden;
+      padding-bottom: 52px;
+
+      &._collapsed {
+        flex: 0 0 0;
+      }
+
+      &._ready {
+        transition: flex 0.5s;
+      }
+    }
+
+    &__filters {
+      height: 100%;
+      width: @filters-width;
+    }
+
+    &__error {
+      flex: 0 0 100%;
+    }
+
+    @media screen and (min-width: 1600px) {
+      &__filters {
+        width: @filters-width !important;
+      }
+    }
+
+    @media screen and (max-width: 991px) {
+      &__filters {
+        width: @filters-with-mobile;
+
+        &-wrapper {
+          flex: 0 0 @filters-with-mobile;
+        }
+      }
+    }
+  }
+}
+
+.reservatio-employee-main {
+  display: none;
+}
+.filter-header {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .reservations {
+    display: none !important;
+  }
+  ::ng-deep {
+    .layout {
+      .section-content {
+        app-reservations {
+          background-color: #f0f2f5;
+        }
+      }
+    }
+  }
+  .reservatio-employee-main {
+    display: block;
+    padding: 22px 15px 30px 15px;
+    .reservatio-employee {
+      margin-bottom: 15px;
+      ::ng-deep {
+        .ant-card {
+          background: #ffffff;
+          box-shadow: 0px 8px 16px rgba(110, 120, 130, 0.12);
+          border-radius: 4px;
+        }
+        .ant-card-head {
+          padding: 15px 20px 0px 15px;
+          min-height: inherit;
+          border: none;
+          .ant-card-head-wrapper {
+            align-items: flex-start;
+            .ant-card-head-title {
+              padding: 0px;
+              text-overflow: inherit;
+              overflow: initial;
+              white-space: inherit;
+            }
+          }
+          .ant-card-extra {
+            padding: 0px 0px 0px 10px;
+            line-height: 27px;
+          }
+        }
+        .ant-card-body {
+          padding: 0px 0px 15px 0px;
+        }
+      }
+      nz-table {
+        width: 100%;
+        tr {
+          &:last-child {
+            td {
+              color: rgba(0, 0, 0, 0.85);
+            }
+          }
+        }
+        tr.active-color {
+          td {
+            color: #52c41a;
+          }
+          td {
+            &:last-child {
+              color: #f24e1e;
+            }
+          }
+        }
+        tr.divider-static {
+          td {
+            padding: 0px !important;
+          }
+        }
+        td {
+          font-size: 14px;
+          line-height: 23px;
+          color: rgba(0, 0, 0, 0.45);
+          &:nth-child(odd) {
+            padding-left: 15px;
+          }
+          &:nth-child(even) {
+            padding-right: 15px;
+            text-align: right;
+            color: rgba(0, 0, 0, 0.85);
+          }
+          .ant-divider-horizontal {
+            border: none;
+          }
+        }
+      }
+      a {
+        color: rgba(0, 0, 0, 0.45);
+      }
+    }
+    .mobile-bottom-button {
+      position: fixed;
+      bottom: 63px;
+      width: 100%;
+      left: 0px;
+      button {
+        width: 100%;
+        border: none;
+        padding: 10px 15px;
+        // font-size: 18px;
+        line-height: 25px;
+        align-items: center;
+        text-align: center;
+        color: #ffffff;
+      }
+    }
+  }
+  .filter-header {
+    padding: 28px 22px;
+    display: flex;
+    align-items: baseline;
+    background-color: #fff;
+    img {
+      position: relative;
+      top: 2px;
+      padding-left: 5px;
+    }
+    > span {
+      font-size: 16px;
+      font-weight: bold;
+    }
+    button {
+      width: 30%;
+      font-size: 14px;
+      line-height: 20px;
+      text-align: right;
+      color: #888888;
+      background: transparent;
+      border: none;
+      padding: 0px;
+      box-shadow: none;
+      height: auto;
+      span {
+        position: relative;
+        padding-left: 10px;
+      }
+    }
+  }
+  ::ng-deep {
+    .app-reservations-filters__header {
+      display: flex;
+      justify-content: space-between;
+      > div {
+        &:first-child {
+          display: none;
+        }
+      }
+      h3 {
+        flex: initial !important;
+        max-width: initial !important;
+      }
+    }
+    .reservations__filters {
+      padding: 0px !important;
+    }
+  }
+}
+.loading-spinner {
+  padding: 30% 0;
+  text-align: center;
+}

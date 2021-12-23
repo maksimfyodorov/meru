@@ -1,0 +1,35 @@
+<perfect-scrollbar [config]="{ suppressScrollX: true }">
+  <ng-container *ngFor="let group of groups">
+    <div class="filter-checkbox-group__group">
+      <div class="filter-checkbox-group__header">
+        <label
+          nz-checkbox
+          [(ngModel)]="group.checked"
+          [nzIndeterminate]="group.indeterminate"
+          (ngModelChange)="applyGroupChange(group, $event)"
+          class="group-checkbox"
+        >
+          {{ group.label }}
+        </label>
+      </div>
+
+      <ng-container *ngFor="let option of group.options">
+        <label
+          nz-checkbox
+          [(ngModel)]="option.checked"
+          (ngModelChange)="
+            applyOptionChange(option.value, $event); checkGroupSelection(group)
+          "
+        >
+          {{ option.label }}
+        </label>
+      </ng-container>
+    </div>
+  </ng-container>
+
+  <nz-empty
+    *ngIf="!groups?.length"
+    [nzNotFoundContent]="'NoSelectableValues' | dictionary | translate"
+  >
+  </nz-empty>
+</perfect-scrollbar>

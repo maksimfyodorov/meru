@@ -1,0 +1,28 @@
+<div class="reservation">
+  <div class="reservation__card">
+    <app-card
+      *ngIf="workplace"
+      [title]="workplace.name"
+      [image]="imageUrl | imageBlob | async"
+      [descriptionList]="descriptionList"
+      [tags]="tags"
+    >
+    </app-card>
+  </div>
+  <div class="reservation__main">
+    <div class="reservation__block _calendar">
+      <app-calendar
+        [modes]="['month' | translate, 'day' | translate]"
+        [mode]="mode"
+        [loading]="isLoading"
+        [events]="events"
+        [disablePast]="true"
+        [allowSelectEmptyDay]="true"
+        [allowSelectDayEvent]="true"
+        [allowSelectMonthEvent]="true"
+        (eventSelect)="eventHandler($event)"
+        (periodChange)="monthSelectHandler($event)"
+      ></app-calendar>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,9 @@
+<div [ngClass]="itemClasses" class="notifications-item" (click)="showFullMessage()">
+  <i nz-icon [nzType]="itemIcon" nzTheme="outline" class="notifications-item__icon"></i>
+  <div class="notifications-item__content">
+    <h5 class="notifications-item__title">{{ type | titlecase }}</h5>
+    <p class="notifications-item__message">{{ message }}</p>
+  </div>
+  <i nz-icon nzType="delete" nzTheme="outline" class="notifications-item__delete" (click)="removeOutput($event)"></i>
+</div>
+

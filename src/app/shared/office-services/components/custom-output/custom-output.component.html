@@ -1,0 +1,35 @@
+<nz-form-item [ngSwitch]="type">
+  <nz-form-label>{{ param.description }}</nz-form-label>
+  <nz-form-control *ngSwitchCase="'STRING'">
+    <input
+      nz-input
+      [value]="param.value"
+      [placeholder]="param.description"
+      [disabled]="true"
+    />
+  </nz-form-control>
+  <nz-form-control *ngSwitchCase="'INTEGER'">
+    <input
+      nz-input
+      [value]="param.value"
+      [placeholder]="param.description"
+      [disabled]="true"
+    />
+  </nz-form-control>
+  <nz-form-control *ngSwitchCase="'DATETIME'">
+    <input
+      nz-input
+      [value]="getFormattedDate()"
+      [placeholder]="param.description"
+      [disabled]="true"
+    />
+  </nz-form-control>
+  <nz-form-control *ngSwitchCase="'DICTIONARY'">
+    <input
+      nz-input
+      [value]="getDictionaryValue()"
+      [placeholder]="param.description"
+      [disabled]="true"
+    />
+  </nz-form-control>
+</nz-form-item>

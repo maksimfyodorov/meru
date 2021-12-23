@@ -1,0 +1,33 @@
+<ng-container [ngSwitch]="type">
+  <ng-container *ngSwitchCase="'table'">
+    <div class="skeleton skeleton-table">
+      <div class="skeleton__background">
+        <div *ngFor="let i of rows"
+             class="skeleton-table__mask _row _row-{{i}}"
+        >
+        </div>
+        <div *ngFor="let i of [1,2,3,4,5]"
+             class="skeleton-table__mask _col _col-{{i}}"
+        >
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-container *ngSwitchCase="'form'">
+    <div class="skeleton skeleton-form">
+      <nz-skeleton-element *ngIf="showHeader"
+                           nzType="input" [nzActive]="true"
+                           [nzSize]="'large'"
+                           class="skeleton-form__header"
+      ></nz-skeleton-element>
+      <div *ngFor="let i of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]"
+           class="skeleton-form__item"
+      >
+        <nz-skeleton [nzActive]="true" [nzParagraph]="0"></nz-skeleton>
+        <nz-skeleton-element nzType="input" [nzActive]="true"></nz-skeleton-element>
+      </div>
+    </div>
+  </ng-container>
+  <div *ngSwitchDefault></div>
+</ng-container>

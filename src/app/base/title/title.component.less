@@ -1,0 +1,17 @@
+@import "~src/theme/override";
+
+.title {
+  background-color: @gray-1;
+  border-bottom: 1px solid @gray-4;
+  padding: 0 24px 20px;
+  & h1 {
+    font-size: 20px;
+    line-height: 28px;
+    margin: 0;
+  }
+}
+@media(max-width: 767px){
+  .title {
+    display: none !important;
+  }
+}

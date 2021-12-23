@@ -1,0 +1,48 @@
+<ng-container *ngIf="showMessge == false">
+<app-container title="Регистрация" class="mobile-common-form">
+
+    <nz-input-group nzSize="large" *ngIf="!showCaptcha; else captcha">
+      <nz-space nzDirection="vertical" class="input-content">
+        <input *nzSpaceItem nz-input placeholder="Домен" [(ngModel)]="registrationObject.domain" />
+        <input *nzSpaceItem nz-input placeholder="Логин" [(ngModel)]="registrationObject.login" />
+        <app-password-field *nzSpaceItem size="large" [(value)]="registrationObject.password">
+        </app-password-field>
+      </nz-space>
+    </nz-input-group>
+
+    <ng-template #captcha>
+      <app-captcha width="304" (resolved)="resolved()"></app-captcha>
+    </ng-template>
+
+    <div *ngIf="!showCaptcha" class="text-center">
+      <span class="error-text" *ngIf="error | async">
+        {{ 'WrongCredentials' | translate }}
+      </span>
+      <div class="main-button">
+        <button
+          nz-button
+          nzType="primary"
+          [disabled]="!isFormValid"
+          [nzLoading]="loading | async"
+          (click)="loginAction()"
+        >
+          {{'RegisterNow' | translate }}
+        </button>
+      </div>
+    </div>
+    <div class="link-redirect">
+      <a [routerLink]="">{{'ComeBack' | translate}}</a>
+    </div>
+  </app-container>
+</ng-container>
+
+<ng-container *ngIf="showMessge == true">
+<app-container title="Проверьте e-mail" class="check-ur-mail">
+    <nz-card style="width:300px;" nzTitle="Проверьте e-mail">
+      <p>{{'registrationMessage' | translate}}</p>
+    </nz-card>
+    <div class="link-redirect">
+      <a (click)="hideSuccessMeassge()"> {{'RegisterNow' | translate }}</a>
+    </div>
+  </app-container>
+</ng-container>

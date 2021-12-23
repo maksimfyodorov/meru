@@ -1,0 +1,27 @@
+.profile-wrap {
+  display: flex;
+  justify-content: space-between;
+  &__card {
+    width: 340px;
+  }
+  &__tabs {
+    margin-top: 2px;
+    background: #fff;
+    width: calc(100% - 360px);
+    padding: 0 25px;
+  }
+}
+@media (max-width: 767px) {
+  .profile-wrap {
+    display: flex;
+    flex-direction: column;
+    &__card {
+      width: 100%;
+    }
+    &__tabs {
+      background: #fff;
+      width: 100%;
+      padding: 0 25px;
+    }
+  }
+}

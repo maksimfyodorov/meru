@@ -1,0 +1,55 @@
+<nz-form-item *ngIf="allowSearch"
+              class="filter-checkbox__search"
+>
+  <nz-input-group [nzSuffixIcon]="'search'">
+    <input nz-input
+           placeholder="{{placeholder | dictionary | translate}}"
+           [(ngModel)]="filterOptionsValue"
+           (ngModelChange)="filterOptions()"
+           [disabled]="sourceOptions.length === 0"
+    />
+  </nz-input-group>
+</nz-form-item>
+
+<nz-form-item *ngIf="allowSelectAll"
+              class="filter-checkbox__all"
+>
+  <label nz-checkbox
+         [ngModel]="value.length === options.length"
+         [nzIndeterminate]="value.length > 0 && value.length !== options.length"
+         (ngModelChange)="selectAll($event)"
+  >
+    {{'All' | dictionary | translate}}
+  </label>
+</nz-form-item>
+
+<perfect-scrollbar *ngIf="maxHeight !== 'auto'; else optionsTpl"
+                   [config]="{suppressScrollX: true}"
+                   [ngStyle]="{'max-height': maxHeight}"
+                   class="app-list-filter-item__scroll"
+>
+  <ng-container *ngTemplateOutlet="optionsTpl"></ng-container>
+</perfect-scrollbar>
+
+<ng-template #optionsTpl>
+  <ng-container *ngFor="let option of options">
+    <label nz-checkbox
+           [(ngModel)]="option.checked"
+           [nzDisabled]="option.checked && !allowEmpty && value.length === 1"
+           (ngModelChange)="applyChanges(option.value, $event)"
+    >
+      <ng-container *ngTemplateOutlet="label || labelTpl; context: option"></ng-container>
+    </label>
+  </ng-container>
+
+  <nz-empty *ngIf="!options?.length"
+            [nzNotFoundContent]="emptyMessage | dictionary | translate"
+  >
+  </nz-empty>
+</ng-template>
+
+<ng-template #labelTpl
+             let-label="label"
+>
+  {{label | translate}}
+</ng-template>

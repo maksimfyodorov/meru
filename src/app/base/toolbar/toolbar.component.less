@@ -1,0 +1,22 @@
+@prefix-cls: toolbar;
+
+.@{prefix-cls} {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+
+  & .action:not(:last-child),
+  & .ant-btn:not(:last-child) {
+    margin-right: 8px;
+  }
+
+  &__skeleton-item {
+    margin-right: 8px;
+    width: 120px;
+
+    & .ant-skeleton-button {
+      width: 100%;
+    }
+  }
+}

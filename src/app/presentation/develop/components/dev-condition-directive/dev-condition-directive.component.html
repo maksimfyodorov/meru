@@ -1,0 +1,63 @@
+<section class="p-15">
+  <form nz-form
+        [nzLayout]="'vertical'"
+  >
+    <nz-form-item>
+      <nz-form-label>
+        Тип
+      </nz-form-label>
+
+      <nz-form-control>
+        <nz-select [(ngModel)]="type" name="type">
+          <nz-option [nzValue]="'visible'" [nzLabel]="'Показать'"></nz-option>
+          <nz-option [nzValue]="'disable'" [nzLabel]="'Заблокировать'"></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label>
+        Выражение
+      </nz-form-label>
+
+      <nz-form-control>
+      <textarea nz-input
+                [ngModel]="expression"
+                name="expression"
+                (ngModelChange)="changeExpression($event)"
+      >
+      </textarea>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label>
+        Данные
+      </nz-form-label>
+
+      <nz-form-control>
+      <textarea nz-input
+                [ngModel]="stringedData"
+                name="data"
+                rows="8"
+                (ngModelChange)="changeData($event)"
+      >
+
+      </textarea>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item *appCondition="let result for expression data data type type">
+      <nz-form-label>
+        Объект
+      </nz-form-label>
+
+      <button nz-button
+              [nzType]="'primary'"
+              [disabled]="result && type === 'disable'"
+      >
+        Это просто копка! ({{result}})
+      </button>
+    </nz-form-item>
+  </form>
+</section>

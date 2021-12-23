@@ -1,0 +1,91 @@
+<nz-table
+  id="reservationList"
+  #reservationsListTable
+  [nzLoading]="loading"
+  [nzData]="rows"
+  [nzBordered]="false"
+  [nzWidthConfig]="widthConfig"
+  [nzFrontPagination]="frontPaging"
+  [nzShowPagination]="showPagination"
+  [nzPageIndex]="pageIndex"
+  [nzPageSize]="pageSize"
+  [nzPageSizeOptions]="pageSizeOptions"
+  [nzShowSizeChanger]="showPageSizeChanger"
+  [nzTotal]="total"
+  [nzShowTotal]="totalTpl"
+  [nzHideOnSinglePage]="false"
+  [nzTableLayout]="'fixed'"
+  [nzScroll]="{ x: '100%', y: '100%' }"
+  (nzPageIndexChange)="changePageIndex($event)"
+  (nzPageSizeChange)="changePageSize($event)"
+  (nzQueryParams)="emitQueryParams($event)"
+  class="app-list__table"
+>
+  <thead class="app-list__head">
+    <tr class="app-list__head-row">
+      <th
+        *ngIf="multiSelectRows"
+        nzShowCheckbox
+        [nzChecked]="
+          reservationsListTable.data.length > 0 &&
+          reservationsListTable.data.length === selectedRows.length
+        "
+        [nzIndeterminate]="
+          selectedRows.length > 0 &&
+          reservationsListTable.data.length !== selectedRows.length
+        "
+        (nzCheckedChange)="selectAllRows(reservationsListTable.data, $event)"
+      ></th>
+      <th
+        *ngFor="let column of visibleColumns"
+        [nzColumnKey]="column.id"
+        [nzShowSort]="column.sortable"
+        [nzSortOrder]="column.sortDirection || null"
+        [nzSortFn]="column.sortFn"
+        (nzSortOrderChange)="changeSort(column, $event)"
+        class="app-list__head-col"
+      >
+        {{ column.title }}
+      </th>
+    </tr>
+  </thead>
+
+  <tbody class="app-list__body">
+    <tr
+      *ngFor="let row of reservationsListTable.data"
+      (click)="selectRow(row)"
+      (dblclick)="doubleClickRow(row)"
+      class="app-list__body-row"
+      [class._selected]="row === selectedRow"
+    >
+      <td
+        *ngIf="multiSelectRows"
+        nzShowCheckbox
+        [nzChecked]="selectedRows.includes(row)"
+        (click)="$event.stopPropagation()"
+        (nzCheckedChange)="selectRows(row, $event)"
+      ></td>
+
+      <td *ngFor="let column of visibleColumns" class="app-list__body-col">
+        <app-renderer
+          *ngIf="column.renderer as renderer; else simpleBodyColTpl"
+          [type]="renderer.type"
+          [options]="renderer.options"
+          [value]="row[column.id]"
+          [data]="row"
+          (actionCall)="emitActionCall($event, row)"
+        >
+        </app-renderer>
+
+        <ng-template #simpleBodyColTpl>
+          {{ row[column.id] }}
+        </ng-template>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>
+
+<ng-template #totalTpl let-total let-range="range">
+  {{ range[0] }} - {{ range[1] }} / {{ total }}
+  {{ "items" | dictionary | translate }}
+</ng-template>

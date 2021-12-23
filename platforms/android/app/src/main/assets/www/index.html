@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <title>Система управления офисным пространством</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="cache-Control" content="no-cache"/>
+  <meta http-equiv="cache-Control" content="max-age=7200, must-revalidate"/>
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <style>
+    .global-loader {
+      background: #fff;
+      height: 100%;
+      left: 0;
+      opacity: 1;
+      position: absolute;
+      top: 0;
+      visibility: visible;
+      width: 100%;
+      z-index: 9999;
+      transition: opacity .05s, visibility .05s;
+    }
+
+    .global-loader._hidden {
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity .5s 1s, visibility .5s 1s;
+    }
+
+    .global-loader__image  {
+      height: auto;
+      width: 240px;
+    }
+
+    .global-loader__container  {
+      display: inline-block;
+      left: 50%;
+      position: absolute;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .global-loader__container::before {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background: #fff;
+      border-radius: 10px;
+      opacity: 0;
+      animation: logo-pulse 1.5s cubic-bezier(.23,1,.32,1) infinite;
+      content: '';
+    }
+
+    @keyframes logo-pulse {
+      0% {
+        width: 0;
+        opacity: 0.1;
+      }
+      40% {
+        width: 0;
+        opacity: 1;
+      }
+      100% {
+        width: 100%;
+        opacity: 0;
+      }
+    }
+  </style>
+<link rel="stylesheet" href="styles.css"></head>
+<body>
+  <div class="app-substrate"></div>
+  <div app-root=""></div>
+  <div class="global-loader">
+    <div class="global-loader__container">
+      <img class="global-loader__image" src="./assets/images/logo.svg">
+    </div>
+  </div>
+  <!--TODO: Добавить перевод к сообщению -->
+  <script>
+    let isIE1 = /msie\s|trident\//i.test(window.navigator.userAgent)
+
+    if(isIE1){
+      const textMessag =  "СУОП поддерживает работу в браузере Microsoft EDGE\nОткрыть приложение в браузере Microsoft EDGE?"
+      const resultConfirm = confirm(textMessag);
+      if (resultConfirm == true) {
+        window.open("microsoft-edge:"+window.location.href)
+      } else {
+
+      }
+    }
+  </script>
+<script src="runtime.js" defer></script><script src="polyfills.js" defer></script><script src="scripts.js" defer></script><script src="cordova.js" defer></script><script src="vendor.js" defer></script><script src="main.js" defer></script></body>
+</html>

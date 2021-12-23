@@ -1,0 +1,125 @@
+@import 'colors.less';
+
+@filters-width: 280px;
+@filters-with-mobile: 360px;
+@team-reservations-prefix-cls: team-reservations;
+
+:host {
+  height: 100%;
+}
+
+:host {
+  background-color: #fff;
+  display: block;
+  height: 100%;
+
+  ::ng-deep nz-spin {
+    width: 100%;
+  }
+
+  .@{team-reservations-prefix-cls} {
+    display: flex;
+    height: 100%;
+    flex-direction: row;
+    justify-content: stretch;
+    width: 100%;
+
+    &__workspace {
+      width: calc(100% - @filters-width);
+
+      &._expanded {
+        width: 100%;
+      }
+
+      &._ready {
+        transition: flex 0.5s, width 0.5s;
+      }
+    }
+
+    &__filters {
+      height: 100%;
+      width: @filters-width;
+
+      &-wrapper {
+        background-color: #fff;
+        border-left: 1px solid #eee;
+        height: 100%;
+        flex: 0 0 @filters-width;
+        overflow: hidden;
+        padding-bottom: 52px;
+
+        &._collapsed {
+          flex: 0 0 0;
+        }
+
+        &._ready {
+          transition: flex 0.5s;
+        }
+      }
+    }
+
+    &__error {
+      flex: 0 0 100%;
+    }
+
+    @media screen and (min-width: 1600px) {
+      &__filters {
+        width: @filters-width!important;
+      }
+    }
+
+    @media screen and (max-width: 991px) {
+      &__filters {
+        width: @filters-with-mobile;
+
+        &-wrapper {
+          flex: 0 0 @filters-with-mobile;
+        }
+      }
+    }
+  }
+}
+@media (max-width: 767px) {
+  .m-team-reservations {
+    display: flex;
+    flex-direction: column !important;
+
+    &__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 28px 22px;
+
+      h2 {
+        font-size: 18px;
+      }
+    }
+    &__main {
+      display: block;
+      padding: 22px 15px 30px 15px;
+      background-color: #eee;
+    }
+  }
+  ._collapsed {
+    visibility: hidden;
+    height: 0 !important;
+  }
+}
+.spin {
+  z-index: 1000;
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  &-wrapper {
+    text-align: center;
+    z-index: 100;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: rgba(255, 255, 255, 0.75);
+  }
+}

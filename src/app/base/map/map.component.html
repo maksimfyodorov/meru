@@ -1,0 +1,38 @@
+<section class="map" (wheel)="scrollChange($event)" #rootMap [style.height]="heightToString()">
+  <app-map-zoom [(value)]="zoom" [options]="sliderOptions" (valueChange)="zoomChange($event)"></app-map-zoom>
+  <app-map-controls
+    [hiddenControls]="hiddenControls"
+    [hiddenMarks]="hiddenMarksTypes"
+    (hiddenMarksChange)="hiddenMarksChange.emit($event)"
+    (areaVisibilityChange)="areaVisibilityChange.emit($event)"
+  ></app-map-controls>
+  <div
+    class="map__img"
+    cdkDrag
+    [cdkDragFreeDragPosition]="dragPosition"
+    (mousedown)="dragMousedown()"
+    (mouseup)="dragMouseup()"
+    (cdkDragStarted)="dragStarted()"
+    (cdkDragEnded)="cdkDragEnded()"
+    [ngClass]="dragClasses"
+  >
+    <div class="map__img-wrapper" [ngStyle]="imgWrapperStyle" [style.height]="heightToString()">
+      <canvas #canvas class="canvas" [class.d-none]="!areasVisible"></canvas>
+      <img [src]="img" alt="Карта" #map *ngIf="img" (load)="loadMap()" />
+      <app-map-mark
+        *ngFor="let mark of marks"
+        [mark]="mark"
+        [factor]="factor"
+        [hiddenMarksTypes]="hiddenMarksTypes"
+        [isDragged]="isDragged"
+        [useAdvCard]="useAdvCard"
+        [selectedMarkId]="selectedMarkId"
+        [selectedMarkLogicType]="selectedMarkLogicType"
+        [size]="size"
+      ></app-map-mark>
+    </div>
+  </div>
+  <div class="map__spin-wrapper" *ngIf="loading">
+    <nz-spin class="map__spin" nzSimple [nzSize]="'large'"></nz-spin>
+  </div>
+</section>

@@ -1,0 +1,79 @@
+@media screen and (max-width: 1050px) {
+  .layout__aside {
+    display: none;
+  }
+  .layout .section-content {
+    padding: 8px !important;
+  }
+  .profile__avatar,
+  .profile__name {
+    display: none !important;
+  }
+
+  .profile__icon {
+    display: block !important;
+  }
+
+  .header__tools {
+    app-header-notifications,
+    i[nztype='question-circle'] {
+      display: none;
+    }
+  }
+
+  .layout__header {
+    padding: 0 16px !important;
+  }
+
+  .header__tools > * {
+    margin: 0 8px !important;
+  }
+}
+
+@media screen and (min-width: 1051px) {
+  .navigation-mobile {
+    display: none !important;
+  }
+}
+
+@media screen and (min-width: 1921px) {
+  .app-substrate {
+    //background-color: @layout-body-background!important;
+    background-image: url('../assets/images/auth_bg.svg');
+    background-repeat: repeat-x;
+    background-position: 0 100%;
+    display: block;
+    filter: blur(4px);
+    -webkit-filter: blur(4px);
+  }
+
+  .app-root {
+    box-shadow: @box-shadow-base;
+  }
+}
+@media screen and (max-width: 1300px) {
+  .offices-map__filter {
+    justify-content: center !important;
+  }
+  .offices-map__filter-time {
+    display: none;
+  }
+  .offices-map__filter-date {
+    max-width: none !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .layout {
+    .section-content {
+      // 64px header + 61px footer = 125px
+      height: calc(100vh - 125px) !important;
+      padding: 0px !important;
+    }
+  }
+  .header__tools {
+    app-header-notifications {
+      display: block;
+    }
+  }
+}

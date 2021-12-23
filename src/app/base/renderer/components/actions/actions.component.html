@@ -1,0 +1,9 @@
+<ng-container *ngFor="let action of actions">
+  <app-action-renderer *appCondition="let result for action.condition data data"
+                       [options]="action"
+                       [disabled]="result && action.condition?.type === 'disable'"
+                       [lang]="lang"
+                       (actionCall)="emitActionCall($event)"
+  >
+  </app-action-renderer>
+</ng-container>

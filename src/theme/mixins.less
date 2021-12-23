@@ -1,0 +1,53 @@
+// atomic margin and padding
+.margin-x(@side, @space) when (@side = x) {
+  margin-left: %(~"%spx !important", @space);
+  margin-right: %(~"%spx !important", @space);
+}
+.margin-y(@side, @space) when (@side = y) {
+  margin-top: %(~"%spx !important", @space);
+  margin-bottom: %(~"%spx !important", @space);
+}
+.margin-parties(@side, @space) when (@side = top) or (@side = bottom) or (@side = left) or (@side = right) {
+  margin-@{side}: %(~"%spx !important", @space);
+}
+.margin-around(@side, @space) when (@side = y) {
+  margin: %(~"%spx !important", @space);
+}
+.padding-x(@side, @space) when (@side = x) {
+  padding-left: %(~"%spx !important", @space);
+  padding-right: %(~"%spx !important", @space);
+}
+.padding-y(@side, @space) when (@side = y) {
+  padding-top: %(~"%spx !important", @space);
+  padding-bottom: %(~"%spx !important", @space);
+}
+.padding-parties(@side, @space) when (@side = top) or (@side = bottom) or (@side = left) or (@side = right) {
+  padding-@{side}: %(~"%spx !important", @space);
+}
+.padding-around(@side, @space) when (@side = y) {
+  padding: %(~"%spx !important", @space);
+}
+.indents(@spaceamounts) {
+  @sides: top, bottom, left, right, x, y;
+  each(@spaceamounts, .(@space, @k1, @i1) {
+    each(@sides, .(@side, @k2, @i2) {
+      @sideRep: replace(@side, '^(.).+$', '$1');
+      .m@{sideRep}-@{space} {
+        .margin-x(@side, @space);
+        .margin-y(@side, @space);
+        .margin-parties(@side, @space);
+      }
+      .m-@{space} {
+        .margin-around(@side, @space);
+      }
+      .p@{sideRep}-@{space} {
+        .padding-x(@side, @space);
+        .padding-y(@side, @space);
+        .padding-parties(@side, @space);
+      }
+      .p-@{space} {
+        .padding-around(@side, @space);
+      }
+    })
+  })
+}

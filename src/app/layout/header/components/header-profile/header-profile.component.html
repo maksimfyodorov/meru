@@ -1,0 +1,35 @@
+<figure
+  nz-dropdown
+  [nzDropdownMenu]="menu"
+  [nzTrigger]="'click'"
+  class="profile"
+>
+  <ng-container *ngIf="(currentUser$ | async) as currentUser">
+    <nz-avatar nzIcon="user" [nzSrc]="currentUser.avatarUrl | imageBlob | async" class="profile__avatar"></nz-avatar>
+    <span class="profile__name">{{ currentUser.name }}</span>
+    <i nz-icon nzType="more" nzTheme="outline" class="profile__icon"></i>
+  </ng-container>
+</figure>
+
+<nz-dropdown-menu #menu="nzDropdownMenu">
+  <ul nz-menu>
+    <li nz-menu-item>
+      <a routerLink="/profile" class="link-reset">
+        <i nz-icon nzType="user" nzTheme="outline"></i>
+        {{ 'Profile' | dictionary | translate }}
+      </a>
+    </li>
+    <li nz-menu-item>
+      <a href="javascript:void(0)"
+         class="link-reset"
+         (click)="clearDatabase()"
+      >
+        <i nz-icon nzType="reload" nzTheme="outline"></i>
+        {{ 'RefreshDirectories' | dictionary | translate }}
+      </a>
+    </li>
+    <li nz-menu-item (click)="logout()"><i nz-icon nzType="logout" nzTheme="outline"></i>
+      {{ 'LogOut' | dictionary | translate }}
+    </li>
+  </ul>
+</nz-dropdown-menu>

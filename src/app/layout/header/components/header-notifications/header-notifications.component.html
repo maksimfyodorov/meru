@@ -1,0 +1,38 @@
+<nz-badge [nzCount]="items.length" [nzOverflowCount]="9" class="notifications">
+  <i
+    nz-icon
+    nzType="bell"
+    nzTheme="outline"
+    class="notifications__icon"
+    nz-popover
+    nzPopoverPlacement="bottomRight"
+    [nzPopoverContent]="notificationsTpl"
+    [nzPopoverOverlayClassName]="'notifications-dropdown ' + indentClass"
+    [nzPopoverTrigger]="'click'"
+  ></i>
+</nz-badge>
+
+<ng-template #dropdownMenuAvailabilityTpl>
+  <ul nz-menu class="notifications__items">
+    <li
+      *ngFor="let item of items; index as i"
+      nz-menu-item
+      class="notifications__item"
+    >
+      <app-header-notifications-item
+        [type]="item.type"
+        [message]="item.message"
+        [id]="item.id"
+        (remove)="removeById($event)"
+      ></app-header-notifications-item>
+    </li>
+  </ul>
+  <button nz-button nzType="primary" class="notifications__item-delete-all" (click)="removeAll()">Удалить все уведомления</button>
+</ng-template>
+<ng-template #dropdownMenuAbsenceTpl>
+  <nz-empty class="light-fon" [nzNotFoundContent]="'NoNotifications' | dictionary | translate"></nz-empty>
+</ng-template>
+
+<ng-template #notificationsTpl>
+  <ng-container *ngTemplateOutlet="items.length > 0 ? dropdownMenuAvailabilityTpl : dropdownMenuAbsenceTpl"></ng-container>
+</ng-template>

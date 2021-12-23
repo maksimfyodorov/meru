@@ -1,0 +1,211 @@
+<ng-container *ngIf="!isSmallScreen; else smallScreen">
+  <div class="reservation">
+    <div class="reservation__card">
+      <app-card
+        [title]="title(placeType) | translate"
+        [image]="imageUrl | imageBlob | async"
+        [descriptionList]="descriptionList"
+        [tags]="tags | async"
+        (editTitle)="onSaveAppointmentSubject()"
+      >
+      </app-card>
+    </div>
+    <div class="reservation__main">
+      <div
+        class="reservation__block _steps"
+        *ngIf="(placeType === 'appointment' && appointmentStatusVisible) || placeType !== 'appointment'"
+      >
+        <div class="reservation__divider">
+          <nz-divider nzText="{{ 'Status' | dictionary | translate }}"></nz-divider>
+        </div>
+        <app-steps [items]="statusSteps" [current]="stepsTarget"> </app-steps>
+      </div>
+      <div class="reservation__block _members" *ngIf="placeType === 'appointment' && !nornikAplana && isOrganizer">
+        <div class="reservation__divider">
+          <nz-divider nzText="{{ 'AddUser' | dictionary | translate }}"></nz-divider>
+          <app-add-members [(items)]="members" (itemsChange)="saveAppointmentEmails($event)" [appointment]="appointment"></app-add-members>
+        </div>
+      </div>
+      <div class="reservation__block _members" *ngIf="placeType === 'appointment'">
+        <div class="reservation__divider">
+          <nz-divider nzText="{{ 'OrderServices' | dictionary | translate }}"></nz-divider>
+          <app-order-services *ngIf="serviceDrivers['K2'] === 'true'"></app-order-services>
+        </div>
+      </div>
+      <div class="reservation__block _comments">
+        <div class="reservation__divider">
+          <nz-divider nzText="{{ 'Comments' | dictionary | translate }}"></nz-divider>
+        </div>
+        <app-comments [items]="comments"></app-comments>
+      </div>
+    </div>
+  </div>
+</ng-container>
+<ng-template #smallScreen>
+  <div [hidden]="contentStep !== 1">
+    <div class="reservation">
+      <div class="reservation__main">
+        <div
+          class="reservation__block _steps"
+          *ngIf="(placeType === 'appointment' && appointmentStatusVisible) || placeType !== 'appointment'"
+        >
+          <div class="reservation__divider">
+            <nz-divider nzText="{{ 'Status' | dictionary | translate }}"></nz-divider>
+          </div>
+          <app-steps [items]="statusSteps" [current]="stepsTarget"> </app-steps>
+        </div>
+        <div class="reservation__block _members" *ngIf="placeType === 'appointment' && !nornikAplana && isOrganizer">
+          <div class="reservation__divider">
+            <nz-divider nzText="{{ 'AddUser' | dictionary | translate }}"></nz-divider>
+            <app-add-members
+              [(items)]="members"
+              (itemsChange)="saveAppointmentEmails($event)"
+              [appointment]="appointment"
+            ></app-add-members>
+          </div>
+        </div>
+        <div class="reservation__block _members" *ngIf="placeType === 'appointment'">
+          <div class="reservation__divider">
+            <nz-divider nzText="{{ 'OrderServices' | dictionary | translate }}"></nz-divider>
+            <app-order-services *ngIf="serviceDrivers['K2'] === 'true'"></app-order-services>
+          </div>
+        </div>
+        <div class="reservation__block _comments">
+          <div class="reservation__divider">
+            <nz-divider nzText="{{ 'Comments' | dictionary | translate }}"></nz-divider>
+          </div>
+          <app-comments [items]="comments"></app-comments>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div [hidden]="contentStep !== 0">
+    <div class="reservation" [style.maxHeight]="contentHeight">
+      <div class="reservation__status">
+        <app-status-renderer *ngIf="statuses && status" type="status" [options]="statuses" [value]="status"></app-status-renderer>
+        <img (click)="nextStep()" [src]="RIGHT_ARROW" />
+      </div>
+      <div class="reservation__card">
+        <app-card
+          [title]="title(placeType) | translate"
+          [image]="imageUrl | imageBlob | async"
+          [descriptionList]="descriptionList"
+          [tags]="tags | async"
+          (editTitle)="onSaveAppointmentSubject()"
+        >
+        </app-card>
+      </div>
+    </div>
+    <div class="mobile-buttons" #footer>
+      <button
+        [disable]="isLoadingOperation"
+        *ngIf="checkReservationStatus(['APPROVED'])"
+        nz-button
+        nzType="primary"
+        class="ant-btn-primary"
+        (click)="confirm()"
+      >
+        {{ 'Approve' | translate }}
+      </button>
+      <button
+        [disable]="isLoadingOperation"
+        nz-button
+        nzType="primary"
+        class="ant-btn-primary"
+        *ngIf="checkReservationStatus(['CONFIRMED']) && !adminCancelReservation"
+        (click)="complete()"
+      >
+        {{ 'Close' | translate }}
+      </button>
+      <button
+        [disable]="isLoadingOperation"
+        nz-button
+        nzType="primary"
+        nzDanger
+        class="ant-btn-primary"
+        *ngIf="checkReservationStatus(['NEW', 'APPROVED']) && !adminCancelReservation"
+        (click)="cancel()"
+      >
+        {{ 'Delete' | translate }}
+      </button>
+      <ng-container *ngIf="placeType === 'appointment'">
+        <ng-container *ngIf="isOrganizer">
+          <button
+            nz-button
+            nzDanger
+            nzType="primary"
+            [disabled]="isLoadingOperation"
+            class="btn"
+            *ngIf="appointmentAttendeeStatus !== 'DECLINE'"
+            (click)="onDeleteAppointment()"
+          >
+            {{ 'Delete' | translate }}
+          </button>
+          <button
+            nz-button
+            nzType="primary"
+            [disabled]="isLoadingOperation"
+            class="btn"
+            *ngIf="appointmentAttendeeStatus === 'DECLINE'"
+            (click)="onCloseAppointment()"
+          >
+            {{ 'Close' | translate }}
+          </button>
+        </ng-container>
+        <ng-container *ngIf="!isOrganizer">
+          <button
+            nz-button
+            nzType="primary"
+            [disabled]="isLoadingOperation"
+            class="btn"
+            (click)="onConfirmAppointment()"
+            [disabled]="appointmentStatus !== 'NEW' || appointmentAttendeeStatus !== 'NEW'"
+          >
+            {{ 'Accept' | translate }}
+          </button>
+          <button
+            nz-button
+            nzDanger
+            nzType="primary"
+            class="btn"
+            (click)="onCloseAppointment()"
+            [disabled]="appointmentStatus === 'CLOSED' || appointmentAttendeeStatus !== 'NEW'"
+          >
+            {{ 'Deny' | translate }}
+          </button>
+        </ng-container>
+      </ng-container>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #shortInfoNameTpl>
+  <span class="color-gray">{{ 'Meeting indicator' | translate }}:</span>
+</ng-template>
+<ng-template #shortInfoValueTpl>
+  <span ngClass="color-gray short-info copy" (click)="copyText(this.appointment.appointmentParentId)">{{
+    this.appointment.appointmentParentId
+  }}</span>
+</ng-template>
+<div class="spin-wrapper" *ngIf="loading">
+  <nz-spin class="spin" nzSimple [nzSize]="'large'"></nz-spin>
+</div>
+
+<ng-template #modalTitleTpl>
+  <span class="modal-title">{{ 'Change subject' | translate }} </span>
+</ng-template>
+<ng-template #modalFooterTpl>
+  <div class="modal-footer">
+    <button nz-button class="ant-btn" (click)="cancelModal()">
+      <span> {{ 'Cancel' | translate }} </span>
+    </button>
+    <button nz-button class="ant-btn ant-btn-primary" (click)="saveAppointmentSubject()">
+      <span> {{ 'Approve' | translate }} </span>
+    </button>
+  </div>
+</ng-template>
+<ng-template #modalContentTpl>
+  <div class="modal-content">
+    <input class="input ant-input" nz-input [(ngModel)]="meetingSubject" [placeholder]="'Meeting subject' | translate" />
+  </div>
+</ng-template>

@@ -1,0 +1,45 @@
+<div class="search">
+  <div class="search__header">
+    <h2 nz-typography>{{ 'Users list' | translate }}</h2>
+
+    <nz-form-item>
+      <nz-input-group [nzSuffixIcon]="'search'" [nzSize]="'large'">
+        <input nz-input [placeholder]="'User' | translate" [name]="'query'" [ngModel]="initialQuery" (ngModelChange)="search($event)" />
+      </nz-input-group>
+    </nz-form-item>
+  </div>
+  <cdk-virtual-scroll-viewport *ngIf="result" appendOnly [itemSize]="isSmallScreen ? 200 : 101" class="search__scroll">
+    <div class="user-list-item-row">
+      <div *cdkVirtualFor="let item of result[0]?.items" class="user-list-item">
+        <div class="user-list-item__header" (click)="openItem(item.data)">
+          <div class="_avatar"><img [src]="item.img | imageBlob | async" alt="" /></div>
+          <div class="_title">
+            <div class="name">
+              {{ item.title }}
+            </div>
+            <div class="status">
+              <app-renderer [type]="'status'" [value]="item.data.status" [options]="statusOptions"></app-renderer>
+            </div>
+          </div>
+        </div>
+        <div class="user-list-item__description">
+          <div class="user-list-item__description _item">
+            <div class="key">{{ 'Phone' | translate }}:</div>
+            <div class="value">{{ item.data.mainPhone }}</div>
+          </div>
+          <div class="user-list-item__description _item">
+            <div class="key">{{ 'E-mail' | translate }}:</div>
+            <div class="value">{{ item.data.mail }}</div>
+          </div>
+        </div>
+      </div>
+      <nz-list-empty *ngIf="!result[0]?.items.length" [nzNoResult]="emptySearchResultTpl"> </nz-list-empty>
+    </div>
+  </cdk-virtual-scroll-viewport>
+</div>
+
+<ng-template #emptySearchResultTpl>
+  <span nz-typography
+    ><strong>{{ 'EmptySearchResultsUsers' | translate }}</strong></span
+  >
+</ng-template>

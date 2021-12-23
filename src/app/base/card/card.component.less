@@ -1,0 +1,104 @@
+.description-list {
+  margin-bottom: 5px;
+  ::ng-deep .ant-descriptions-item-container {
+    justify-content: space-between;
+  }
+  ::ng-deep .ant-descriptions-item-content {
+    flex: initial;
+  }
+}
+::ng-deep .ant-card-body {
+  padding: 15px;
+}
+.card {
+  &__title {
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 1.6;
+    margin: 0 0 20px;
+  }
+  &__edit-controls {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+
+    & > {
+      nz-spin {
+        margin-bottom: -1px;
+      }
+
+      button:not(:last-of-type) {
+        margin-right: 5px;
+      }
+    }
+  }
+  &__calendar {
+    cursor: pointer;
+    position: absolute;
+    top: 173px;
+    right: 15px;
+    width: 20px;
+  }
+  &__title-edit {
+    cursor: pointer;
+    display: inline-block;
+    width: 15px;
+    margin-left: 10px;
+    margin-bottom: 5px;
+  }
+  &__description-item {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 16px;
+
+    &.card__form--enabled {
+      align-items: center;
+    }
+  }
+  &__description-title {
+    font-weight: 500;
+    max-width: 50%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    flex: 1 0 auto;
+  }
+  &__description-value {
+    color: rgba(0, 0, 0, 0.65);
+    font-weight: 400;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    text-align: end;
+    flex: 0 1 auto;
+
+    ::ng-deep & {
+      .ant-form-item {
+        margin-bottom: 0;
+      }
+
+      input {
+        width: 100%;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 767px) {
+  nz-card {
+    // display: inline;
+    width: 100% !important;
+  }
+  .description-list {
+    margin-bottom: 5px;
+    ::ng-deep .ant-descriptions-item-container {
+      justify-content: space-between;
+    }
+    ::ng-deep .ant-descriptions-item-content {
+      flex: initial;
+    }
+  }
+  ::ng-deep .ant-card-body {
+    margin: 0px;
+    padding: 15px;
+  }
+}

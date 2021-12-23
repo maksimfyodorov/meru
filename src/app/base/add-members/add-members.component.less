@@ -1,0 +1,67 @@
+@import '~src/theme/colors';
+:host {
+  display: block;
+}
+::ng-deep .ant-popover.add-member {
+  .empty-search-result {
+    margin: 0;
+    padding: 10px 0;
+    text-align: center;
+  }
+  .search-scroll {
+    max-height: 200px;
+    margin-bottom: 15px;
+  }
+  .ant-popover-inner-content {
+    padding-bottom: 1px;
+  }
+  .anticon-idcard {
+    color: @blue-6;
+  }
+}
+::ng-deep .ant-popover.add-member__user-card {
+  .user-card {
+    &__header {
+      display: flex;
+      align-items: center;
+      flex-wrap: nowrap;
+      padding-bottom: 15px;
+    }
+    &__name {
+      padding: 0 12px;
+      flex: 1 1 auto;
+    }
+    &__avatar {
+      display: block;
+      width: 90px;
+      height: auto;
+      border-radius: 50%;
+    }
+    &__description-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+    }
+    &__description-label {
+      flex: 0 1 50%;
+      padding: 0 5px;
+      font-weight: 500;
+    }
+    &__description-value {
+      text-align: right;
+      flex: 0 1 50%;
+      padding: 0 5px;
+      white-space: nowrap;
+      color: rgba(0, 0, 0, 0.65);
+    }
+  }
+  .user-card__description-item + .user-card__description-item {
+    margin-top: 5px;
+  }
+}
+.accept {
+  color: @green-6;
+}
+.decline {
+  color: @red-6;
+}

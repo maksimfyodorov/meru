@@ -1,0 +1,34 @@
+<div class="card-wrap">
+  <div class="card-container">
+    <nz-tabset nzType="card" [nzSelectedIndex]="buildingIndex" (nzSelectChange)="onSelectTab($event)">
+      <nz-tab [nzTitle]="tab.name" *ngFor="let tab of buildings">
+        <div class="info">{{ tab.address }}</div>
+      </nz-tab>
+    </nz-tabset>
+  </div>
+  <div class="filter-header">
+    <div class="filter-header__filter">
+      <button nz-button [nzType]="'primary'" (click)="onShowFilter()">
+        <span>{{ 'Filter' | translate }}</span>
+      </button>
+      <img class="filter-icon" src="assets/images/filter-i.png" alt="text" />
+    </div>
+    <div>
+      <ng-container *ngIf="type === 'map'">
+        {{ 'Floor' | translate }}:
+        <a nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu">
+          {{ floorTitle }}
+          <i nz-icon nzType="down"></i>
+        </a>
+        <nz-dropdown-menu #menu="nzDropdownMenu">
+          <ul nz-menu nzSelectable>
+            <li (click)="onselectFloorId(item.floorId)" nz-menu-item *ngFor="let item of buildings[buildingIndex].items">
+              {{ item.title }}
+            </li>
+          </ul>
+        </nz-dropdown-menu>
+      </ng-container>
+      <img class="toggle-icon" [src]="type === 'grid' ? LIST_TO_MAP : MAP_TO_LIST" [alt]="" (click)="onLink()" />
+    </div>
+  </div>
+</div>

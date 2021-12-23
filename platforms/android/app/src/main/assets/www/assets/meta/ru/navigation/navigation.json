@@ -1,0 +1,92 @@
+[
+  {
+    "id": "1",
+    "title": "Главная",
+    "icon": "icons:speedometer",
+    "url": "/",
+    "showOnlyOnMobile": false
+  },
+  {
+    "id": "2",
+    "title": "Офисы",
+    "icon": "icons:office-building",
+    "url": "/office",
+    "showOnlyOnMobile": false,
+    "roles": []
+  },
+  {
+    "id": "3",
+    "title": "Бронирование",
+    "icon": "icons:contacts",
+    "url": "/reservations",
+    "showOnlyOnMobile": false,
+    "children": [
+      {
+        "id": "3-1",
+        "title": "Рабочее место",
+        "url": "/reservations/workplace"
+      },
+      {
+        "id": "3-2",
+        "title": "Переговорная комната",
+        "url": "/reservations/appointment"
+      },
+      {
+        "id": "3-3",
+        "title": "Шкафчик",
+        "url": "/reservations/locker"
+      },
+      {
+        "id": "3-4",
+        "title": "Парковка",
+        "url": "/reservations/parking"
+      }
+    ]
+  },
+  {
+    "id": "4",
+    "title": "Услуги в офисе",
+    "icon": "icons:printer",
+    "showOnlyOnMobile": false,
+    "url": "/services"
+  },
+  {
+    "id": "5",
+    "title": "Записная книжка",
+    "icon": "icons:agenda",
+    "url": "/notebook",
+    "showOnlyOnMobile": false
+  },
+  {
+    "id": "6",
+    "title": "Моя команда",
+    "icon": "icons:teamwork",
+    "url": "/team",
+    "showOnlyOnMobile": false,
+    "children": [
+      {
+        "id": "6-1",
+        "title": "Бронирование",
+        "url": "/team/reservations/"
+      },
+      {
+        "id": "6-2",
+        "title": "Профили",
+        "url": "/team/profiles"
+      },
+      {
+        "id": "6-3",
+        "title": "Запросы",
+        "url": "/team/requests"
+      }
+    ]
+  },
+  {
+    "id": "7",
+    "title": "QR",
+    "icon": "icons:qr",
+    "url": "",
+    "showOnlyOnMobile": true,
+    "openModal": true
+  }
+]

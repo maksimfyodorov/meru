@@ -1,0 +1,75 @@
+@import '~src/theme/override';
+
+.layout {
+  height: 100%;
+
+  &__breadcrumb {
+    background-color: @gray-1;
+    padding: 15px 24px;
+  }
+
+  &__title {
+    background-color: @gray-1;
+    border-bottom: 1px solid @gray-4;
+    padding: 0 15px 20px;
+
+    & h1 {
+      font-size: 20px;
+      line-height: 28px;
+      margin: 0;
+    }
+  }
+
+  &__header {
+    background-color: @gray-1;
+    width: 100%;
+    padding: 0 36px;
+    box-shadow: inset 0px -1px 0px @gray-4;
+  }
+
+  &__content {
+    padding: 25px;
+
+    &-loader {
+      background-color: @gray-1;
+      height: calc(100vh - 64px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
+  &__aside {
+    user-select: none;
+    border-right: 1px solid @gray-4;
+
+    ::ng-deep .ant-layout-sider-children {
+      display: flex;
+      flex-direction: column;
+    }
+
+    &-menu {
+    }
+
+    &-actions {
+      margin-top: auto;
+      border-top: 1px solid @gray-4;
+      padding: 14px 16px;
+    }
+  }
+
+  .toggle-btn {
+    cursor: pointer;
+    font-size: 15px;
+  }
+
+  .section-content {
+    padding: 24px;
+    position: relative;
+  }
+}
+@media (max-width: 767px) {
+  app-breadcrumb {
+    display: none;
+  }
+}

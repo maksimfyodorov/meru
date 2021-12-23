@@ -1,0 +1,140 @@
+<section class="workspace">
+  <div class="card" *ngIf="buildingsList.length">
+    <div class="workspace-wrapper">
+      <div class="workspace-wrapper__main-part">
+        <div class="workspace-wrapper__main-part-tabs">
+          <app-tabs
+            [type]="'grid'"
+            [buildingIndex]="currentBuildingIndex"
+            [buildings]="buildingsList"
+            (selectBuildingIndex)="onSelectBuildingIndex($event)"
+            (link)="onLink()"
+            (showFilter)="showFilter()"
+          ></app-tabs>
+        </div>
+        <div class="workspace-wrapper__main-part-grid">
+          <app-card
+            [isLoading]="isLoading"
+            [calendarLink]="calendarLink"
+            [tagsInFilter]="tags"
+            [item]="res"
+            (reservation)="handleReservation(res)"
+            *ngFor="let res of resultList$ | async"
+          ></app-card>
+        </div>
+      </div>
+      <div class="workspace-wrapper__side-part" *ngIf="!isModalVisible" [hidden]="isSmallScreen">
+        <div class="scroll">
+          <ng-container *ngTemplateOutlet="filterContentTpl"></ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="spin-wrapper" *ngIf="isLoading">
+    <nz-spin class="spin" nzSimple [nzSize]="'large'"></nz-spin>
+  </div>
+</section>
+
+<app-mobile-dialog-contentscroll
+  [nzVisible]="isModalVisible"
+  [contentTpl]="filterContentTpl"
+  [footerTpl]="filterFooterTpl"
+  (handleCancel)="handleCancel()"
+  (handleOk)="handleOk()"
+></app-mobile-dialog-contentscroll>
+
+<ng-template #filterContentTpl>
+  <ng-container [ngSwitch]="type">
+    <app-filter-appointment
+      [realtime]="!isSmallScreen"
+      [mode]="'checkbox'"
+      *ngSwitchCase="'appointment'"
+      [formGroup]="formGroup"
+      [tagObjectType]="'ROOM'"
+      [buildings]="buildingsList"
+    ></app-filter-appointment>
+    <app-filter-parking
+      [realtime]="!isSmallScreen"
+      [mode]="'checkbox'"
+      *ngSwitchCase="'parking'"
+      [formGroup]="formGroup"
+      [tagObjectType]="'PARKING_LOT'"
+      [buildings]="buildingsList"
+    ></app-filter-parking>
+    <app-filter-workplace
+      [realtime]="!isSmallScreen"
+      [mode]="'checkbox'"
+      *ngSwitchDefault
+      [formGroup]="formGroup"
+      [tagObjectType]="'WORKPLACE'"
+      [buildings]="buildingsList"
+    ></app-filter-workplace>
+  </ng-container>
+</ng-template>
+<ng-template #filterFooterTpl>
+  <button nz-button nzType="primary" (click)="handleOk()" [nzLoading]="isConfirmLoading">{{ 'Apply' | translate }}</button>
+</ng-template>
+
+<ng-template #modalTitleTpl>
+  <span class="modal-title"> <i nz-icon nzType="check-circle"></i>{{ 'Approve reservation' | translate }}</span>
+</ng-template>
+
+<ng-template #modalContentTpl>
+  <div class="modal-content">
+    <span class="modal-content__name">{{ 'Building' | translate }}: </span>
+    <span>{{ currentReservation.buildName }}</span>
+  </div>
+  <div class="modal-content">
+    <span class="modal-content__name">{{ 'Place' | translate }}: </span>
+    <span>{{ currentReservation.placeName }}</span>
+  </div>
+  <div class="modal-content">
+    <span class="modal-content__name">{{ 'floor' | translate }}: </span>
+    <span>{{ currentReservation.floorNumber }}</span>
+  </div>
+  <div class="modal-content" *ngIf="filters$ | async as dates">
+    <span class="modal-content__name">{{ 'Date' | translate }}: </span>
+    <span
+      >{{ 'from' | translate }} {{ dates.dateTimeFrom | date: dateTimeFormat }} {{ 'to' | translate }}
+      {{ dates.dateTimeTo | date: dateTimeFormat }}</span
+    >
+  </div>
+  <ng-container *ngIf="repeatFilter$ | async as repeat">
+    <div class="modal-content">
+      <span class="modal-content__name">{{ 'Repeat' | translate }}: </span>
+      <span>{{ 'every' | translate }} {{ repeat.weekNum }} {{ 'week' | translate }} {{ getDays(repeat.days) }}</span>
+    </div>
+    <div class="modal-content">
+      <span class="modal-content__name">{{ 'Completing reps' | translate }}: </span>
+      <span>{{ repeat.end }}</span>
+    </div>
+  </ng-container>
+</ng-template>
+<ng-template #reservationModalTpl>
+  <div *ngIf="reservations.success.length" class="mb-25">
+    <div>
+      <span class="modal-title"> <i nz-icon nzType="check-circle"></i>{{ 'Booked successfully' | translate }} </span>
+    </div>
+    <div class="modal-content">
+      <span class="modal-content__name">{{ 'Reservation' | translate }}: </span>
+      <span>{{ reservations.success[0] }}</span>
+    </div>
+    <div class="modal-content" *ngIf="repeatFilter$ | async as repeat">
+      <span class="modal-content__name">{{ 'Repeat' | translate }}: </span>
+      <span>{{ 'Every' | translate }} {{ repeat.weekNum }} {{ 'week' | translate }} {{ getDays(repeat.days) }}</span>
+    </div>
+    <div class="modal-content" *ngIf="repeatFilter$ | async as repeat">
+      <span class="modal-content__name">{{ 'Completing reps' | translate }}: </span>
+      <span>{{ repeat.end }}</span>
+    </div>
+  </div>
+  <div *ngIf="reservations.errors.length">
+    <div>
+      <span class="modal-title"> <i nz-icon nzType="close-circle" class="error"></i>{{ 'Failed to book' | translate }} </span>
+    </div>
+    <div class="modal-content" *ngFor="let err of reservations.errors">
+      <span class="modal-content__name">{{ err.dates[0] | date: shortDateTime }} - {{ err.dates[1] | date: shortDateTime }}: </span>
+      <span>{{ err.message }}</span>
+    </div>
+  </div>
+</ng-template>

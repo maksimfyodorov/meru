@@ -1,0 +1,189 @@
+@import "../../../node_modules/angular-calendar/css/angular-calendar.css";
+@import "colors";
+
+@prefix-cls: cal;
+
+@desktopBorderWidth: 5px;
+@mobileBorderWidth: 3px;
+
+.@{prefix-cls} {
+  &-month {
+    &-view {
+      & .@{prefix-cls}-day{
+        &-cell.@{prefix-cls}-today {
+          background-color: @blue-1;
+        }
+
+        &-badge {
+          display: none;
+          background-color: @blue-6;
+        }
+      }
+    }
+  }
+
+  &-current-time-marker {
+    background-color: @blue-6;
+  }
+}
+
+.calendar-busy-area {
+  .cal-event {
+    border-radius: 0px !important;
+    border-color: rgba(24, 144, 255, 0.1) !important;
+    background-color: rgba(24, 144, 255, 0.1) !important;
+    cursor: default !important;
+  }
+}
+.calendar-free-area {
+  .cal-event {
+    border-radius: 0px !important;
+    border-color: transparent !important;
+    background-color: transparent !important;
+
+  }
+}
+.calendar-disabled-area {
+  .cal-event {
+    border-radius: 0px !important;
+    border-color: #EEEFEE !important;
+    background-color: #EEEFEE !important;
+    cursor: default !important;
+  }
+}
+
+.cal-in-month, .cal-out-month  {
+  .calendar-busy-area-workplace {
+    background-color: #727CF5 !important;
+  }
+}
+.calendar-busy-area-workplace div{
+    border-radius: 0px !important;
+    border-right: 0px solid #E6F7FF !important;
+    border-bottom: 0px solid #E6F7FF !important;
+    border-top: 0px solid #E6F7FF !important;
+    border-left: @desktopBorderWidth solid #ff7d21 !important;
+    background-color: #E6F7FF !important;
+    color: #000 !important;
+    user-select: none;
+    // span::before {
+    //   content: "";
+    //   background-image: url('/assets/icons/calendarworkplace.svg');
+    //   background-repeat: no-repeat;
+    //   height: 22px;
+    //   width: 22px;
+    //   margin: 5px 5px 0 0;
+    //   display: inline-block;
+    // }
+  // }
+}
+.cal-in-month, .cal-out-month  {
+  .calendar-busy-area-room {
+    background-color: #EF5272 !important;
+  }
+}
+.calendar-busy-area-room div{
+    border-radius: 0px !important;
+    border-right: 0px solid #E6F7FF !important;
+    border-bottom: 0px solid #E6F7FF !important;
+    border-top: 0px solid #E6F7FF !important;
+    border-left: @desktopBorderWidth solid #d9363e !important;
+    background-color: #E6F7FF !important;
+    color: #000 !important;
+    user-select: none;
+    // span::before {
+    //   content: "";
+    //   background-image: url('/assets/icons/calendarroom.svg');
+    //   background-repeat: no-repeat;
+    //   height: 22px;
+    //   width: 22px;
+    //   margin: 5px 5px 0 0;
+    //   display: inline-block;
+    // }
+  // }
+}
+
+.cal-in-month, .cal-out-month {
+  .calendar-busy-area-parking {
+    background-color: #0ACF97 !important;
+  }
+}
+
+.calendar-busy-area-parking>.ng-star-inserted>.cal-event {
+    border-radius: 0px !important;
+    border-bottom: 0px solid #E6F7FF !important;
+    border-top: 0px solid #E6F7FF !important;
+    border-right: 0px solid #E6F7FF !important;
+    border-left: @desktopBorderWidth solid #0ACF97 !important;
+    background-color: #E6F7FF !important;
+    color: #000 !important;
+    user-select: none;
+    // span::before {
+    //   content: "";
+    //   background-image: url('/assets/icons/calendarparking.svg');
+    //   background-repeat: no-repeat;
+    //   height: 22px;
+    //   width: 22px;
+    //   margin: 5px 5px 0 0;
+    //   display: inline-block;
+    // }
+}
+
+.cal-disabled {
+    opacity: 0.5;
+}
+.cal-current-time-marker {
+  background-color:#1890ff !important;
+}
+.cal-day-segment-disabled, .cal-day-segment-disabled:hover {
+  background-color: inherit !important;
+}
+
+.cal-week-view {
+  .cal-hour-odd {
+      background-color: initial !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .cal-month-view {
+    .cal-day-cell{
+      min-width: 30px;
+    }
+
+    .cal-cell-top span{
+      display: flex;
+      flex-direction: column-reverse;
+    }
+
+    .cal-day-badge {
+      display: inline-block;
+      margin: 0 auto;
+      margin-top: 18px;
+    }
+
+    .cal-day-number{
+      text-align: end;
+    }
+
+    .cal-day-cell.cal-today .cal-day-number{
+      line-height: 1;
+    }
+
+    .cal-events{
+      display: none;
+    }
+  }
+
+  .calendar-busy-area-room div{
+    border-width: @mobileBorderWidth !important;
+  }
+
+  .calendar-busy-area-parking>.ng-star-inserted>.cal-event{
+    border-width: @mobileBorderWidth !important;
+  }
+
+  .calendar-busy-area-workplace div{
+    border-width: @mobileBorderWidth !important;
+  }
+}

@@ -1,0 +1,23 @@
+<ng-container [ngSwitch]="isFormatter">
+  <app-formatter-renderer *ngSwitchCase="true" [type]="type" [options]="options" [value]="value"> </app-formatter-renderer>
+
+  <ng-container *ngSwitchDefault [ngSwitch]="type">
+    <app-link-renderer *ngSwitchCase="'link'" [options]="options" [value]="value" [data]="data"> </app-link-renderer>
+
+    <app-map-renderer *ngSwitchCase="'map'" [options]="options" [value]="value"> </app-map-renderer>
+
+    <app-status-renderer *ngSwitchCase="'status'" [options]="options" [value]="value" [color]="color"> </app-status-renderer>
+
+    <app-template-renderer *ngSwitchCase="'template'" [options]="options" [data]="data"> </app-template-renderer>
+
+    <app-action-renderer *ngSwitchCase="'action'" [options]="options" [data]="data" (actionCall)="emitActionCall($event)">
+    </app-action-renderer>
+
+    <app-actions-renderer *ngSwitchCase="'actions'" [options]="options" [data]="data" (actionCall)="emitActionCall($event)">
+    </app-actions-renderer>
+
+    <ng-container *ngSwitchDefault>
+      {{ value }}
+    </ng-container>
+  </ng-container>
+</ng-container>

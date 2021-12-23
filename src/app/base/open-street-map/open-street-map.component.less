@@ -1,0 +1,48 @@
+#map {
+  width: 100%;
+  height: 100%;
+}
+::ng-deep {
+  .ol-attribution.ol-uncollapsible {
+    display: none;
+  }
+}
+.map {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  &__zoom {
+    &-slider {
+      ::ng-deep .ant-slider-track {
+        background-color: unset;
+      }
+      ::ng-deep .ant-slider {
+        margin: 0 0 0 9px;
+      }
+    }
+    &-btn {
+      z-index: 2;
+      margin: 0;
+      min-width: auto;
+      width: 29px;
+      height: 29px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      i {
+        font-size: 11px;
+      }
+    }
+    &._right {
+      right: 30px;
+    }
+    &._left {
+      left: 30px;
+    }
+    position: absolute;
+    height: 50%;
+    top: 50%;
+    transform: translateY(calc(-50% - 30px));
+    z-index: 1;
+  }
+}

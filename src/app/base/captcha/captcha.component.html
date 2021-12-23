@@ -1,0 +1,21 @@
+<p>Чтобы продолжить, введите символы, которые вы видите на картинке</p>
+<div class="captcha-container" #captchaContainer (click)="onClick()"></div>
+<nz-input-group nzSearch nzSize="large" [nzAddOnAfter]="suffixButton">
+  <input
+    type="text"
+    nz-input
+    placeholder="Введите символы выше"
+    [(ngModel)]="enteredSecretCode"
+  />
+</nz-input-group>
+<ng-template #suffixButton>
+  <button
+    nz-button
+    nzType="primary"
+    nzSize="large"
+    nzSearch
+    (click)="checkSecretCode()"
+  >
+    Ок
+  </button>
+</ng-template>

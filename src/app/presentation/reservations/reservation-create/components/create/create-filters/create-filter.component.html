@@ -1,0 +1,25 @@
+<div nz-row [nzGutter]="12" class="app-list-filters__header">
+  <div nz-col [nzXs]="8" [nzLg]="0" class="app-list-filters__header-action">
+    <button nz-button [nzType]="'link'">
+      {{ 'Close' | dictionary | translate }}
+    </button>
+  </div>
+
+  <h3 nz-col [nzXs]="8" [nzLg]="12" class="app-list-filters__header-title">
+    {{ 'Filters' | dictionary | translate }}
+  </h3>
+
+  <div nz-col [nzXs]="8" [nzLg]="12" class="app-list-filters__header-action _right">
+    <button nz-button [nzType]="'link'" (click)="clear()">
+      {{ 'Clear' | dictionary | translate }}
+    </button>
+  </div>
+</div>
+
+<form nz-form [nzLayout]="'vertical'" [formGroup]="formGroup" [ngSwitch]="type" class="app-list-filters__form">
+  <perfect-scrollbar [config]="{ suppressScrollX: true }" class="app-list-filters__form-scroll">
+    <div *ngSwitchCase="'appointment'" app-create-filters-appointment [tagObjectType]="'ROOM'" [formGroup]="formGroup"></div>
+    <div *ngSwitchCase="'parking'" app-create-filters-workplace [tagObjectType]="'PARKING_LOT'" [formGroup]="formGroup"></div>
+    <div *ngSwitchDefault app-create-filters-workplace [tagObjectType]="'WORKPLACE'" [formGroup]="formGroup"></div>
+  </perfect-scrollbar>
+</form>

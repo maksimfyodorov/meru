@@ -1,0 +1,78 @@
+@import "mixins";
+@indentArray: 0, 8, 5,  10, 12, 15, 16, 20, 24, 25, 26, 30, 40, 50;
+.indents(@indentArray);
+@border-color: @gray-4;
+.cursor-pointer {
+  cursor: pointer!important;
+}
+.justify-content-between {
+  justify-content: space-between!important;
+}
+.justify-content-center {
+  justify-content: center!important;
+}
+.d-flex {
+  display: flex!important;
+}
+.align-items-center {
+  align-items: center!important;
+}
+.align-self-center {
+  align-self: center!important;
+}
+.text-center {
+  text-align: center!important;
+}
+.text-right {
+  text-align: right!important;
+}
+.w-100 {
+  width: 100%!important;
+}
+.w-50 {
+  width: 50%!important;
+}
+.d-inline-block {
+  display: inline-block!important;
+}
+.d-block {
+  display: block!important;
+}
+.d-none {
+  display: none!important;
+}
+.light-fon {
+  background-color: @gray-1;
+}
+.border-all {
+  border: 1px solid @border-color;
+}
+.border-left {
+  border-left: 1px solid @border-color;
+}
+.border-right {
+  border-right: 1px solid @border-color;
+}
+.border-top {
+  border-top: 1px solid @border-color;
+}
+.border-bottom {
+  border-bottom: 1px solid @border-color;
+}
+.link-reset {
+  color: inherit;
+  &:hover {
+    color: inherit;
+  }
+}
+.list-reset {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+.user-select-none {
+  user-select: none!important;
+}
+.btn-reset {
+  border: 0!important;
+}

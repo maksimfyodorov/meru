@@ -1,0 +1,48 @@
+<nz-form-item>
+  <ng-container *ngTemplateOutlet="titleTpl; context: {$implicit: 'Buildings/Floors'}"></ng-container>
+  <nz-form-control>
+    <app-filter-checkbox-group [formControl]="floorMapIdsControl"
+                               [groups]="floorMapsGroups"
+                               [maxHeight]="'320px'"
+    >
+    </app-filter-checkbox-group>
+  </nz-form-control>
+</nz-form-item>
+
+<nz-form-item class="app-reservations-filter-item">
+  <ng-container *ngTemplateOutlet="titleTpl; context: {$implicit: 'Statuses'}"></ng-container>
+  <nz-form-control>
+    <app-filter-checkbox [formControl]="statusesControl"
+                         [options]="statuses"
+                         [label]="filterStatusTpl"
+    >
+    </app-filter-checkbox>
+  </nz-form-control>
+</nz-form-item>
+
+<nz-form-item class="app-reservations-filter-item">
+  <ng-container *ngTemplateOutlet="titleTpl; context: {$implicit: 'Period'}"></ng-container>
+
+  <app-filter-date-time
+      [format]="dateFormat"
+      [ngModel]="[dateTimeFromControl.value, dateTimeToControl.value]"
+      (ngModelChange)="updateDateTime($event)"
+    ></app-filter-date-time>
+</nz-form-item>
+
+<ng-template #titleTpl let-title>
+  <h6 class="app-reservations-filter-item__title">
+    {{title | dictionary | translate}}
+  </h6>
+</ng-template>
+
+<ng-template #filterStatusTpl
+             let-color="color"
+             let-label="label"
+>
+  <app-status-renderer [color]="color"
+                       [value]="label"
+                       [needConvert]="false"
+  >
+  </app-status-renderer>
+</ng-template>

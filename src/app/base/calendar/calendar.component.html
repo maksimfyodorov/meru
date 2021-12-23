@@ -1,0 +1,106 @@
+<div class="calendar__header">
+  <div class="calendar__today">
+    <nz-button-group>
+      <button nz-button blur [nz-tooltip]="prevTooltip | dictionary | translate" (click)="prev()">
+        <i nz-icon [nzType]="'left'"></i>
+      </button>
+
+      <button #todayBtn nz-button blur [nzType]="isToday ? 'primary' : 'default'" (click)="today()">
+        {{ 'Today' | dictionary | translate }}
+      </button>
+
+      <button nz-button blur [nz-tooltip]="nextTooltip | dictionary | translate" (click)="next()">
+        <i nz-icon [nzType]="'right'"></i>
+      </button>
+    </nz-button-group>
+  </div>
+
+  <h4
+    #dateDropdown
+    nz-dropdown
+    [nzDropdownMenu]="dateDropdownMenu"
+    [nzTrigger]="'click'"
+    [nzOverlayClassName]="'calendar__date-picker'"
+    class="calendar__date"
+  >
+    <ng-container [ngSwitch]="mode">
+      <span *ngSwitchCase="modesEnum.Month" class="calendar__date-month">
+        {{ date | date: 'LLLL YYYY':null:currentLocale }}
+      </span>
+      <span *ngSwitchCase="modesEnum.Week">
+        {{ startOfWeek | date: 'dd' }} - {{ endOfWeek | date: 'dd' }}
+        {{ date | date: 'MMMM YYYY':null:currentLocale }}
+      </span>
+      <span *ngSwitchCase="modesEnum.Day">
+        {{ date | date: 'dd MMMM YYYY':null:currentLocale }}
+      </span>
+    </ng-container>
+
+    <nz-dropdown-menu #dateDropdownMenu="nzDropdownMenu">
+      <ng-container *ngTemplateOutlet="datePickerTpl"></ng-container>
+    </nz-dropdown-menu>
+  </h4>
+
+  <div *ngIf="modes.length > 1" class="calendar__switch">
+    <nz-radio-group [ngModel]="mode" [nzButtonStyle]="'solid'" (ngModelChange)="changeMode($event)">
+      <label class="calendar__radio-button" *ngIf="modes.includes(modesEnum.Month)" nz-radio-button [nzValue]="modesEnum.Month">
+        {{ 'Month' | dictionary | translate }}
+      </label>
+
+      <label class="calendar__radio-button" *ngIf="modes.includes(modesEnum.Week)" nz-radio-button [nzValue]="modesEnum.Week">
+        {{ 'Week' | dictionary | translate }}
+      </label>
+
+      <label class="calendar__radio-button" *ngIf="modes.includes(modesEnum.Day)" nz-radio-button [nzValue]="modesEnum.Day">
+        {{ 'Day' | dictionary | translate }}
+      </label>
+    </nz-radio-group>
+  </div>
+</div>
+
+<div class="calendar__body" [ngSwitch]="mode">
+  <nz-spin [nzSpinning]="loading">
+    <perfect-scrollbar class="calendar__scroll">
+      <mwl-calendar-month-view
+        *ngSwitchCase="modesEnum.Month"
+        [viewDate]="date"
+        [events]="events"
+        [locale]="currentLocale"
+        [weekStartsOn]="1"
+        (dayClicked)="selectDay($event)"
+        (eventClicked)="selectEvent($event, allowSelectMonthEvent)"
+        (beforeViewRender)="beforeMonthViewRender($event)"
+      >
+      </mwl-calendar-month-view>
+
+      <mwl-calendar-week-view
+        *ngSwitchCase="modesEnum.Week"
+        [events]="events"
+        [viewDate]="date"
+        [weekStartsOn]="1"
+        [locale]="currentLocale"
+        [dayStartHour]="workHours[0]"
+        [dayEndHour]="workHours[1]"
+        (eventClicked)="selectEvent($event, allowSelectWeekEvent)"
+      >
+      </mwl-calendar-week-view>
+
+      <mwl-calendar-day-view
+        *ngSwitchCase="modesEnum.Day"
+        [events]="events"
+        [viewDate]="date"
+        [locale]="currentLocale"
+        [dayStartHour]="workHours[0]"
+        [dayEndHour]="workHours[1]"
+        (eventClicked)="selectEvent($event, allowSelectDayEvent)"
+        [hourSegmentHeight]="hourSegmentHeight"
+        (beforeViewRender)="hourSegmentModifier($event)"
+      >
+      </mwl-calendar-day-view>
+    </perfect-scrollbar>
+  </nz-spin>
+</div>
+
+<ng-template #datePickerTpl>
+  <nz-date-picker nzInline [nzMode]="datePickerMode" [ngModel]="date" (ngModelChange)="changeDate($event)"> </nz-date-picker>
+</ng-template>

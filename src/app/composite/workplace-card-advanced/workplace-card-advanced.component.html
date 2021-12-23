@@ -1,0 +1,101 @@
+<section class="workspace-card">
+  <ng-container *ngIf="card$ | async as card">
+    <nz-card [style.width]="'100%'" [nzCover]="coverTpl">
+      <nz-tabset>
+        <nz-tab [nzTitle]="'Data' | translate">
+          <h5 class="card__title" #header>
+            <div class="card__row">
+              <div>{{ card.title }}</div>
+              <div *ngIf="calendarLink" [title]="'Reservation calendar' | translate">
+                <img
+                  class="card__calendar"
+                  (click)="onLink(calendarLink, workplaceId)"
+                  [src]="CALENDAR_ICON"
+                  [alt]="'Reservation calendar' | translate"
+                />
+              </div>
+            </div>
+          </h5>
+          <div class="card__description-list" [style.maxHeight]="descriptionHeight">
+            <div class="card__description-item" *ngFor="let desc of card.descriptionList">
+              <div class="card__description-title">
+                <ng-container *ngIf="desc.nameTpl">
+                  <ng-container *ngTemplateOutlet="desc.nameTpl"></ng-container>
+                </ng-container>
+                <ng-container *ngIf="desc.name && !desc.nameTpl"> {{ desc.name | translate }}: </ng-container>
+              </div>
+              <div class="card__description-value">
+                <ng-container *ngTemplateOutlet="desc.valueTpl"></ng-container>
+                <ng-container *ngIf="desc.value && !desc.valueTpl">
+                  <ng-container *ngIf="!desc.link; else isLink">
+                    {{ desc.value | translate }}
+                  </ng-container>
+                  <ng-template #isLink>
+                    <a (click)="onLink(desc.link)">{{ desc.value | translate }}</a>
+                  </ng-template>
+                </ng-container>
+              </div>
+            </div>
+            <div class="card__tags">
+              <nz-tag class="mb-10" *ngFor="let tag of card.tags">{{ tag }}</nz-tag>
+            </div>
+          </div>
+        </nz-tab>
+      </nz-tabset>
+    </nz-card>
+    <ng-template #coverTpl>
+      <img *ngIf="card.image" [alt]="card.title" [src]="card.image" #image />
+    </ng-template>
+
+    <ng-container *ngIf="nornikAplana && readOnly; else notAplanaReadOnly">
+      <div class="buttons" #footer>
+        <a nz-button nzType="primary" [href]="aplanaUrl" target="_blank">{{ 'External booking system' | translate }}</a>
+      </div>
+    </ng-container>
+    <ng-template #notAplanaReadOnly>
+      <ng-container *ngIf="hideQuickActionsBtns; else withBtn">
+        <div [style.min-width]="'135px'" [style.height]="'1px'"></div>
+      </ng-container>
+      <ng-template #withBtn>
+        <div class="buttons" #footer>
+          <button nz-button nzType="primary" [disabled]="isLoading" *ngIf="!disabled" (click)="reservationPlace()">
+            {{ 'Reserve' | translate }}
+          </button>
+          <button nz-button nzType="primary" [disabled]="isLoading" *ngIf="isOrganizer" (click)="onLinkReservation()">
+            {{ 'View' | translate }}
+          </button>
+          <ng-container *ngIf="type === 'workplace' || type === 'parking'">
+            <button nz-button [disabled]="isLoading" nzType="primary" *ngIf="isOrganizer && !isConfirmed" (click)="approveReservation()">
+              {{ 'Approve' | translate }}
+            </button>
+            <button
+              nz-button
+              [disabled]="isLoading"
+              nzType="primary"
+              *ngIf="isOrganizer && isConfirmed && !adminCancelReservation"
+              (click)="deleteReservation()"
+            >
+              {{ 'ToFinish' | translate }}
+            </button>
+            <button
+              nz-button
+              [disabled]="isLoading"
+              nzType="primary"
+              nzDanger
+              *ngIf="isOrganizer && !isConfirmed && !adminCancelReservation"
+              (click)="deleteReservation()"
+            >
+              {{ 'ToCancel' | translate }}
+            </button>
+          </ng-container>
+          <ng-container *ngIf="type === 'appointment'">
+            <button nz-button [disabled]="isLoading" nzType="primary" nzDanger *ngIf="isOrganizer" (click)="deleteAppointment()">
+              {{ 'ToCancel' | translate }}
+            </button>
+          </ng-container>
+        </div>
+      </ng-template>
+    </ng-template>
+    <i nz-icon nzType="close" class="close-icon" (click)="onClose()"></i>
+  </ng-container>
+</section>

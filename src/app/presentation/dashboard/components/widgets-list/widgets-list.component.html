@@ -1,0 +1,14 @@
+<div class="widgets" cdkDropList appScroll (cdkDropListDropped)="handleListChange($event)">
+  <app-widget
+    *ngFor="let widget of widgets"
+    [id]="widget.id"
+    [title]="widget.title | dictionary | translate"
+    [bgGray]="widget.type === 'reservations'"
+    [hideTitle]="widget.type === 'reservations' && isSmallScreen"
+    class="widget"
+    (action)="handleWidgetActions($event)"
+  >
+    <app-widget-calendarnew *ngIf="widget.type === 'workplace-calendar'"></app-widget-calendarnew>
+    <app-widget-reservations *ngIf="widget.type === 'reservations'"></app-widget-reservations>
+  </app-widget>
+</div>

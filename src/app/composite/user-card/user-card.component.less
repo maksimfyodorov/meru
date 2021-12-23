@@ -1,0 +1,25 @@
+:host {
+  display: block;
+}
+.user-card {
+  ::ng-deep {
+    .card__title {
+      text-align: center;
+    }
+    .ant-card {
+      border-radius: 5px;
+    }
+    .ant-card-cover {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px 0;
+      img {
+        border-radius: 50%;
+        width: 72px;
+        object-fit: cover;
+        height: 72px;
+      }
+    }
+  }
+}

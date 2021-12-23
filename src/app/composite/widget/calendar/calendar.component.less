@@ -1,0 +1,27 @@
+@import '~src/theme/override';
+:host {
+  display: block;
+  ::ng-deep {
+    .ant-select {
+      width: auto;
+    }
+  }
+}
+.cell-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.cell-item {
+  background-color: @blue-2;
+  border-radius: 4px;
+  padding: 3px 7px;
+  margin-bottom: 8px;
+  p {
+    margin: 0;
+  }
+  span {
+    color: @gray-8;
+    margin: 0;
+  }
+}

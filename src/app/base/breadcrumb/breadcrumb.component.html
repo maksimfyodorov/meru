@@ -1,0 +1,9 @@
+<nz-breadcrumb class="breadcrumbs">
+  <nz-breadcrumb-item *ngIf="back">
+    <button [style.padding.px]="0" nz-button nzType="text" (click)="goBack()"><i nz-icon nzType="arrow-left"></i>{{ 'Back' | translate }}</button>
+  </nz-breadcrumb-item>
+  <nz-breadcrumb-item *ngFor="let item of items; last as last" class="breadcrumbs__item">
+    <a [routerLink]="item.url" *ngIf="!last">{{ item.title | translate }}</a>
+    <span *ngIf="last">{{ item.title | translate }}</span>
+  </nz-breadcrumb-item>
+</nz-breadcrumb>

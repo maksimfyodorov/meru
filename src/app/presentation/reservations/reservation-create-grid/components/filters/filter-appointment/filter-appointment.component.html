@@ -1,0 +1,57 @@
+<div class="filter-header">
+  <h3>
+    {{ 'Filters' | dictionary | translate }}
+  </h3>
+
+  <button nz-button [nzType]="'link'" (click)="clear()">
+    {{ 'Clear' | dictionary | translate }}
+  </button>
+</div>
+<nz-form-item class="app-list-filter-item">
+  <ng-container *ngTemplateOutlet="titleTpl; context: { $implicit: 'Period' }"></ng-container>
+  <app-filter-date-time
+    [format]="dateFormat"
+    [nzMinuteStep]="30"
+    [workHours]="workHours"
+    [minDuration]="minDuration"
+    [allowAllDay]="false"
+    [autoUpdateDateTo]="true"
+    [autoUpdateDateToFullDay]="true"
+    [minDateTime]="now"
+    [ngModel]="[dateTimeFromControl.value, dateTimeToControl.value]"
+    [nzAllowClear]="false"
+    (ngModelChange)="updateDateTime($event)"
+  ></app-filter-date-time>
+</nz-form-item>
+
+<ng-container *ngTemplateOutlet="titleTpl; context: { $implicit: 'Building / floor' }"></ng-container>
+<app-building-in-filter
+  [mode]="mode"
+  [building]="buildings[currentBuildingIndex]"
+  [selectedIds]="selectedIds"
+  (changeSelectedIds)="chooseFloors($event)"
+></app-building-in-filter>
+
+<ng-container *ngTemplateOutlet="titleTpl; context: { $implicit: 'Seats count' }"></ng-container>
+<nz-input-number [formControl]="seatCountControl" [nzMin]="1"></nz-input-number>
+
+<nz-form-item class="app-list-filter-item" *ngIf="tags?.length">
+  <ng-container *ngTemplateOutlet="titleTpl; context: { $implicit: 'Environment' }"></ng-container>
+  <div *ngIf="tags">
+    <nz-tag
+      [nzColor]="tagsStatus[tag.name] ? 'processing' : 'default'"
+      *ngFor="let tag of tags"
+      class="tag"
+      [nzColor]="'default'"
+      (click)="updateTags(tag.name)"
+    >
+      {{ tag.name }}
+    </nz-tag>
+  </div>
+</nz-form-item>
+
+<ng-template #titleTpl let-title>
+  <h6 class="app-list-filter-item__title">
+    {{ title | translate }}
+  </h6>
+</ng-template>

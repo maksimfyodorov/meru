@@ -1,0 +1,94 @@
+<div class="reservation">
+  <div class="reservation__card">
+    <app-card
+      *ngIf="card$ | async as card"
+      [title]="card.title"
+      [descriptionList]="card.descriptionList"
+      [tags]="card.tags"
+      [image]="card.image || imageUrl"
+    >
+    </app-card>
+  </div>
+  <div class="reservation__main">
+    <nz-card class="reservation__block_calendar">
+      <app-calendar
+        [modes]="['month', 'day']"
+        [mode]="mode"
+        [loading]="isLoading"
+        [events]="events$ | async"
+        [disablePast]="true"
+        [allowSelectEmptyDay]="true"
+        [allowSelectDayEvent]="true"
+        [allowSelectMonthEvent]="true"
+        [minDate]="minDate"
+        (eventSelect)="eventHandler($event)"
+        (periodChange)="monthSelectHandler($event)"
+      ></app-calendar>
+    </nz-card>
+  </div>
+</div>
+<ng-template #modalTitleTpl>
+  <span class="modal-title"> <i nz-icon nzType="check-circle"></i>{{ 'Approve reservation' | translate }} </span>
+</ng-template>
+<ng-template #modalFooterTpl>
+  <div class="modal-footer">
+    <div *ngIf="wrongRange" class="error">
+      <span>{{ 'Minimum booking period' | translate }}&nbsp;{{ minDuration / 60000 }}&nbsp;{{ 'minutes' | translate }}</span>
+    </div>
+    <button nz-button class="ant-btn" (click)="cancelReservation()">
+      <span> {{ 'Cancel' | translate }} </span>
+    </button>
+    <button nz-button class="ant-btn ant-btn-primary" (click)="approveReservation()" [disabled]="isModalLoading || wrongRange">
+      <span> {{ 'Approve' | translate }} </span>
+    </button>
+  </div>
+</ng-template>
+<ng-template #modalContentTpl>
+  <ng-container *ngIf="type === 'appointment'">
+    <div class="modal-content">
+      <input class="input ant-input" nz-input [(ngModel)]="meetingSubject" [placeholder]="'Meeting subject' | translate" />
+    </div>
+    <br />
+  </ng-container>
+  <div class="modal-content info">
+    <span class="modal-content__name">{{ 'Period' | translate }}: </span>
+  </div>
+  <div class="modal-content">
+    <ng-container *ngIf="!isSmallScreen; else small">
+      <app-filter-date-time
+        [ngModel]="[dateTimeFromControl.value, dateTimeToControl.value]"
+        [layout]="'horizontal'"
+        [format]="dateFormat"
+        [nzMinuteStep]="type === 'appointment' ? 30 : 5"
+        [workHours]="workHours"
+        [minDuration]="minDuration"
+        [allowAllDay]="false"
+        [autoUpdateDateTo]="false"
+        [minDateTime]="dateTimeFrom"
+        [maxDateTime]="dateTimeTo"
+        [staticDisabled]="true"
+        [nzAllowClear]="false"
+        (ngModelChange)="updateDateTime($event)"
+      >
+      </app-filter-date-time>
+    </ng-container>
+    <ng-template #small>
+      <app-filter-date-time
+        [ngModel]="[dateTimeFromControl.value, dateTimeToControl.value]"
+        [layout]="'vertical'"
+        [format]="dateFormat"
+        [nzMinuteStep]="type === 'appointment' ? 30 : 5"
+        [workHours]="workHours"
+        [minDuration]="minDuration"
+        [allowAllDay]="false"
+        [autoUpdateDateTo]="false"
+        [minDateTime]="dateTimeFrom"
+        [maxDateTime]="dateTimeTo"
+        [staticDisabled]="true"
+        [nzAllowClear]="false"
+        (ngModelChange)="updateDateTime($event)"
+      >
+      </app-filter-date-time>
+    </ng-template>
+  </div>
+</ng-template>

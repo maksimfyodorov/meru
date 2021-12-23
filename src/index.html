@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <title>Система управления офисным пространством</title>
+    <base href="/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="cache-Control" content="no-cache" />
+    <meta http-equiv="cache-Control" content="max-age=7200, must-revalidate" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <style>
+      .global-loader {
+        background: #fff;
+        height: 100%;
+        left: 0;
+        opacity: 1;
+        position: absolute;
+        top: 0;
+        visibility: visible;
+        width: 100%;
+        z-index: 9999;
+        transition: opacity 0.05s, visibility 0.05s;
+      }
+
+      .global-loader._hidden {
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.5s 1s, visibility 0.5s 1s;
+      }
+
+      .global-loader__image {
+        height: auto;
+        width: 240px;
+      }
+
+      .global-loader__container {
+        display: inline-block;
+        left: 50%;
+        position: absolute;
+        top: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      .global-loader__container::before {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background: #fff;
+        border-radius: 10px;
+        opacity: 0;
+        animation: logo-pulse 1.5s cubic-bezier(0.23, 1, 0.32, 1) infinite;
+        content: '';
+      }
+
+      @keyframes logo-pulse {
+        0% {
+          width: 0;
+          opacity: 0.1;
+        }
+        40% {
+          width: 0;
+          opacity: 1;
+        }
+        100% {
+          width: 100%;
+          opacity: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app-substrate"></div>
+    <div app-root></div>
+    <div class="global-loader">
+      <div class="global-loader__container">
+        <img class="global-loader__image" src="./assets/images/logo.svg" />
+      </div>
+    </div>
+    <!--TODO: Добавить перевод к сообщению -->
+    <script>
+      let isIE1 = /msie\s|trident\//i.test(window.navigator.userAgent);
+
+      if (isIE1) {
+        const textMessag = 'СУОП поддерживает работу в браузере Microsoft EDGE\nОткрыть приложение в браузере Microsoft EDGE?';
+        const resultConfirm = confirm(textMessag);
+        if (resultConfirm == true) {
+          window.open('microsoft-edge:' + window.location.href);
+        } else {
+        }
+      }
+    </script>
+    <!-- <script type="text/javascript">
+      (function (m, e, t, r, i, k, a) {
+        m[i] =
+          m[i] ||
+          function () {
+            (m[i].a = m[i].a || []).push(arguments);
+          };
+        m[i].l = 1 * new Date();
+        (k = e.createElement(t)), (a = e.getElementsByTagName(t)[0]), (k.async = 1), (k.src = r), a.parentNode.insertBefore(k, a);
+      })(window, document, 'script', 'https://mc.yandex.ru/metrika/tag.js', 'ym');
+
+      ym(85256491, 'init', {
+        clickmap: true,
+        trackLinks: true,
+        accurateTrackBounce: true,
+        webvisor: true,
+      });
+    </script> -->
+    <noscript
+      ><div><img src="https://mc.yandex.ru/watch/85256491" style="position: absolute; left: -9999px" alt="" /></div
+    ></noscript>
+  </body>
+</html>

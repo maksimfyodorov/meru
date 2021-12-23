@@ -1,0 +1,16 @@
+<nz-radio-group
+  nzButtonStyle="solid"
+  [ngModel]="value || 0"
+  (ngModelChange)="change($event)"
+  class="app-multi-switcher">
+  <label
+    nz-radio-button
+    *ngFor="let item of items; index as i; last as last"
+    [nzValue]="item.value || i"
+    [style]="last ? null : {'margin-right': gutter + 'px'}"
+    [nz-tooltip]="item.tooltip | translate"
+  >
+    {{ item.label | translate }}
+    <i *ngIf="item.icon" nz-icon [nzType]="item.icon"></i>
+  </label>
+</nz-radio-group>

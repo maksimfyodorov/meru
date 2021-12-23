@@ -1,0 +1,118 @@
+[
+  {
+    "id": "1",
+    "title": "Home",
+    "mobileTitle": "Home",
+    "icon": "icons:speedometer",
+    "url": "/",
+    "showOnlyOnMobile": false,
+    "showInMobileMenu": false
+  },
+  {
+    "id": "2",
+    "title": "Offices",
+    "mobileTitle": "Offices",
+    "icon": "icons:office-building",
+    "url": "/office",
+    "roles": [],
+    "showOnlyOnMobile": false,
+    "showInMobileMenu": true
+  },
+  {
+    "id": "3",
+    "title": "Reservations",
+    "mobileTitle": "Reservations",
+    "subMenuTitle": "My Reservations",
+    "icon": "icons:contacts",
+    "url": "/reservations",
+    "showOnlyOnMobile": false,
+    "showInMobileMenu": true,
+    "shortTitle": "Bookings",
+    "children": [
+      {
+        "id": "3-1",
+        "title": "Workplace",
+        "mobileTitle": "Workplace",
+        "url": "/reservations/workplace"
+      },
+      {
+        "id": "3-2",
+        "title": "Meeting room",
+        "mobileTitle": "Meeting room",
+        "url": "/reservations/appointment"
+      },
+      {
+        "id": "3-3",
+        "title": "Locker",
+        "mobileTitle": "Locker",
+        "url": "/reservations/locker"
+      },
+      {
+        "id": "3-4",
+        "title": "Parking",
+        "mobileTitle": "Parking",
+        "url": "/reservations/parking"
+      }
+    ]
+  },
+  {
+    "id": "4",
+    "title": "Office services",
+    "mobileTitle": "Office services",
+    "icon": "icons:printer",
+    "url": "/services",
+    "showOnlyOnMobile": false,
+    "showInMobileMenu": false,
+    "shortTitle": "Services"
+  },
+  {
+    "id": "5",
+    "title": "Users",
+    "mobileTitle": "Users",
+    "icon": "icons:agenda",
+    "url": "/users",
+    "showOnlyOnMobile": false,
+    "showInMobileMenu": true
+  },
+  {
+    "id": "6",
+    "title": "My team",
+    "mobileTitle": "My team",
+    "subMenuTitle": "My team",
+    "icon": "icons:teamwork",
+    "url": "/team",
+    "showOnlyOnMobile": false,
+    "showInMobileMenu": true,
+    "shortTitle": "Team",
+    "children": [
+      {
+        "id": "6-1",
+        "title": "Reservations",
+        "mobileTitle": "Reservations",
+        "url": "/team/reservations/"
+      },
+      {
+        "id": "6-2",
+        "title": "Profiles",
+        "mobileTitle": "Profiles",
+        "url": "/team/profiles"
+      },
+      {
+        "id": "6-3",
+        "title": "Requests",
+        "mobileTitle": "Requests",
+        "url": "/team/requests"
+      }
+    ]
+  },
+  {
+    "id": "7",
+    "title": "QR",
+    "mobileTitle": "QR",
+    "icon": "icons:qr",
+    "url": "/qrscan",
+    "showOnlyOnMobile": true,
+    "showInMobileMenu": false,
+    "openModal": true
+  }
+]

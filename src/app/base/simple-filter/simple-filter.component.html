@@ -1,0 +1,43 @@
+<section class="filter">
+  <ng-container *ngIf="tpl && collapseTpl">
+    <ng-container *ngTemplateOutlet="isCollapsible ? colTpl : rowTpl"></ng-container>
+  </ng-container>
+  <ng-container *ngIf="tpl && !collapseTpl">
+    <ng-container *ngTemplateOutlet="notCollapseTpl"></ng-container>
+  </ng-container>
+</section>
+
+<ng-template #colTpl>
+  <nz-collapse class="filter__collapse" [nzBordered]="false" [nzGhost]="true">
+    <nz-collapse-panel
+      [nzHeader]="colHeaderTpl"
+      [nzShowArrow]="false"
+      [(nzActive)]="active"
+    >
+      <div class="pt-15">
+        <ng-container *ngTemplateOutlet="collapseTpl"></ng-container>
+      </div>
+    </nz-collapse-panel>
+  </nz-collapse>
+</ng-template>
+
+<ng-template #colHeaderTpl>
+  <div class="filter__collapse-header" (click)="$event.stopPropagation()">
+    <div class="filter__collapse-header-tpl">
+      <ng-container *ngTemplateOutlet="tpl"></ng-container>
+    </div>
+    <button class="filter__collapse-header-btn" nz-button nzType="link" (click)="toggleActive()">
+      {{ collapseBtn }} <i nz-icon [nzType]="collapseIcon"></i>
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #rowTpl>
+  <ng-container *ngTemplateOutlet="tpl"></ng-container>
+</ng-template>
+
+<ng-template #notCollapseTpl>
+  <div class="filter__no-collapse">
+    <ng-container *ngTemplateOutlet="tpl"></ng-container>
+  </div>
+</ng-template>

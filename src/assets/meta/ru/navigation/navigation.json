@@ -1,0 +1,115 @@
+[
+  {
+    "id": "1",
+    "title": "Главная",
+    "mobileTitle": "Главная",
+    "icon": "icons:speedometer",
+    "url": "/",
+    "showOnlyOnMobile": false,
+    "showInMobileMenu": false
+  },
+  {
+    "id": "2",
+    "title": "Офисы",
+    "mobileTitle": "Офисы",
+    "icon": "icons:office-building",
+    "url": "/office",
+    "showOnlyOnMobile": false,
+    "showInMobileMenu": true,
+    "roles": []
+  },
+  {
+    "id": "3",
+    "title": "Бронирование",
+    "mobileTitle": "Брони",
+    "subMenuTitle": "Мои брони",
+    "icon": "icons:contacts",
+    "url": "/reservations",
+    "showOnlyOnMobile": false,
+    "showInMobileMenu": true,
+    "children": [
+      {
+        "id": "3-1",
+        "title": "Рабочее место",
+        "mobileTitle": "Рабочее место",
+        "url": "/reservations/workplace"
+      },
+      {
+        "id": "3-2",
+        "title": "Переговорная комната",
+        "mobileTitle": "Переговорная комната",
+        "url": "/reservations/appointment"
+      },
+      {
+        "id": "3-3",
+        "title": "Шкафчик",
+        "mobileTitle": "Шкафчик",
+        "url": "/reservations/locker"
+      },
+      {
+        "id": "3-4",
+        "title": "Парковка",
+        "mobileTitle": "Парковка",
+        "url": "/reservations/parking"
+      }
+    ]
+  },
+  {
+    "id": "4",
+    "title": "Услуги в офисе",
+    "mobileTitle": "Услуги",
+    "icon": "icons:printer",
+    "showOnlyOnMobile": false,
+    "showInMobileMenu": false,
+    "url": "/services"
+  },
+  {
+    "id": "5",
+    "title": "Пользователи",
+    "mobileTitle": "Пользователи",
+    "icon": "icons:agenda",
+    "url": "/users",
+    "showOnlyOnMobile": false,
+    "showInMobileMenu": true
+  },
+  {
+    "id": "6",
+    "title": "Моя команда",
+    "mobileTitle": "Команда",
+    "subMenuTitle": "Моя команда",
+    "icon": "icons:teamwork",
+    "url": "/team",
+    "showOnlyOnMobile": false,
+    "showInMobileMenu": true,
+    "children": [
+      {
+        "id": "6-1",
+        "title": "Бронирование",
+        "mobileTitle": "Бронирование",
+        "url": "/team/reservations/"
+      },
+      {
+        "id": "6-2",
+        "title": "Профили",
+        "mobileTitle": "Профили",
+        "url": "/team/profiles"
+      },
+      {
+        "id": "6-3",
+        "title": "Запросы",
+        "mobileTitle": "Запросы",
+        "url": "/team/requests"
+      }
+    ]
+  },
+  {
+    "id": "7",
+    "title": "QR",
+    "mobileTitle": "QR",
+    "icon": "icons:qr",
+    "url": "",
+    "showOnlyOnMobile": true,
+    "showInMobileMenu": false,
+    "openModal": true
+  }
+]

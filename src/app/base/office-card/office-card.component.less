@@ -1,0 +1,100 @@
+@import "~src/theme/override";
+.office-card {
+  width: 100%;
+  background-color: @gray-1;
+  &__header {
+    display: flex;
+    align-items: center;
+    padding: 18px;
+    &._green {
+      background: linear-gradient(to right, transparent 80%, @green-1);
+      .office-card__workload i {
+        color: @green-7;
+      }
+    }
+    &._red {
+      background: linear-gradient(to right, transparent 80%, @red-1);
+      .office-card__workload i {
+        color: @red-7;
+      }
+    }
+    &._yellow {
+      background: linear-gradient(to right, transparent 80%, @gold-1);
+      .office-card__workload i {
+        color: @gold-5;
+      }
+    }
+    &-title {
+      flex-basis: auto;
+      flex-grow: 1;
+    }
+    &-icon {
+      padding-right: 15px;
+      font-size: 30px;
+    }
+  }
+  &__title {
+    font-size: 14px;
+    font-weight: 500;
+    margin: 0;
+  }
+  &__floor {
+    font-size: 12px;
+    margin: 0;
+  }
+  &__workload {
+    margin: 0;
+    padding-left: 15px;
+    i {
+      font-weight: 700;
+      font-style: normal;
+    }
+  }
+  &__places {
+    padding: 33px 25px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+  &__place {
+    &-title {
+      text-align: center;
+      margin: 20px 0 10px;
+      font-size: 14px;
+      font-weight: 500;
+    }
+    &-free {
+      font-size: 12px;
+      text-align: center;
+      display: block;
+      i {
+        font-style: normal;
+        color: @green-7;
+      }
+    }
+    &-available {
+      font-size: 12px;
+      text-align: center;
+      display: block;
+      i {
+        font-style: normal;
+        color: @green-7;
+      }
+    }
+    &-busy {
+      font-size: 12px;
+      text-align: center;
+      display: block;
+      i {
+        font-style: normal;
+        color: @red-5;
+      }
+    }
+    &-icon {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 45px;
+    }
+  }
+}

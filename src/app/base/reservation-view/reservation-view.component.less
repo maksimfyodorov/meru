@@ -1,0 +1,287 @@
+@import '~src/theme/override';
+
+.reservation {
+  display: flex;
+  &__card {
+    margin-right: 25px;
+  }
+  &__main {
+    width: 100%;
+  }
+  &__block {
+    background-color: #fff;
+    & + .reservation__block {
+      margin-top: 25px;
+    }
+    &._steps {
+      padding: 10px 0 30px 0;
+    }
+    &._comments {
+      padding: 15px 0;
+    }
+    &._members {
+      padding: 10px 0 20px;
+    }
+  }
+  &__divider {
+    padding: 0 15px;
+    ::ng-deep .ant-divider {
+      margin-top: 0;
+    }
+  }
+}
+
+.reservation-mobile {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .reservation {
+    overflow-y: auto;
+    flex-direction: column;
+    &__block {
+      margin: 0 10px;
+      &._steps {
+        padding: 0 10px;
+      }
+    }
+    &__status {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px;
+      background-color: #fff;
+    }
+    &__card {
+      margin: 0 0 0px 0;
+    }
+  }
+  .mobile-buttons {
+    position: absolute;
+    bottom: 15px;
+    width: 100%;
+    button {
+      height: 40px;
+      width: 100%;
+    }
+  }
+}
+
+// @media screen and (max-width: 767px) {
+//   .reservation {
+//     display: none;
+//   }
+//   .reservation-mobile {
+//     max-width: 100%;
+//     background-color: #ffffff;
+//     padding: 0;
+//     margin-bottom: 80px;
+//     display: block;
+
+//     &__info {
+//       padding: 14px 22px 25px 22px;
+//     }
+//     &__actions {
+//       margin-bottom: 5px;
+//       height: 34px;
+//       display: flex;
+//       align-items: center;
+//       justify-content: space-between;
+//       .left {
+//         h3 {
+//           font-weight: bold;
+//           font-size: 16px;
+//           line-height: 24px;
+//           color: #002233;
+//           margin: 0;
+//         }
+//       }
+//       .right {
+//         a {
+//           display: flex;
+//           align-items: center;
+//           justify-content: center;
+//           background-color: #e4e4e4;
+//           color: #000;
+//           width: 24px;
+//           height: 24px;
+//           text-align: center;
+//           border-radius: 50%;
+//           font-size: 12px;
+//           line-height: 25px;
+//         }
+//         .link-item {
+//           & + .link-item {
+//             margin-left: 15px;
+//           }
+//         }
+//         & > div {
+//           display: flex;
+//           align-items: center;
+//         }
+//       }
+//     }
+//     &__details {
+//       .item {
+//         display: flex;
+//         justify-content: space-between;
+//         font-size: 14px;
+//         line-height: 22px;
+//         & + .item {
+//           margin-top: 12px;
+//         }
+//         .right {
+//           color: rgba(#000000, 0.65);
+//           .status {
+//             margin-right: 5px;
+//           }
+//         }
+//       }
+//     }
+//     &__tags {
+//       margin-top: 35px;
+//       margin-bottom: 130px;
+//     }
+//     &__reserve {
+//       button {
+//         padding-bottom: 4px;
+//         margin-bottom: 3px;
+//         height: 45px;
+//         font-size: 18px;
+//         line-height: 25px;
+//         border: none;
+//         width: 100%;
+//         position: fixed;
+//         left: 0;
+//         bottom: 104px;
+//       }
+//     }
+//     &__delete {
+//       button {
+//         padding-bottom: 4px;
+//         margin-bottom: 3px;
+//         height: 45px;
+//         font-size: 18px;
+//         line-height: 25px;
+//         border: none;
+//         width: 100%;
+//         position: fixed;
+//         left: 0;
+//         bottom: 57px;
+//       }
+//     }
+//   }
+//   .topbar {
+//     min-height: 57px;
+//     padding: 0 18px;
+//     cursor: pointer;
+//     display: flex;
+//     justify-content: space-between;
+//     align-items: center;
+//     .right {
+//       a {
+//         color: #908f8f;
+//         font-size: 16px;
+//       }
+//     }
+//   }
+//   .status {
+//     width: 10px;
+//     height: 10px;
+//     margin-right: 10px;
+//     background-color: #6cb64c;
+//     border-radius: 50%;
+//     display: inline-block;
+//     &.approved {
+//       background-color: rgb(250, 140, 22);
+//     }
+//     &.confirmed {
+//       background-color: rgb(82, 196, 26);
+//     }
+//     &.completed,
+//     &.closed {
+//       background-color: rgb(24, 144, 255);
+//     }
+//     &.canceled {
+//       background-color: rgb(140, 140, 140);
+//     }
+//     &.rejected {
+//       background-color: rgb(255, 77, 79);
+//     }
+//     &.renouncement {
+//       background-color: rgb(255, 77, 79);
+//     }
+//     &.unknown {
+//       background-color: rgb(140, 140, 140);
+//     }
+//   }
+
+//   ::ng-deep {
+//     .reservation-mobile-steps {
+//       background-color: #ffffff;
+//       padding: 0 23px 23px 23px;
+//       &__status {
+//         .title {
+//           font-weight: 500;
+//           font-size: 18px;
+//           line-height: 28px;
+//           color: rgba(0, 0, 0, 0.85);
+//           margin-bottom: 27px;
+//           margin-top: 5px;
+//         }
+//       }
+//       .flip-arrow {
+//         transform: scaleX(-1);
+//       }
+//       .ant-steps-vertical {
+//         & > .ant-steps-item:not(:last-child) {
+//           .ant-steps-item-content {
+//             margin-bottom: 70px;
+//           }
+//           .ant-steps-item-title {
+//             font-weight: 500;
+//             font-size: 14px;
+//             line-height: 20px;
+//             color: @gray-13;
+//             margin-bottom: 4px;
+//           }
+//           .ant-steps-item-description {
+//             font-size: 12px;
+//             line-height: 16px;
+//             color: #6e7882;
+//             padding-bottom: 0;
+//           }
+//           .ant-steps-item-container {
+//             & > .ant-steps-item-tail::after {
+//               width: 3px;
+//             }
+//             .ant-steps-item-icon {
+//               .ant-steps-icon-dot {
+//                 left: 0;
+//               }
+//             }
+//           }
+//         }
+//       }
+//     }
+//   }
+// }
+.spin {
+  z-index: 10;
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  &-wrapper {
+    z-index: 10;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: rgba(255, 255, 255, 0.75);
+  }
+}
+.color-gray {
+  color: gray;
+}

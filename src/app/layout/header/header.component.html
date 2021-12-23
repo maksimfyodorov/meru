@@ -1,0 +1,21 @@
+<ng-container *ngTemplateOutlet="($loader.headerLoading$ | async) ? loader : content"></ng-container>
+
+<ng-template #content>
+  <a class="header__logo" routerLink="/" [style.marginRight.px]="40">
+    <img [src]="logo.src" [alt]="logo.alt" [title]="logo.title">
+  </a>
+
+  <div class="header__tools">
+    <app-header-search></app-header-search>
+    <!-- <i nz-icon nzType="question-circle" nzTheme="outline" [nz-tooltip]="'Directory' | dictionary | translate"></i> -->
+    <!-- <app-header-notifications [indentClass]="'top-indent'"></app-header-notifications> -->
+    <app-header-locale></app-header-locale>
+    <app-header-profile></app-header-profile>
+  </div>
+</ng-template>
+
+<ng-template #loader>
+  <div class="header__loading">
+    <nz-spin nzSimple nzTip="Загрузка шапки..."></nz-spin>
+  </div>
+</ng-template>

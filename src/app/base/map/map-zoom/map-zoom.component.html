@@ -1,0 +1,30 @@
+<div class="map-zoom" [ngClass]="'_' + position">
+  <button nz-button
+          nzType="primary"
+          nzShape="circle"
+          class="map-zoom__btn"
+          (click)="increment(options.step)">
+    <i nz-icon nzType="plus" nzTheme="outline"></i>
+  </button>
+  <nz-slider
+    [nzMin]="options.min"
+    [nzMax]="options.max"
+    [nzDots]="options.dots"
+    [nzVertical]="options.vertical"
+    [nzStep]="options.step"
+    [nzRange]="options.range"
+    [nzTipFormatter]="options.tipFormatter"
+    [nzTooltipVisible]="options.tooltipVisible"
+    [nzMarks]="options.marks"
+    [ngModel]="value"
+    (ngModelChange)="changeValue($event)"
+    class="map-zoom__slider"
+  ></nz-slider>
+  <button nz-button
+          nzType="primary"
+          nzShape="circle"
+          class="map-zoom__btn"
+          (click)="decrement(options.step)">
+    <i nz-icon nzType="minus" nzTheme="outline"></i>
+  </button>
+</div>

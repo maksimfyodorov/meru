@@ -1,0 +1,159 @@
+<section class="offices-map" (mousemove)="preventClose()">
+  <div #topControlsEl class="offices-map__top-controls user-select-none">
+    <div class="offices-map__action">
+      <app-dropdown-select
+        class="offices-map__action-dropdown-select"
+        [values]="dropdownSelect.values"
+        [(value)]="dropdownSelect.value"
+        (valueChange)="changeDropdownSelect($event)"
+      ></app-dropdown-select>
+      <app-mobile-filter-button *ngIf="isSmallScreen" (showModal)="showModal()"></app-mobile-filter-button>
+    </div>
+
+    <div class="offices-map__mode">
+      <span class="offices-map__mode-label">{{ modeLabel | translate }}</span>
+      <app-multi-switcher
+        class="offices-map__mode-switcher"
+        [items]="mode.items"
+        [(value)]="mode.value"
+        (valueChange)="changeMode($event)"
+      ></app-multi-switcher>
+    </div>
+  </div>
+  <app-map
+    [img]="image$ | async"
+    [size]="{
+      width: currentFloorMap?.mapWidth,
+      height: currentFloorMap?.mapHeight
+    }"
+    [loading]="loading$ | async"
+    [marks]="marks$ | async"
+    [centeredMarkId]="visibleWorkplaceId"
+    [centeredMarkLogicType]="visibleWorkplaceLogicType"
+    [height]="mapHeight"
+    [hiddenMarksTypes]="hiddenMarksTypes"
+    [areas]="areas"
+    [areasVisible]="areasVisible"
+    [useAdvCard]="true"
+    [selectedMarkId]="showAdvancedCard ? workplaceId : null"
+    [selectedMarkLogicType]="workplaceLogicType || visibleWorkplaceLogicType"
+    (mousedown)="onCloseAdvcard(300)"
+    (hiddenMarksChange)="onHiddenMarksChange($event)"
+    (areaVisibilityChange)="onAreaVisibilityChange($event)"
+    class="offices-map__map"
+  ></app-map>
+  <div #bottomControlsEl *ngIf="!isSmallScreen" class="offices-map__bottom-controls light-fon">
+    <ng-container *ngTemplateOutlet="mode.value ? searchTpl : filterTpl"></ng-container>
+  </div>
+</section>
+<div *ngIf="showAdvancedCard" class="advcard">
+  <app-workplace-card-advanced
+    [disabled]="isReservation"
+    [readOnly]="isEwsReadOnly"
+    [showPermanentAssignment]="true"
+    [type]="type"
+    [workplaceId]="workplaceId"
+    [reservation]="currentPlaceReservation"
+    [calendarLink]="calendarLink"
+    (close)="onCloseAdvcard()"
+    (reservation)="handleReservation($event)"
+    (updateMap)="onUpdateMap()"
+  ></app-workplace-card-advanced>
+</div>
+
+<ng-template #popup>
+  <app-workplace-card
+    [type]="type"
+    [readOnly]="isEwsReadOnly"
+    [showPermanentAssignment]="true"
+    [workplaceId]="workplaceId"
+    [disabled]="isReservation"
+    [calendarLink]="'reservations/appointment/workplace/' + workplaceId"
+    (reservation)="handleReservation($event)"
+  ></app-workplace-card>
+</ng-template>
+
+<ng-template #filterTpl>
+  <section class="offices-map__filter">
+    <div class="offices-map__filter-date">
+      <app-filter-date-time
+        [(ngModel)]="filter.date.value"
+        [layout]="isSmallScreen ? 'vertical' : 'horizontal'"
+        [format]="filter.date.format"
+        [workHours]="filter.date.workHours"
+        [autoUpdateDateTo]="true"
+        [autoUpdateDateToFullDay]="true"
+        [minDuration]="filter.slider.step"
+        [nzAllowClear]="false"
+        [minDateTime]="now"
+        (ngModelChange)="filterValueChange('date')"
+      ></app-filter-date-time>
+    </div>
+    <div class="offices-map__filter-time">
+      <nz-slider
+        *ngIf="!isSmallScreen"
+        class="tooltip-blue"
+        nzRange
+        [(ngModel)]="filter.slider.value"
+        (ngModelChange)="filterValueChange('time')"
+        [nzMin]="filter.slider.min"
+        [nzMax]="filter.slider.max"
+        [nzStep]="filter.slider.step"
+        [nzTipFormatter]="filter.slider.tipFormatter"
+        [nzDisabled]="filter.slider.disabled"
+        [nzTooltipVisible]="filter.slider.tooltipVisible"
+        [nzMarks]="filter.slider.marks"
+      ></nz-slider>
+    </div>
+  </section>
+</ng-template>
+
+<ng-template #searchTpl>
+  <nz-input-group class="offices-map__filter" nzSearch [nzAddOnAfter]="suffixIconButtonTpl">
+    <nz-select
+      nzShowSearch
+      [nzPlaceHolder]="search.placeHolder"
+      [(ngModel)]="search.value"
+      [nzShowArrow]="search.showArrow"
+      [nzFilterOption]="search.filterOption"
+      [nzCustomTemplate]="searchResultTemplateTpl"
+      (ngModelChange)="onSelectSearch($event)"
+    >
+      <nz-option *ngFor="let user of users$ | async" [nzLabel]="user.name" [nzValue]="user"></nz-option>
+    </nz-select>
+  </nz-input-group>
+</ng-template>
+<ng-template #suffixIconButtonTpl>
+  <button nz-button nzType="primary" nzSearch>
+    <i nz-icon nzType="search"></i>
+  </button>
+</ng-template>
+<ng-template #searchResultTemplateTpl let-option>
+  <div class="d-flex align-items-center" [class.d-none]="search.loading">
+    <img
+      class="offices-map__search-img"
+      [src]="option.nzValue.avatarImageUrl ? (option.nzValue.avatarImageUrl | imageBlob | async) : defaultAvatar"
+      [alt]="option.nzLabel"
+      (load)="onLoadSearchAvatar()"
+    />
+    <span>{{ option.nzLabel }}</span>
+  </div>
+  <ng-container *ngTemplateOutlet="search.loading ? searchResultTemplateLoadingTpl : null"></ng-container>
+</ng-template>
+<ng-template #searchResultTemplateLoadingTpl>
+  <div class="d-flex align-items-center">
+    <nz-spin nzSimple [nzIndicator]="loadingIndicatorTpl" class="mr-10"></nz-spin><span>{{ 'Loading user' | translate }}</span>
+  </div>
+</ng-template>
+<ng-template #loadingIndicatorTpl><i nz-icon nzType="loading"></i></ng-template>
+<ng-template #filterFooterTpl>
+  <button nz-button nzType="primary" (click)="handleOk()" [nzLoading]="isConfirmLoading">{{ 'Apply' | translate }}</button>
+</ng-template>
+
+<app-mobile-dialog-contentscroll
+  [nzVisible]="showFilterModal"
+  [contentTpl]="mode.value ? searchTpl : filterTpl"
+  [footerTpl]="filterFooterTpl"
+  (handleCancel)="handleCancel()"
+  (handleOk)="handleOk()"
+></app-mobile-dialog-contentscroll>

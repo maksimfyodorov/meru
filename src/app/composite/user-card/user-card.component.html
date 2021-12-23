@@ -1,0 +1,25 @@
+<app-card
+  class="user-card"
+  [type]="'flex'"
+  [title]="userCard?.title | translate"
+  [image]="userCard?.image | imageBlob | async"
+  [width]="userCard?.width"
+  [descriptionList]="userCard?.descriptionList"
+  [tags]="userCard?.tags"
+  [cardForm]="userCard?.form"
+  [showEditControls]="showEditControls"
+  [editModeEnabled]="editModeEnabled"
+  [loading]="$service.isLoading$ | async"
+  (editModeChange)="onEditModeChange($event)"
+  mask
+>
+  <ng-template appCardFormControl="phoneControl">
+    <input
+       nz-input
+       [formControl]="userCard?.form.controls.mainPhone"
+       mask="+0 (000) 000-00-00"
+       placeholder="+1 (234) 567-89-00"
+       class="ant-input"/>
+  </ng-template>
+</app-card>
+

@@ -1,0 +1,37 @@
+<form nz-form [nzLayout]="'vertical'">
+  <ng-container *ngIf="!showCaptcha; else captcha">
+    <ng-container *ngIf="method">
+      <nz-form-item *ngIf="error | async as error">
+        <nz-alert nzShowIcon [nzType]="'error'" [nzMessage]="'WrongCredentials' | translate"> </nz-alert>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-input-group [nzSize]="'large'">
+          <input nz-input name="login" [placeholder]="'UserLogin' | translate" [ngModel]="login" (ngModelChange)="changeLogin($event)" />
+        </nz-input-group>
+      </nz-form-item>
+
+      <nz-form-item>
+        <app-password-field [size]="'large'" [value]="password" (valueChange)="changePassword($event)"> </app-password-field>
+      </nz-form-item>
+
+      <button nz-button [nzType]="'primary'" [disabled]="!isFormValid || (loading | async)" [nzBlock]="true" (click)="loginAction()">
+        {{ 'Login' | translate }}
+      </button>
+    </ng-container>
+
+    <nz-divider *ngIf="oauth2Available && method"></nz-divider>
+
+    <a *ngIf="oauth2Available" nz-button [nzType]="method ? 'default' : 'primary'" [nzBlock]="true" [href]="oauth2AuthorizationUrl">
+      {{ 'LoginWithSso' | dictionary | translate }}
+    </a>
+  </ng-container>
+</form>
+
+<ng-template #captcha>
+  <app-captcha width="304" (resolved)="resolved()"></app-captcha>
+</ng-template>
+
+<ng-template #dpaContentTpl>
+  <div class="dpa-text" [innerHTML]="htmlBodyDpa"></div>
+</ng-template>

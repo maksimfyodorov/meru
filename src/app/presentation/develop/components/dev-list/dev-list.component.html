@@ -1,0 +1,42 @@
+<div class="app-devlist__content">
+  <form nz-form [nzLayout]="'horizontal'">
+    <nz-form-item >
+      <nz-form-label>Язык</nz-form-label>
+      <nz-form-control nz-col [nzSpan]="2">
+        <nz-select [name]="'lang'" [(ngModel)]="lang">
+          <nz-option *ngFor="let lang of langs"
+                     [nzLabel]="lang"
+                     [nzValue]="lang"
+          >
+          </nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+  <div app-list
+       [columns]="columns"
+       [rows]="rows"
+       [lang]="lang"
+       [(sort)]="sort"
+       [(paging)]="paging"
+       (rowSelect)="selectRow($event)"
+       (queryParamsChange)="changeQueryParams($event)"
+       class="app-devlist__table"
+  >
+  </div>
+</div>
+
+<div class="app-devlist__debug">
+  <p>
+    SORT: {{sort | json}}
+  </p>
+  <p>
+    PAGING: {{paging | json }}
+  </p>
+  <p>
+    SELECTED ROW: {{selectedRow | json }}
+  </p>
+  <p>
+    QUERY PARAMS: {{queryParams | json }}
+  </p>
+</div>
